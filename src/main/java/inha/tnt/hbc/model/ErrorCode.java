@@ -33,9 +33,10 @@ public enum ErrorCode {
 	JWT_SIGNATURE_INVALID(401, "E-J005", "서명이 올바르지 않은 토큰입니다."),
 
 	// Member
-	MEMBER_NOT_FOUND(400, "E-M001", "존재하지 않는 회원입니다"),
-	PASSWORD_INPUT_MISMATCHED(400, "E-M002", "비밀번호와 비밀번호 확인이 일치하지 않습니다."),
-
+	MEMBER_UNFOUNDED(400, "E-M001", "존재하지 않는 회원입니다."),
+	PASSWORD_MISMATCHED(400, "E-M002", "비밀번호와 비밀번호 확인이 일치하지 않습니다."),
+	USERNAME_UNAVAILABLE(400, "E-M003", "사용할 수 없는 아이디입니다."),
+	EMAIL_UNAVAILABLE(400, "E-M004", "사용할 수 없는 이메일입니다."),
 	;
 
 	private final int status;

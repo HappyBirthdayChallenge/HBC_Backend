@@ -1,5 +1,7 @@
 package inha.tnt.hbc.vo;
 
+import static inha.tnt.hbc.vo.ImageType.*;
+
 import java.util.Objects;
 
 import javax.persistence.Column;
@@ -29,6 +31,16 @@ public class Image {
 	private String uuid;
 	@Column(name = "image_url")
 	private String url;
+
+	public static Image getInitial() {
+		return Image.builder()
+			.url(
+				"https://hbc-bucket.s3.ap-northeast-2.amazonaws.com/member/550e8400-e29b-41d4-a716-446655440000_account_circle.png")
+			.name("account_circle")
+			.type(PNG)
+			.uuid("550e8400-e29b-41d4-a716-446655440000")
+			.build();
+	}
 
 	@Override
 	public int hashCode() {

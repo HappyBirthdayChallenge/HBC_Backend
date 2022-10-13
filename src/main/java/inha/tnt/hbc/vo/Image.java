@@ -2,6 +2,7 @@ package inha.tnt.hbc.vo;
 
 import java.util.Objects;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -20,15 +21,18 @@ import lombok.NoArgsConstructor;
 public class Image {
 
 	@Enumerated(EnumType.STRING)
-	private ImageType imageType;
-
-	private String imageName;
-
-	private String imageUuid;
+	@Column(name = "image_type")
+	private ImageType type;
+	@Column(name = "image_name")
+	private String name;
+	@Column(name = "image_uuid")
+	private String uuid;
+	@Column(name = "image_url")
+	private String url;
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(getImageUuid());
+		return Objects.hash(getUuid());
 	}
 
 	@Override
@@ -39,7 +43,7 @@ public class Image {
 			return false;
 
 		Image image = (Image)obj;
-		return Objects.equals(getImageUuid(), image.getImageUuid());
+		return Objects.equals(getUuid(), image.getUuid());
 	}
 
 }

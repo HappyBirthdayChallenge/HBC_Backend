@@ -1,6 +1,8 @@
 package inha.tnt.hbc.vo;
 
 import javax.persistence.Embeddable;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AccessLevel;
@@ -25,6 +27,7 @@ public class BirthDate {
 	@ApiModelProperty(value = "일(dd)", example = "6", required = true)
 	private Integer date;
 	@ApiModelProperty(value = "유형(양력 | 음력)", example = "SOLAR", required = true)
+	@Enumerated(EnumType.STRING)
 	private DateType type;
 
 	@Getter

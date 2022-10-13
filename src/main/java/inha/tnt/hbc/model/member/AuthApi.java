@@ -14,7 +14,6 @@ import inha.tnt.hbc.model.member.dto.EmailRequest;
 import inha.tnt.hbc.model.member.dto.FindPasswordRequest;
 import inha.tnt.hbc.model.member.dto.FindUsernameRequest;
 import inha.tnt.hbc.model.member.dto.IdentifyRequest;
-import inha.tnt.hbc.model.member.dto.SigninOAuth2Request;
 import inha.tnt.hbc.model.member.dto.SigninRequest;
 import inha.tnt.hbc.model.member.dto.SignupRequest;
 import inha.tnt.hbc.model.member.dto.UsernameRequest;
@@ -29,10 +28,6 @@ public interface AuthApi {
 	@ApiOperation(value = "일반 로그인")
 	@PostMapping("/signin")
 	ResponseEntity<ResultResponse> signin(@Valid @RequestBody SigninRequest request);
-
-	@ApiOperation(value = "간편 로그인")
-	@PostMapping("/oauth2/signin")
-	ResponseEntity<ResultResponse> signinOAuth2(@Valid @RequestBody SigninOAuth2Request request);
 
 	@ApiOperation(value = "토큰 재발급")
 	@ApiImplicitParam(name = "refreshToken", value = "RefreshToken", required = true, example = "Bearer ey...", paramType = "cookie")

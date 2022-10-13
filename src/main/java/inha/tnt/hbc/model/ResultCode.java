@@ -17,7 +17,7 @@ public enum ResultCode {
 	NAME_EMAIL_FOUNDED(200, "R-M007", "이름과 이메일을 사용하는 회원이 존재합니다."),
 	USERNAME_FIND_SUCCESS(200, "R-M008", "아이디 찾기에 성공하였습니다."),
 	PASSWORD_FIND_SUCCESS(200, "R-M009", "비밀번호 찾기에 성공하였습니다."),
-	USERNAME_PASSWORD_INCORRECT(200, "R-M010", "아이디와 비밀번호가 올바르지 않습니다."),
+	USERNAME_PASSWORD_INCORRECT(200, "R-M010", "아이디 혹은 비밀번호가 올바르지 않습니다."),
 	SIGNIN_SUCCESS(200, "R-M011", "로그인에 성공하였습니다."),
 
 	// Jwt

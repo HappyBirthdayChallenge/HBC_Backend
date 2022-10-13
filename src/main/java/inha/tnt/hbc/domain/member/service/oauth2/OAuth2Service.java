@@ -1,4 +1,4 @@
-package inha.tnt.hbc.service.member.oauth2;
+package inha.tnt.hbc.domain.member.service.oauth2;
 
 import static inha.tnt.hbc.util.Constants.*;
 
@@ -8,14 +8,14 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import inha.tnt.hbc.application.member.service.AuthService;
 import inha.tnt.hbc.domain.member.entity.Member;
 import inha.tnt.hbc.domain.member.entity.oauth2.SnsAccount;
 import inha.tnt.hbc.domain.member.entity.oauth2.SnsAccountPrimaryKey;
 import inha.tnt.hbc.domain.member.entity.oauth2.SnsProvider;
+import inha.tnt.hbc.domain.member.service.SnsAccountService;
 import inha.tnt.hbc.infra.aws.S3Uploader;
 import inha.tnt.hbc.security.oauth2.OAuth2Attributes;
-import inha.tnt.hbc.service.member.MemberService;
-import inha.tnt.hbc.service.member.SnsAccountService;
 import inha.tnt.hbc.util.ImageUtils;
 import inha.tnt.hbc.vo.BirthDate;
 import inha.tnt.hbc.vo.Image;
@@ -27,7 +27,7 @@ public class OAuth2Service {
 
 	private final static String OAUTH2_USERNAME_PREFIX = "user";
 
-	private final MemberService memberService;
+	private final AuthService authService;
 	private final SnsAccountService snsAccountService;
 	private final S3Uploader s3Uploader;
 
@@ -51,7 +51,7 @@ public class OAuth2Service {
 
 		final File file = ImageUtils.convert(imageUrl);
 		final Image image = s3Uploader.uploadImage(file, S3_DIRECTORY_MEMBER);
-		final Member member = memberService.signup(username, password, name, email, birthDate, image);
+		final Member member = authService.signup(username, password, name, email, birthDate, image);
 		snsAccountService.connect(member, primaryKey);
 
 		return member;

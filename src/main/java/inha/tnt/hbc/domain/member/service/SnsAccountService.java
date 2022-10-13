@@ -1,4 +1,4 @@
-package inha.tnt.hbc.service.member;
+package inha.tnt.hbc.domain.member.service;
 
 import java.util.Optional;
 

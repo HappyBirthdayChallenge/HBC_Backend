@@ -6,7 +6,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Component;
 
 import inha.tnt.hbc.domain.member.entity.Member;
-import inha.tnt.hbc.service.member.oauth2.OAuth2Service;
+import inha.tnt.hbc.domain.member.service.oauth2.OAuth2Service;
 import lombok.RequiredArgsConstructor;
 
 @Component

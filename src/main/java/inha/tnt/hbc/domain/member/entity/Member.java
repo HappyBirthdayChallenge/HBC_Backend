@@ -1,7 +1,5 @@
 package inha.tnt.hbc.domain.member.entity;
 
-import static inha.tnt.hbc.domain.member.entity.MemberRoles.*;
-
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -38,6 +36,6 @@ public class Member extends BaseEntity {
 	@Embedded
 	private Image image;
 	private String email;
-	private String authorities = ROLE_USER.name();
+	private String authorities;
 
 }

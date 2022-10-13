@@ -23,6 +23,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
 
 	private final ObjectMapper objectMapper;
 
+	// TODO: OAuth2AuthenticationException 처리 필요
 	@Override
 	public void commence(HttpServletRequest request, HttpServletResponse response,
 		AuthenticationException authException) {

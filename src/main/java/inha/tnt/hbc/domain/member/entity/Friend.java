@@ -1,4 +1,4 @@
-package inha.tnt.hbc.domain.member;
+package inha.tnt.hbc.domain.member.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

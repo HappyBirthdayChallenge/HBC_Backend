@@ -14,6 +14,7 @@ import javax.validation.ConstraintViolation;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,9 +23,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ErrorResponse {
 
+	@ApiModelProperty(value = "HTTP 상태 코드", example = "400")
 	private int status;
+	@ApiModelProperty(value = "Business 상태 코드", example = "E-G002")
 	private String code;
+	@ApiModelProperty(value = "에러 메세지", example = "입력 값이 유효하지 않습니다.")
 	private String message;
+	@ApiModelProperty(value = "에러 목록")
 	private List<FieldError> errors;
 
 	private ErrorResponse(final ErrorCode code, final List<FieldError> errors) {
@@ -84,8 +89,11 @@ public class ErrorResponse {
 	@NoArgsConstructor(access = AccessLevel.PROTECTED)
 	public static class FieldError {
 
+		@ApiModelProperty(value = "에러 필드", example = "name")
 		private String field;
+		@ApiModelProperty(value = "에러 값", example = "이름을길게만들면유효한이름이아니라서사용할수없어요")
 		private String value;
+		@ApiModelProperty(value = "에러 이유", example = "\"^[A-Za-z\\d]{5,20}$\"와 일치해야 합니다")
 		private String reason;
 
 		public FieldError(final String field, final String value, final String reason) {

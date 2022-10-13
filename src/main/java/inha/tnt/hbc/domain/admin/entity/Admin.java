@@ -1,4 +1,4 @@
-package inha.tnt.hbc.domain.admin;
+package inha.tnt.hbc.domain.admin.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,7 +11,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import inha.tnt.hbc.domain.BaseEntity;
-import inha.tnt.hbc.domain.member.Member;
+import inha.tnt.hbc.domain.member.entity.Member;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

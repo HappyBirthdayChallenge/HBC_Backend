@@ -1,16 +1,18 @@
-package inha.tnt.hbc.domain.member;
+package inha.tnt.hbc.domain.member.entity;
+
+import static inha.tnt.hbc.domain.member.entity.MemberRoles.*;
 
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import inha.tnt.hbc.domain.BaseEntity;
+import inha.tnt.hbc.vo.BirthDate;
+import inha.tnt.hbc.vo.Image;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,22 +20,24 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "blocks")
+@Table(name = "members")
 @Getter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Block extends BaseEntity {
+public class Member extends BaseEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "block_id")
+	@Column(name = "member_id")
 	private Long id;
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "member_id")
-	private Member member;
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "block_member_id")
-	private Member blockMember;
+	private String username;
+	private String password;
+	private String name;
+	private BirthDate birthDate;
+	@Embedded
+	private Image image;
+	private String email;
+	private String authorities = ROLE_USER.name();
 
 }

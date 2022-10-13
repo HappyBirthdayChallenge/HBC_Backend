@@ -18,9 +18,9 @@ import lombok.NoArgsConstructor;
 public class IdentifyRequest {
 
 	@NotNull
-	@Pattern(regexp = "^[A-Za-z\\d]{5,20}$")
-	@ApiModelProperty(value = "아이디(영문자 || 숫자)[5, 20]", example = "dkdlel123", required = true)
-	private String username;
+	@Pattern(regexp = "^[가-힣A-Za-z\\d]{2,20}$")
+	@ApiModelProperty(value = "이름(한글 || 영문자 || 숫자)[2, 20]", example = "손흥민", required = true)
+	private String name;
 	@NotNull
 	@Email
 	@ApiModelProperty(value = "이메일", required = true, example = "example@gmail.com")

@@ -45,7 +45,7 @@ public class SignupRequest {
 	private String name;
 	@BirthDay
 	@ApiModelProperty(value = "생일", required = true)
-	private BirthDate birthDate = null;
+	private BirthDate birthDate;
 	@NotNull
 	@Pattern(regexp = "^[A-Za-z\\d]{8}-[A-Za-z\\d]{4}-[A-Za-z\\d]{4}-[A-Za-z\\d]{4}-[A-Za-z\\d]{12}$")
 	@ApiModelProperty(value = "인증 키", example = "550e8400-e29b-41d4-a716-446655440000", required = true)

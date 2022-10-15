@@ -19,6 +19,7 @@ import inha.tnt.hbc.model.member.dto.SigninRequest;
 import inha.tnt.hbc.model.member.dto.SignupRequest;
 import inha.tnt.hbc.model.member.dto.UsernameRequest;
 import inha.tnt.hbc.security.jwt.dto.JwtDto;
+import inha.tnt.hbc.vo.BirthDate;
 import inha.tnt.hbc.vo.Image;
 import lombok.RequiredArgsConstructor;
 
@@ -67,7 +68,7 @@ public class AuthController implements AuthApi {
 	@Override
 	public ResponseEntity<ResultResponse> signup(SignupRequest request) {
 		final Member member = authService.signup(request.getUsername(), request.getPassword(), request.getName(),
-			request.getEmail(), request.getBirthDate(), Image.getInitial());
+			request.getEmail(), BirthDate.getInitial(), Image.getInitial());
 		return ResponseEntity.ok(ResultResponse.of(SIGNUP_SUCCESS));
 	}
 

@@ -7,8 +7,6 @@ import javax.validation.constraints.Pattern;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
-import inha.tnt.hbc.annotation.BirthDay;
-import inha.tnt.hbc.vo.BirthDate;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -43,9 +41,6 @@ public class SignupRequest {
 	@Pattern(regexp = "^[가-힣A-Za-z\\d]{2,20}$")
 	@ApiModelProperty(value = "이름(한글 || 영문자 || 숫자)[2, 20]", example = "손흥민", required = true)
 	private String name;
-	@BirthDay
-	@ApiModelProperty(value = "생일", required = true)
-	private BirthDate birthDate;
 	@NotNull
 	@Pattern(regexp = "^[A-Za-z\\d]{8}-[A-Za-z\\d]{4}-[A-Za-z\\d]{4}-[A-Za-z\\d]{4}-[A-Za-z\\d]{12}$")
 	@ApiModelProperty(value = "인증 키", example = "550e8400-e29b-41d4-a716-446655440000", required = true)

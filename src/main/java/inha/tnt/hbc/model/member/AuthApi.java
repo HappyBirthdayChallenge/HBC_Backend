@@ -35,7 +35,7 @@ public interface AuthApi {
 		@ApiResponse(code = 1, response = Void.class, message = ""
 			+ "status: 200 | code: R-M010 | message: 아이디 혹은 비밀번호가 올바르지 않습니다."),
 		@ApiResponse(code = 2, response = JwtDto.class, message = ""
-			+ "status: 200 | code: R-M011 | message: 로그인에 성공하였습니다.."),
+			+ "status: 200 | code: R-M011 | message: 로그인에 성공하였습니다."),
 		@ApiResponse(code = 500, response = ErrorResponse.class, message = ""
 			+ "status: 500 | code: E-G001 | message: 내부 서버 오류입니다.")
 	})

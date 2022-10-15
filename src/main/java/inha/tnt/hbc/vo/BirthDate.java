@@ -1,5 +1,7 @@
 package inha.tnt.hbc.vo;
 
+import static inha.tnt.hbc.util.Constants.*;
+
 import javax.persistence.Embeddable;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -29,6 +31,15 @@ public class BirthDate {
 	@ApiModelProperty(value = "유형(양력 | 음력)", example = "SOLAR", required = true)
 	@Enumerated(EnumType.STRING)
 	private DateType type;
+
+	public static BirthDate getInitial() {
+		return BirthDate.builder()
+			.year(NONE)
+			.month(NONE)
+			.date(NONE)
+			.type(DateType.SOLAR)
+			.build();
+	}
 
 	@Getter
 	@AllArgsConstructor

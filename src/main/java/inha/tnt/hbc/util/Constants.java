@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class Constants {
 
+	public static final int NONE = -1;
+
 	public static final String ALL_PATTERN = "/**";
 
 	public static final String BREAK_TAG = "<br>";

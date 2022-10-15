@@ -1,9 +1,8 @@
 package inha.tnt.hbc.security.oauth2;
 
 import static inha.tnt.hbc.domain.member.entity.oauth2.OAuth2Provider.*;
-import static inha.tnt.hbc.util.Constants.*;
+import static inha.tnt.hbc.util.JwtUtils.*;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,18 +24,14 @@ import lombok.Getter;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class OAuth2Attributes {
 
-	public final static String PRIMARY_KEY = "pk";
 	public final static String NAME_ATTRIBUTE_KEY = "nameAttributeKey";
 	public final static String PROVIDER_KEY = "provider";
-	public final static String EMAIL_KEY = "email";
-	public final static String NAME_KEY = "name";
-	public final static String IMAGE_URL_KEY = "imageUrl";
 
 	private Map<String, Object> attributes;
 	private String provider;
 	private Long attributeKey;
-	private String email;
 	private String name;
+	private String email;
 	private String imageUrl;
 
 	public static OAuth2Attributes of(String provider, Map<String, Object> attributes) {
@@ -61,8 +56,8 @@ public class OAuth2Attributes {
 		final String imageUrl = (String)profile.get("profile_image_url");
 
 		return OAuth2Attributes.builder()
-			.attributeKey(id)
 			.attributes(attributes)
+			.attributeKey(id)
 			.email(email)
 			.name(name)
 			.imageUrl(imageUrl)
@@ -71,13 +66,14 @@ public class OAuth2Attributes {
 	}
 
 	public OAuth2User toOAuth2User(Member member) {
-		final List<SimpleGrantedAuthority> authorities = Arrays.stream(member.getAuthorities().split(COMMA))
+		final List<SimpleGrantedAuthority> authorities = member.combineAndGetAuthorities().stream()
 			.map(SimpleGrantedAuthority::new)
 			.collect(Collectors.toList());
 
 		final Map<String, Object> attributes = toMap();
-		attributes.put(PRIMARY_KEY, member.getId());
-
+		attributes.put(CLAIM_PRIMARY_KEY, member.getId());
+		attributes.put(CLAIM_USERNAME, member.getUsername());
+		attributes.put(CLAIM_BIRTHDAY, member.getBirthDate());
 		return new DefaultOAuth2User(authorities, attributes, NAME_ATTRIBUTE_KEY);
 	}
 
@@ -85,9 +81,9 @@ public class OAuth2Attributes {
 		final Map<String, Object> map = new HashMap<>();
 		map.put(NAME_ATTRIBUTE_KEY, this.attributeKey);
 		map.put(PROVIDER_KEY, this.provider);
-		map.put(IMAGE_URL_KEY, this.imageUrl);
-		map.put(EMAIL_KEY, this.email);
-		map.put(NAME_KEY, this.name);
+		map.put(CLAIM_IMAGE_URL, this.imageUrl);
+		map.put(CLAIM_EMAIL, this.email);
+		map.put(CLAIM_NAME, this.name);
 		return map;
 	}
 

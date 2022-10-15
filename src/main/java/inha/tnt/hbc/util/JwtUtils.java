@@ -1,21 +1,19 @@
 package inha.tnt.hbc.util;
 
 import static inha.tnt.hbc.model.ErrorCode.*;
-import static inha.tnt.hbc.security.oauth2.OAuth2Attributes.*;
 import static inha.tnt.hbc.util.Constants.*;
 import static inha.tnt.hbc.util.JwtUtils.JwtType.*;
+import static java.util.stream.Collectors.*;
 
-import java.util.Arrays;
 import java.util.Base64;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
-import javax.xml.bind.DatatypeConverter;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
@@ -32,6 +30,7 @@ import inha.tnt.hbc.security.jwt.JwtAuthenticationToken;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 
 // TODO: static 메소드 전환 고려
 //  https://okky.kr/articles/698002
@@ -39,13 +38,18 @@ import io.jsonwebtoken.SignatureAlgorithm;
 public class JwtUtils {
 
 	public static final String CLAIM_AUTHORITIES = "authorities";
-	public static final String TOKEN_TYPE = "Bearer"; // RFC 6750: JWT, OAuth 2.0 token are bearer tokens
-	private static final String CLAIM_ISSUER = "issuer";
-	private static final String CLAIM_PRIMARY_KEY = "pk";
-	private static final String HEADER_TYPE = "typ";
-	private static final String TOKEN_NAME = "JWT";
-	private static final String TOKEN_ISSUER = "hbc";
-	private static final int TOKEN_PREFIX_LENGTH = 7;
+	public static final String JWT_TYPE = "Bearer"; // RFC 6750: JWT, OAuth 2.0 token are bearer tokens
+	public static final String CLAIM_ISSUER = "isr";
+	public static final String CLAIM_PRIMARY_KEY = "id";
+	public static final String CLAIM_USERNAME = "uname";
+	public static final String CLAIM_NAME = "name";
+	public static final String CLAIM_BIRTHDAY = "birth";
+	public static final String CLAIM_EMAIL = "email";
+	public static final String CLAIM_IMAGE_URL = "img";
+	public static final String TOKEN_TYPE = "typ";
+	public static final String TOKEN_NAME = "JWT";
+	public static final String TOKEN_ISSUER = "hbc";
+	public static final int TOKEN_PREFIX_LENGTH = 7;
 
 	@Value("${jwt.valid.access}")
 	private long ACCESS_TOKEN_VALIDITY;
@@ -68,59 +72,20 @@ public class JwtUtils {
 		return JwtAuthenticationToken.of(principal, token, authorities);
 	}
 
-	public String generateJwt(long validity, Map<String, Object> claims, String subject) {
-		return generateJwt(validity, new HashMap<>(), claims, subject);
-	}
-
 	public String generateAccessToken(OAuth2User oAuth2User) {
-		final Map<String, Object> claims = new HashMap<>();
-		claims.put(CLAIM_AUTHORITIES, combineAuthorities(oAuth2User));
-		claims.put(CLAIM_PRIMARY_KEY, oAuth2User.getAttributes().get(PRIMARY_KEY));
-
-		return generateJwt(ACCESS_TOKEN_VALIDITY, claims, ACCESS_TOKEN.name());
+		return generateJwt(oAuth2User, ACCESS_TOKEN_VALIDITY, ACCESS_TOKEN.name());
 	}
 
 	public String generateRefreshToken(OAuth2User oAuth2User) {
-		final Map<String, Object> claims = new HashMap<>();
-		claims.put(CLAIM_AUTHORITIES, combineAuthorities(oAuth2User));
-		claims.put(CLAIM_PRIMARY_KEY, oAuth2User.getAttributes().get(PRIMARY_KEY));
-
-		return generateJwt(REFRESH_TOKEN_VALIDITY, claims, REFRESH_TOKEN.name());
+		return generateJwt(oAuth2User, REFRESH_TOKEN_VALIDITY, REFRESH_TOKEN.name());
 	}
 
 	public String generateAccessToken(Member member) {
-		final Map<String, Object> claims = new HashMap<>();
-		claims.put(CLAIM_AUTHORITIES, member.getAuthorities());
-		claims.put(CLAIM_PRIMARY_KEY, member.getId());
-
-		return generateJwt(ACCESS_TOKEN_VALIDITY, claims, ACCESS_TOKEN.name());
+		return generateJwt(member, ACCESS_TOKEN_VALIDITY, ACCESS_TOKEN.name());
 	}
 
 	public String generateRefreshToken(Member member) {
-		final Map<String, Object> claims = new HashMap<>();
-		claims.put(CLAIM_AUTHORITIES, member.getAuthorities());
-		claims.put(CLAIM_PRIMARY_KEY, member.getId());
-
-		return generateJwt(REFRESH_TOKEN_VALIDITY, claims, REFRESH_TOKEN.name());
-	}
-
-	public String generateJwt(long validity, Map<String, Object> headers, Map<String, Object> claims, String subject) {
-		final Date now = new Date(System.currentTimeMillis());
-		final Date expiration = new Date(now.getTime() + validity);
-		headers.put(HEADER_TYPE, TOKEN_NAME);
-		claims.put(CLAIM_ISSUER, TOKEN_ISSUER);
-		return Jwts.builder()
-			.setHeader(headers)
-			.setClaims(claims)
-			.setSubject(subject)
-			.setIssuedAt(now)
-			.setExpiration(expiration)
-			.signWith(SignatureAlgorithm.HS512, SECRET_KEY)
-			.compact();
-	}
-
-	public Long getPrimaryKey(String token) {
-		return getClaim(token, claims -> (Long)claims.get(CLAIM_PRIMARY_KEY));
+		return generateJwt(member, REFRESH_TOKEN_VALIDITY, REFRESH_TOKEN.name());
 	}
 
 	public <T> T getClaim(String token, Function<Claims, T> claimsResolver) {
@@ -133,24 +98,69 @@ public class JwtUtils {
 		SECRET_KEY = Base64.getEncoder().encodeToString(SECRET_KEY.getBytes());
 	}
 
-	private String combineAuthorities(OAuth2User oAuth2User) {
-		return oAuth2User.getAuthorities().stream()
+	private String generateJwt(long validity, Map<String, Object> claims, String subject) {
+		return generateJwt(validity, new HashMap<>(), claims, subject);
+	}
+
+	private String generateJwt(OAuth2User oAuth2User, long validity, String subject) {
+		final Map<String, Object> attributes = oAuth2User.getAttributes();
+		final Map<String, Object> claims = new HashMap<>();
+		claims.put(CLAIM_AUTHORITIES, convertToList(oAuth2User.getAuthorities()));
+		claims.put(CLAIM_PRIMARY_KEY, attributes.get(CLAIM_PRIMARY_KEY));
+		claims.put(CLAIM_USERNAME, attributes.get(CLAIM_USERNAME));
+		claims.put(CLAIM_NAME, attributes.get(CLAIM_NAME));
+		claims.put(CLAIM_BIRTHDAY, attributes.get(CLAIM_BIRTHDAY));
+		claims.put(CLAIM_EMAIL, attributes.get(CLAIM_EMAIL));
+		claims.put(CLAIM_IMAGE_URL, attributes.get(CLAIM_IMAGE_URL));
+		return generateJwt(validity, claims, subject);
+	}
+
+	private String generateJwt(Member member, long validity, String subject) {
+		final Map<String, Object> claims = new HashMap<>();
+		claims.put(CLAIM_AUTHORITIES, member.combineAndGetAuthorities());
+		claims.put(CLAIM_PRIMARY_KEY, member.getId());
+		claims.put(CLAIM_USERNAME, member.getUsername());
+		claims.put(CLAIM_NAME, member.getName());
+		claims.put(CLAIM_BIRTHDAY, member.getBirthDate());
+		claims.put(CLAIM_EMAIL, member.getEmail());
+		claims.put(CLAIM_IMAGE_URL, member.getImage().getUrl());
+		return generateJwt(validity, claims, subject);
+	}
+
+	private String generateJwt(long validity, Map<String, Object> headers, Map<String, Object> claims, String subject) {
+		final Date now = new Date(System.currentTimeMillis());
+		final Date expiration = new Date(now.getTime() + validity);
+		headers.put(TOKEN_TYPE, TOKEN_NAME);
+		claims.put(CLAIM_ISSUER, TOKEN_ISSUER);
+		claims.put(TOKEN_TYPE, JWT_TYPE);
+		return Jwts.builder()
+			.setHeader(headers)
+			.setClaims(claims)
+			.setSubject(subject)
+			.setIssuedAt(now)
+			.setExpiration(expiration)
+			.signWith(Keys.hmacShaKeyFor(SECRET_KEY.getBytes()), SignatureAlgorithm.HS512)
+			.compact();
+	}
+
+	private List<String> convertToList(Collection<? extends GrantedAuthority> authorities) {
+		return authorities.stream()
 			.map(GrantedAuthority::getAuthority)
-			.collect(Collectors.joining(COMMA));
+			.collect(toList());
 	}
 
 	private List<SimpleGrantedAuthority> getAuthorities(Claims claims) {
-		return Arrays.stream(
-				claims.get(CLAIM_AUTHORITIES).toString().split(COMMA))
+		final List<String> authorities = (List<String>)claims.get(CLAIM_AUTHORITIES);
+		return authorities.stream()
 			.map(SimpleGrantedAuthority::new)
-			.collect(Collectors.toList());
+			.collect(toList());
 	}
 
 	private void validateAuthorizationHeader(String authorizationHeader) {
 		if (authorizationHeader == null) {
 			throw new InvalidRequestHeaderException(
 				FieldError.of(AUTHORIZATION_HEADER, EMPTY, AUTHORIZATION_HEADER_MISSING));
-		} else if (!authorizationHeader.startsWith(TOKEN_TYPE + SPACE)) {
+		} else if (!authorizationHeader.startsWith(JWT_TYPE + SPACE)) {
 			throw new InvalidRequestHeaderException(
 				FieldError.of(AUTHORIZATION_HEADER, authorizationHeader, BEARER_PREFIX_MISSING));
 		}
@@ -158,7 +168,7 @@ public class JwtUtils {
 
 	private Claims getAllClaims(String token) {
 		return Jwts.parserBuilder()
-			.setSigningKey(DatatypeConverter.parseBase64Binary(SECRET_KEY))
+			.setSigningKey(Keys.hmacShaKeyFor(SECRET_KEY.getBytes()))
 			.build()
 			.parseClaimsJws(token)
 			.getBody();

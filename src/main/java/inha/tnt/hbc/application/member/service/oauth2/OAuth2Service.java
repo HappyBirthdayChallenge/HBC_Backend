@@ -63,13 +63,12 @@ public class OAuth2Service {
 		final String username = OAUTH2_USERNAME_PREFIX + DELIMITER + System.currentTimeMillis();
 		final String password = UUID.randomUUID().toString();
 		final String email = oAuth2Attributes.getEmail();
-		final BirthDate birthDate = oAuth2Attributes.getBirthDate();
 		final String name = oAuth2Attributes.getName();
 		final String imageUrl = oAuth2Attributes.getImageUrl();
 
 		final File file = ImageUtils.convert(imageUrl);
 		final Image image = s3Uploader.uploadImage(file, S3_DIRECTORY_MEMBER);
-		final Member member = authService.signup(username, password, name, email, birthDate, image);
+		final Member member = authService.signup(username, password, name, email, BirthDate.getInitial(), image);
 		OAuth2AccountService.connect(member, primaryKey);
 
 		return member;

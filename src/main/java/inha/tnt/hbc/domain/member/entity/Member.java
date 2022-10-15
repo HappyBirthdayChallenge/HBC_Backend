@@ -1,5 +1,11 @@
 package inha.tnt.hbc.domain.member.entity;
 
+import static inha.tnt.hbc.util.Constants.*;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -37,5 +43,10 @@ public class Member extends BaseEntity {
 	private Image image;
 	private String email;
 	private String authorities;
+
+	public List<String> combineAndGetAuthorities() {
+		return Arrays.stream(this.authorities.split(COMMA))
+			.collect(Collectors.toList());
+	}
 
 }

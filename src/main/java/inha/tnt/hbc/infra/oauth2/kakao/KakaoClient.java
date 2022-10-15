@@ -28,7 +28,7 @@ public class KakaoClient {
 	public OAuth2Attributes getUserInfo(String token) {
 		final HttpHeaders httpHeaders = new HttpHeaders();
 		httpHeaders.set(CONTENT_TYPE_HEADER, APPLICATION_FORM_URLENCODED_VALUE);
-		httpHeaders.set(AUTHORIZATION_HEADER, JwtUtils.TOKEN_TYPE + SPACE + token);
+		httpHeaders.set(AUTHORIZATION_HEADER, JwtUtils.JWT_TYPE + SPACE + token);
 		final HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(null, httpHeaders);
 		final ResponseEntity<KakaoUserInfo> responseEntity = restTemplate.exchange(USER_INFO_URI, GET, requestEntity,
 			KakaoUserInfo.class);

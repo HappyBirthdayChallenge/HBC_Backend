@@ -21,10 +21,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class SnsAccount extends BaseEntity {
+public class OAuth2Account extends BaseEntity {
 
 	@EmbeddedId
-	private SnsAccountPrimaryKey id;
+	private OAuth2AccountPK id;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "member_id")

@@ -20,12 +20,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EqualsAndHashCode
-public class SnsAccountPrimaryKey implements Serializable {
+public class OAuth2AccountPK implements Serializable {
 
 	private static final long serialVersionUID = 2868210232929931052L;
 
 	@Enumerated(EnumType.STRING)
-	private SnsProvider provider;
+	private OAuth2Provider provider;
 
 	@Column(name = "sns_account_id")
 	private Long id;

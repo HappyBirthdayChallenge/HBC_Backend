@@ -32,7 +32,7 @@ public class AuthService {
 			.email(email)
 			.birthDate(birthDate)
 			.image(image)
-			.authorities(ROLE_ASSOCIATE.name())
+			.authorities(ROLE_USER.name())
 			.build();
 		return memberService.save(member);
 	}

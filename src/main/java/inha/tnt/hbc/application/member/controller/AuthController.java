@@ -69,7 +69,7 @@ public class AuthController implements AuthApi {
 	public ResponseEntity<ResultResponse> signup(SignupRequest request) {
 		final Member member = authService.signup(request.getUsername(), request.getPassword(), request.getName(),
 			request.getEmail(), BirthDate.getInitial(), Image.getInitial());
-		return ResponseEntity.ok(ResultResponse.of(SIGNUP_SUCCESS));
+		return ResponseEntity.ok(ResultResponse.of(SIGNUP_SUCCESS, member));
 	}
 
 	@Override

@@ -18,8 +18,8 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 @Api(tags = "준회원")
-@RequestMapping("/associates")
-public interface AssociateMemberApi {
+@RequestMapping("/members/account")
+public interface AccountManageApi {
 
 	@ApiOperation(value = "생일 입력")
 	@ApiResponses({

@@ -9,10 +9,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import inha.tnt.hbc.application.member.dto.FriendListResponse;
 import inha.tnt.hbc.model.ErrorResponse;
 import inha.tnt.hbc.model.PageDto;
 import inha.tnt.hbc.model.ResultResponse;
-import inha.tnt.hbc.security.jwt.dto.JwtDto;
+import inha.tnt.hbc.model.Void;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -25,7 +26,7 @@ public interface FriendManageApi {
 
 	@ApiOperation(value = "친구 목록 조회")
 	@ApiResponses({
-		@ApiResponse(code = 1, response = JwtDto.class, message = ""
+		@ApiResponse(code = 1, response = FriendListResponse.class, message = ""
 			+ "status: 200 | code: R-M014 | message: 친구 목록 조회에 성공하였습니다."),
 		@ApiResponse(code = 2, response = ErrorResponse.class, message = ""
 			+ "status: 400 | code: E-G002 | message: 입력 값이 유효하지 않습니다.\n"
@@ -37,7 +38,7 @@ public interface FriendManageApi {
 
 	@ApiOperation(value = "친구 추가")
 	@ApiResponses({
-		@ApiResponse(code = 1, response = JwtDto.class, message = ""
+		@ApiResponse(code = 1, response = Void.class, message = ""
 			+ "status: 200 | code: R-M013 | message: 친구 추가에 성공하였습니다."),
 		@ApiResponse(code = 2, response = ErrorResponse.class, message = ""
 			+ "status: 400 | code: E-G002 | message: 입력 값이 유효하지 않습니다.\n"

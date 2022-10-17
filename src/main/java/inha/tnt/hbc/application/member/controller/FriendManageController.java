@@ -5,6 +5,7 @@ import static inha.tnt.hbc.model.ResultCode.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import inha.tnt.hbc.application.member.dto.FriendListResponse;
 import inha.tnt.hbc.application.member.service.FriendManageService;
 import inha.tnt.hbc.model.PageDto;
 import inha.tnt.hbc.model.ResultResponse;
@@ -19,8 +20,8 @@ public class FriendManageController implements FriendManageApi {
 
 	@Override
 	public ResponseEntity<ResultResponse> getFriends(PageDto pageDto) {
-
-		return ResponseEntity.ok(ResultResponse.of(GET_FRIENDS_SUCCESS));
+		final FriendListResponse response = friendManageService.getFriends(pageDto.getPage(), pageDto.getSize());
+		return ResponseEntity.ok(ResultResponse.of(GET_FRIENDS_SUCCESS, response));
 	}
 
 	@Override

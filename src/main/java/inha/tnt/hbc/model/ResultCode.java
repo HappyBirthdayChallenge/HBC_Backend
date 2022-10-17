@@ -19,6 +19,7 @@ public enum ResultCode {
 	PASSWORD_FIND_SUCCESS(200, "R-M009", "비밀번호 찾기에 성공하였습니다."),
 	USERNAME_PASSWORD_INCORRECT(200, "R-M010", "아이디 혹은 비밀번호가 올바르지 않습니다."),
 	SIGNIN_SUCCESS(200, "R-M011", "로그인에 성공하였습니다."),
+	BIRTHDAY_SETUP_SUCCESS(200, "R-M012", "생일 입력에 성공하였습니다."),
 
 	// Jwt
 	JWT_REISSUE_SUCCESS(200, "R-J001", "토큰 재발급에 성공하였습니다."),

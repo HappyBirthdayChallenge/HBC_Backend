@@ -27,4 +27,9 @@ public class MemberService {
 			.orElseThrow(() -> new EntityNotFoundException(MEMBER_UNFOUNDED));
 	}
 
+	public Member findById(Long memberId) {
+		return memberRepository.findById(memberId)
+			.orElseThrow(() -> new EntityNotFoundException(MEMBER_UNFOUNDED));
+	}
+
 }

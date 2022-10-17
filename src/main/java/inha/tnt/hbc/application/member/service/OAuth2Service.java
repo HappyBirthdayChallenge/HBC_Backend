@@ -1,4 +1,4 @@
-package inha.tnt.hbc.application.member.service.oauth2;
+package inha.tnt.hbc.application.member.service;
 
 import static inha.tnt.hbc.util.Constants.*;
 

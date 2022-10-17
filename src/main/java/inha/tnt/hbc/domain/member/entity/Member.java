@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import inha.tnt.hbc.domain.BaseEntity;
+import inha.tnt.hbc.domain.member.exception.AlreadySetupBirthDateException;
 import inha.tnt.hbc.vo.BirthDate;
 import inha.tnt.hbc.vo.Image;
 import lombok.AccessLevel;
@@ -43,6 +44,13 @@ public class Member extends BaseEntity {
 	private Image image;
 	private String email;
 	private String authorities;
+
+	public BirthDate setupBirthDate(BirthDate birthDate) {
+		if (!this.birthDate.isInitial()) {
+			throw new AlreadySetupBirthDateException();
+		}
+		return this.birthDate = birthDate;
+	}
 
 	public List<String> combineAndGetAuthorities() {
 		return Arrays.stream(this.authorities.split(COMMA))

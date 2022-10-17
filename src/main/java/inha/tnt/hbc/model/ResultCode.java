@@ -20,6 +20,8 @@ public enum ResultCode {
 	USERNAME_PASSWORD_INCORRECT(200, "R-M010", "아이디 혹은 비밀번호가 올바르지 않습니다."),
 	SIGNIN_SUCCESS(200, "R-M011", "로그인에 성공하였습니다."),
 	BIRTHDAY_SETUP_SUCCESS(200, "R-M012", "생일 입력에 성공하였습니다."),
+	ADD_FRIEND_SUCCESS(200, "R-M013", "친구 추가에 성공하였습니다."),
+	GET_FRIENDS_SUCCESS(200, "R-M014", "친구 목록 조회에 성공하였습니다."),
 
 	// Jwt
 	JWT_REISSUE_SUCCESS(200, "R-J001", "토큰 재발급에 성공하였습니다."),

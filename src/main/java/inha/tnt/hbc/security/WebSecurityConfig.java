@@ -1,5 +1,6 @@
 package inha.tnt.hbc.security;
 
+import static inha.tnt.hbc.domain.member.entity.MemberRoles.*;
 import static inha.tnt.hbc.util.Constants.*;
 
 import java.util.ArrayList;
@@ -37,8 +38,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	private static final String[] AUTH_WHITELIST_SWAGGER = {"/v2/api-docs", "/configuration/ui",
 		"/swagger-resources/**", "/configuration/security", "/swagger-ui.html/**", "/webjars/**", "/swagger/**"};
-	private static final String[] AUTH_WHITELIST_GUEST = {"/", "/csrf", "/error", "/auth/**", "/oauth2/**"};
+	private static final String[] AUTH_WHITELIST_GUEST = {"/", "/csrf", "/error", "/auth/**", "/oauth2/**",
+		"/batch/**"};
 	private static final String OAUTH2_REDIRECT_URI = "/oauth2/signin/*";
+	private static final String OAUTH2_AUTHORIZE_URI = "/oauth2/authorize";
 
 	private final JwtUtils jwtUtils;
 	private final JwtAuthenticationProvider jwtAuthenticationProvider;
@@ -112,17 +115,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 			.authorizeRequests()
 			.requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
+			.antMatchers("/associates").hasAuthority(ROLE_ASSOCIATE.name())
 			.antMatchers(AUTH_WHITELIST_GUEST).permitAll()
 			.anyRequest().authenticated()
 			.and()
 
-			.oauth2Login()
+			/*.oauth2Login()
+			.authorizationEndpoint().baseUri(OAUTH2_AUTHORIZE_URI)
+			.and()
 			.redirectionEndpoint().baseUri(OAUTH2_REDIRECT_URI)
 			.and()
 
 			.successHandler(oAuth2SuccessHandler)
 			.failureHandler(authenticationEntryPointFailureHandler())
-			.userInfoEndpoint().userService(oAuth2UserService)
+			.userInfoEndpoint().userService(oAuth2UserService)*/
 		;
 
 		http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);

@@ -5,24 +5,26 @@ import java.util.Collection;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 
+import lombok.Getter;
+
+@Getter
 public class JwtAuthenticationToken extends UsernamePasswordAuthenticationToken {
 
-	private JwtAuthenticationToken(Object principal, Object credentials) {
-		super(principal, credentials);
-	}
+	private final String token;
 
-	private JwtAuthenticationToken(Object principal, Object credentials,
+	private JwtAuthenticationToken(String token, Object principal, Object credentials,
 		Collection<? extends GrantedAuthority> authorities) {
 		super(principal, credentials, authorities);
+		this.token = token;
 	}
 
-	public static JwtAuthenticationToken of(String jwt) {
-		return new JwtAuthenticationToken(jwt, jwt);
-	}
-
-	public static JwtAuthenticationToken of(Object principal, Object credentials,
+	public static JwtAuthenticationToken of(String token, Object principal, Object credentials,
 		Collection<? extends GrantedAuthority> authorities) {
-		return new JwtAuthenticationToken(principal, credentials, authorities);
+		return new JwtAuthenticationToken(token, principal, credentials, authorities);
+	}
+
+	public static JwtAuthenticationToken of(String token) {
+		return new JwtAuthenticationToken(token, null, null, null);
 	}
 
 }

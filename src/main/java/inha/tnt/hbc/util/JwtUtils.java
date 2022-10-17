@@ -11,7 +11,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 
 import javax.annotation.PostConstruct;
 
@@ -24,16 +23,14 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Component;
 
 import inha.tnt.hbc.domain.member.entity.Member;
-import inha.tnt.hbc.exception.InvalidRequestHeaderException;
 import inha.tnt.hbc.model.ErrorResponse.FieldError;
 import inha.tnt.hbc.security.jwt.JwtAuthenticationToken;
+import inha.tnt.hbc.security.jwt.exception.JwtAuthenticationException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 
-// TODO: static 메소드 전환 고려
-//  https://okky.kr/articles/698002
 @Component
 public class JwtUtils {
 
@@ -60,16 +57,20 @@ public class JwtUtils {
 
 	public String extractJwt(String authorizationHeader) {
 		validateAuthorizationHeader(authorizationHeader);
-
 		return authorizationHeader.substring(TOKEN_PREFIX_LENGTH);
+	}
+
+	public Long getMemberId(JwtAuthenticationToken authenticationToken) {
+		final String token = authenticationToken.getToken();
+		final Claims claims = getAllClaims(token);
+		return claims.get(CLAIM_PRIMARY_KEY, Long.class);
 	}
 
 	public Authentication getAuthentication(String token) {
 		final Claims claims = getAllClaims(token);
 		final List<SimpleGrantedAuthority> authorities = getAuthorities(claims);
 		final User principal = new User(claims.getSubject(), EMPTY, authorities);
-
-		return JwtAuthenticationToken.of(principal, token, authorities);
+		return JwtAuthenticationToken.of(token, principal, EMPTY, authorities);
 	}
 
 	public String generateAccessToken(OAuth2User oAuth2User) {
@@ -86,11 +87,6 @@ public class JwtUtils {
 
 	public String generateRefreshToken(Member member) {
 		return generateJwt(member, REFRESH_TOKEN_VALIDITY, REFRESH_TOKEN.name());
-	}
-
-	public <T> T getClaim(String token, Function<Claims, T> claimsResolver) {
-		final Claims claims = getAllClaims(token);
-		return claimsResolver.apply(claims);
 	}
 
 	@PostConstruct
@@ -158,10 +154,10 @@ public class JwtUtils {
 
 	private void validateAuthorizationHeader(String authorizationHeader) {
 		if (authorizationHeader == null) {
-			throw new InvalidRequestHeaderException(
+			throw new JwtAuthenticationException(
 				FieldError.of(AUTHORIZATION_HEADER, EMPTY, AUTHORIZATION_HEADER_MISSING));
 		} else if (!authorizationHeader.startsWith(JWT_TYPE + SPACE)) {
-			throw new InvalidRequestHeaderException(
+			throw new JwtAuthenticationException(
 				FieldError.of(AUTHORIZATION_HEADER, authorizationHeader, BEARER_PREFIX_MISSING));
 		}
 	}

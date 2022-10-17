@@ -14,8 +14,8 @@ import inha.tnt.hbc.util.JwtUtils;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.MalformedJwtException;
-import io.jsonwebtoken.security.SignatureException;
 import io.jsonwebtoken.UnsupportedJwtException;
+import io.jsonwebtoken.security.SignatureException;
 import lombok.RequiredArgsConstructor;
 
 @Component
@@ -26,19 +26,19 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
 
 	@Override
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-		final String jwt = (String)authentication.getPrincipal();
+		final String token = ((JwtAuthenticationToken)authentication).getToken();
 		try {
-			return jwtUtils.getAuthentication(jwt);
+			return jwtUtils.getAuthentication(token);
 		} catch (MalformedJwtException e) {
-			throw new JwtAuthenticationException(FieldError.of(AUTHORIZATION_HEADER, jwt, JWT_MALFORMED));
+			throw new JwtAuthenticationException(FieldError.of(AUTHORIZATION_HEADER, token, JWT_MALFORMED));
 		} catch (UnsupportedJwtException e) {
-			throw new JwtAuthenticationException(FieldError.of(AUTHORIZATION_HEADER, jwt, JWT_UNSUPPORTED));
+			throw new JwtAuthenticationException(FieldError.of(AUTHORIZATION_HEADER, token, JWT_UNSUPPORTED));
 		} catch (SignatureException e) {
-			throw new JwtAuthenticationException(FieldError.of(AUTHORIZATION_HEADER, jwt, JWT_SIGNATURE_INVALID));
+			throw new JwtAuthenticationException(FieldError.of(AUTHORIZATION_HEADER, token, JWT_SIGNATURE_INVALID));
 		} catch (ExpiredJwtException e) {
-			throw new JwtAuthenticationException(FieldError.of(AUTHORIZATION_HEADER, jwt, JWT_EXPIRED));
+			throw new JwtAuthenticationException(FieldError.of(AUTHORIZATION_HEADER, token, JWT_EXPIRED));
 		} catch (JwtException e) {
-			throw new JwtAuthenticationException(FieldError.of(AUTHORIZATION_HEADER, jwt, JWT_INVALID));
+			throw new JwtAuthenticationException(FieldError.of(AUTHORIZATION_HEADER, token, JWT_INVALID));
 		}
 	}
 

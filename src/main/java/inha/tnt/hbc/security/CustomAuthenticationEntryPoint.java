@@ -23,12 +23,14 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
 
 	private final ObjectMapper objectMapper;
 
-	// TODO: OAuth2AuthenticationException 처리 필요
 	@Override
 	public void commence(HttpServletRequest request, HttpServletResponse response,
 		AuthenticationException authException) {
 		final CustomAuthenticationException exception = (CustomAuthenticationException)authException;
 		final ErrorResponse errorResponse = ErrorResponse.of(exception.getErrorCode(), exception.getErrors());
+
+		response.setStatus(HttpStatus.UNAUTHORIZED.value());
+		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 
 		try (OutputStream os = response.getOutputStream()) {
 			objectMapper.writeValue(os, errorResponse);
@@ -36,9 +38,6 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
-		response.setStatus(HttpStatus.UNAUTHORIZED.value());
-		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 	}
 
 }

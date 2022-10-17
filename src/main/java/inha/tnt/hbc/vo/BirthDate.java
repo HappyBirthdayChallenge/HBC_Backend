@@ -6,6 +6,8 @@ import javax.persistence.Embeddable;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -39,6 +41,11 @@ public class BirthDate {
 			.date(NONE)
 			.type(DateType.SOLAR)
 			.build();
+	}
+
+	@JsonIgnore
+	public boolean isInitial() {
+		return this.year == NONE || this.month == NONE || this.date == NONE;
 	}
 
 	@Getter

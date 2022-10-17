@@ -5,7 +5,7 @@ import static inha.tnt.hbc.model.ResultCode.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
-import inha.tnt.hbc.application.member.service.oauth2.OAuth2Service;
+import inha.tnt.hbc.application.member.service.OAuth2Service;
 import inha.tnt.hbc.model.ResultResponse;
 import inha.tnt.hbc.model.member.OAuth2Api;
 import inha.tnt.hbc.security.jwt.dto.JwtDto;

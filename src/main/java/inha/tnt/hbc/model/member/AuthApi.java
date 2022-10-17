@@ -36,7 +36,8 @@ public interface AuthApi {
 			+ "status: 200 | code: R-M010 | message: 아이디 혹은 비밀번호가 올바르지 않습니다."),
 		@ApiResponse(code = 2, response = JwtDto.class, message = ""
 			+ "status: 200 | code: R-M011 | message: 로그인에 성공하였습니다."),
-		@ApiResponse(code = 500, response = ErrorResponse.class, message = ""
+		@ApiResponse(code = 3, response = ErrorResponse.class, message = ""
+			+ "status: 400 | code: E-G002 | message: 입력 값이 유효하지 않습니다.\n"
 			+ "status: 500 | code: E-G001 | message: 내부 서버 오류입니다.")
 	})
 	@PostMapping("/signin")

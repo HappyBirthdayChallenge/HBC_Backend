@@ -28,8 +28,9 @@ public interface OAuth2Api {
 	@ApiResponses({
 		@ApiResponse(code = 1, response = JwtDto.class, message = ""
 			+ "status: 200 | code: R-M011 | message: 로그인에 성공하였습니다."),
-		@ApiResponse(code = 500, response = ErrorResponse.class, message = ""
-			+ "status: 500 | code: E-G001 | message: 내부 서버 오류입니다.")
+		@ApiResponse(code = 2, response = ErrorResponse.class, message = ""
+			+ "status: 400 | code: E-G002 | message: 입력 값이 유효하지 않습니다.\n"
+			+ "status: 500 | code: E-G001 | message: 내부 서버 오류입니다."),
 	})
 	@PostMapping("/signin/{provider}")
 	ResponseEntity<ResultResponse> signin(@PathVariable String provider, @RequestParam String token);

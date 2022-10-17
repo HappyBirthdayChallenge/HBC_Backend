@@ -18,7 +18,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 @Api(tags = "회원 계정 관리")
-@RequestMapping("/members/account")
+@RequestMapping("/members/accounts")
 public interface AccountManageApi {
 
 	@ApiOperation(value = "생일 입력")

@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.bind.annotation.RestController;
 
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
@@ -30,13 +29,13 @@ public class SwaggerConfig {
 			.securityContexts(List.of(securityContext()))
 			.securitySchemes(List.of(apiKey()))
 			.select()
-			.apis(RequestHandlerSelectors.withClassAnnotation(RestController.class))
+			.apis(RequestHandlerSelectors.any())
 			.paths(PathSelectors.any())
 			.build();
 	}
 
 	private ApiKey apiKey() {
-		return new ApiKey("Access Token (JWT)", "Authorization", "header");
+		return new ApiKey("JWT", "Authorization", "header");
 	}
 
 	private SecurityContext securityContext() {
@@ -46,8 +45,11 @@ public class SwaggerConfig {
 	}
 
 	private List<SecurityReference> defaultAuth() {
-		final AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEveryThing");
-		final AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
+		AuthorizationScope authorizationScope =
+			new AuthorizationScope("global", "accessEverything");
+		AuthorizationScope[] authorizationScopes =
+			new AuthorizationScope[1];
+
 		authorizationScopes[0] = authorizationScope;
 		return List.of(new SecurityReference("JWT", authorizationScopes));
 	}

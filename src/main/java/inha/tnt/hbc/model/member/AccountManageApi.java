@@ -17,7 +17,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
-@Api(tags = "준회원")
+@Api(tags = "회원 계정 관리")
 @RequestMapping("/members/account")
 public interface AccountManageApi {
 

@@ -38,6 +38,7 @@ public enum ErrorCode {
 	USERNAME_UNAVAILABLE(400, "E-M003", "사용할 수 없는 아이디입니다."),
 	EMAIL_UNAVAILABLE(400, "E-M004", "사용할 수 없는 이메일입니다."),
 	ALREADY_SETUP_BIRTHDAY(400, "E-M005", "이미 생일을 입력한 회원입니다."),
+	REDUNDANT_AUTHORITY(400, "E-M006", "이미 존재하는 권한입니다."),
 	;
 
 	private final int status;

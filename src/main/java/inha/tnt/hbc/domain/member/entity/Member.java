@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import inha.tnt.hbc.domain.BaseEntity;
+import inha.tnt.hbc.domain.member.exception.AlreadyExistAuthorityException;
 import inha.tnt.hbc.domain.member.exception.AlreadySetupBirthDateException;
 import inha.tnt.hbc.vo.BirthDate;
 import inha.tnt.hbc.vo.Image;
@@ -50,6 +51,15 @@ public class Member extends BaseEntity {
 			throw new AlreadySetupBirthDateException();
 		}
 		return this.birthDate = birthDate;
+	}
+
+	public void addAuthority(MemberRoles memberRole) {
+		final boolean isRedundant = combineAndGetAuthorities().stream()
+			.anyMatch(authority -> authority.equals(memberRole.name()));
+		if (isRedundant) {
+			throw new AlreadyExistAuthorityException();
+		}
+		this.authorities += COMMA + memberRole.name();
 	}
 
 	public List<String> combineAndGetAuthorities() {

@@ -29,7 +29,6 @@ public interface AccountManageApi {
 			+ "status: 400 | code: E-G002 | message: 입력 값이 유효하지 않습니다.\n"
 			+ "status: 400 | code: E-M005 | message: 이미 생일을 입력한 회원입니다..\n"
 			+ "status: 401 | code: E-A003 | message: 인증에 실패하였습니다.\n"
-			+ "status: 403 | code: E-A004 | message: 접근 권한이 부족합니다.\n"
 			+ "status: 500 | code: E-G001 | message: 내부 서버 오류입니다.")
 	})
 	@PostMapping("/birthday")

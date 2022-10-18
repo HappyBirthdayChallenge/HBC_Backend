@@ -27,6 +27,11 @@ public class MemberService {
 			.orElseThrow(() -> new EntityNotFoundException(MEMBER_UNFOUNDED));
 	}
 
+	@Transactional(readOnly = true)
+	public boolean isExistingUsername(String username) {
+		return memberRepository.findByUsername(username).isPresent();
+	}
+
 	public Member findById(Long memberId) {
 		return memberRepository.findById(memberId)
 			.orElseThrow(() -> new EntityNotFoundException(MEMBER_UNFOUNDED));

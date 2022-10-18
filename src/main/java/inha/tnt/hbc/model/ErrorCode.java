@@ -39,6 +39,7 @@ public enum ErrorCode {
 	EMAIL_UNAVAILABLE(400, "E-M004", "사용할 수 없는 이메일입니다."),
 	ALREADY_SETUP_BIRTHDAY(400, "E-M005", "이미 생일을 입력한 회원입니다."),
 	ALREADY_FRIEND(400, "E-M006", "이미 친구관계입니다."),
+	FRIEND_MYSELF_IMPOSSIBLE(400, "E-M007", "자기 자신은 친구로 추가할 수 없습니다."),
 	;
 
 	private final int status;

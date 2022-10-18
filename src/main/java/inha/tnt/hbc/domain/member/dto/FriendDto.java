@@ -3,6 +3,7 @@ package inha.tnt.hbc.domain.member.dto;
 import com.querydsl.core.annotations.QueryProjection;
 
 import inha.tnt.hbc.vo.BirthDate;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,6 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class FriendDto {
 
+	@ApiModelProperty(value = "회원 정보")
 	private MemberDto member;
 
 	@QueryProjection

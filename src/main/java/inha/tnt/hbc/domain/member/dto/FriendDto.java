@@ -11,12 +11,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class FriendDto {
 
-	private ProfileDto member;
+	private MemberDto member;
 
 	@QueryProjection
 	public FriendDto(Long memberId, String memberName, String memberUsername, String memberImageUrl,
 		BirthDate memberBirthDate) {
-		this.member = ProfileDto.builder()
+		this.member = MemberDto.builder()
 			.id(memberId)
 			.name(memberName)
 			.username(memberUsername)

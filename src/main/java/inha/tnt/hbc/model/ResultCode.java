@@ -7,6 +7,9 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum ResultCode {
 
+	// Admin
+	GET_MEMBERS_SUCCESS(200, "R-A001", "회원 목록 조회에 성공하였습니다."),
+
 	// Member
 	USERNAME_AVAILABLE(200, "R-M001", "사용 가능한 아이디입니다."),
 	EMAIL_AVAILABLE(200, "R-M002", "사용 가능한 이메일입니다."),

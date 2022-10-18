@@ -4,11 +4,14 @@ import static inha.tnt.hbc.model.ErrorCode.*;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import inha.tnt.hbc.application.member.dto.FriendListResponse;
+import inha.tnt.hbc.model.member.dto.FriendListResponse;
 import inha.tnt.hbc.application.member.exception.AlreadyFriendException;
+import inha.tnt.hbc.domain.member.dto.FriendDto;
 import inha.tnt.hbc.domain.member.entity.Member;
 import inha.tnt.hbc.domain.member.service.FriendService;
 import inha.tnt.hbc.domain.member.service.MemberService;
@@ -42,7 +45,11 @@ public class FriendManageService {
 
 	@Transactional(readOnly = true)
 	public FriendListResponse getFriends(int page, int size) {
-		return null;
+		final Long memberId = securityContextUtils.takeoutMemberId();
+		final Page<FriendDto> friendDtoPage = friendService.findFriendDtoPage(memberId, PageRequest.of(page - 1, size));
+		return FriendListResponse.builder()
+			.page(friendDtoPage)
+			.build();
 	}
 
 }

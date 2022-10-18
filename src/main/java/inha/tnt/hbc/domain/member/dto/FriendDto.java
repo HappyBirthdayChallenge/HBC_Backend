@@ -1,24 +1,28 @@
 package inha.tnt.hbc.domain.member.dto;
 
-import com.fasterxml.jackson.databind.PropertyNamingStrategies;
-import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import com.querydsl.core.annotations.QueryProjection;
 
+import inha.tnt.hbc.vo.BirthDate;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
-@Builder
-@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class FriendDto {
 
-	private Long memberId;
-	private String memberName;
-	private String memberUsername;
-	private String memberImageUrl;
+	private ProfileDto member;
+
+	@QueryProjection
+	public FriendDto(Long memberId, String memberName, String memberUsername, String memberImageUrl,
+		BirthDate memberBirthDate) {
+		this.member = ProfileDto.builder()
+			.id(memberId)
+			.name(memberName)
+			.username(memberUsername)
+			.imageUrl(memberImageUrl)
+			.birthDate(memberBirthDate)
+			.build();
+	}
 
 }

@@ -1,8 +1,11 @@
 package inha.tnt.hbc.domain.member.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import inha.tnt.hbc.domain.member.dto.FriendDto;
 import inha.tnt.hbc.domain.member.entity.Friend;
 import inha.tnt.hbc.domain.member.entity.Member;
 import inha.tnt.hbc.domain.member.repository.FriendRepository;
@@ -26,6 +29,11 @@ public class FriendService {
 			.friendMember(friendMember)
 			.build();
 		friendRepository.save(friend);
+	}
+
+	@Transactional(readOnly = true)
+	public Page<FriendDto> findFriendDtoPage(Long memberId, Pageable pageable) {
+		return friendRepository.findFriendDtoPage(memberId, pageable);
 	}
 
 }

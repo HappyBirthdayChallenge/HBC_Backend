@@ -1,4 +1,4 @@
-package inha.tnt.hbc.application.member.dto;
+package inha.tnt.hbc.model.member.dto;
 
 import org.springframework.data.domain.Page;
 
@@ -15,6 +15,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class FriendListResponse {
 
-	private Page<FriendDto> friendPage;
+	private Page<FriendDto> page;
 
 }

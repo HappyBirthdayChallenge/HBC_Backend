@@ -1,26 +1,27 @@
 package inha.tnt.hbc.model.member;
 
-import javax.validation.Valid;
+import javax.validation.constraints.Min;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import inha.tnt.hbc.application.member.dto.FriendListResponse;
+import inha.tnt.hbc.model.member.dto.FriendListResponse;
 import inha.tnt.hbc.model.ErrorResponse;
-import inha.tnt.hbc.model.PageDto;
 import inha.tnt.hbc.model.ResultResponse;
 import inha.tnt.hbc.model.Void;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 @Api(tags = "회원 친구 관리")
+@Validated
 @RequestMapping("/members/friends")
 public interface FriendManageApi {
 
@@ -33,8 +34,12 @@ public interface FriendManageApi {
 			+ "status: 401 | code: E-A003 | message: 인증에 실패하였습니다.\n"
 			+ "status: 500 | code: E-G001 | message: 내부 서버 오류입니다.")
 	})
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = "page", value = "페이지(1 이상)", required = true, example = "1"),
+		@ApiImplicitParam(name = "size", value = "페이지당 개수(1 이상)", required = true, example = "10")
+	})
 	@GetMapping
-	ResponseEntity<ResultResponse> getFriends(@Valid @RequestBody PageDto pageDto);
+	ResponseEntity<ResultResponse> getFriends(@Min(1) @RequestParam int page, @Min(1) @RequestParam int size);
 
 	@ApiOperation(value = "친구 추가")
 	@ApiResponses({
@@ -47,8 +52,8 @@ public interface FriendManageApi {
 			+ "status: 401 | code: E-A003 | message: 인증에 실패하였습니다.\n"
 			+ "status: 500 | code: E-G001 | message: 내부 서버 오류입니다.")
 	})
-	@ApiImplicitParam(name = "memberId", value = "회원 PK", required = true, example = "1")
+	@ApiImplicitParam(name = "member_id", value = "회원 PK", required = true, example = "1")
 	@PostMapping
-	ResponseEntity<ResultResponse> addFriend(@RequestParam Long memberId);
+	ResponseEntity<ResultResponse> addFriend(@RequestParam(name = "member_id") Long memberId);
 
 }

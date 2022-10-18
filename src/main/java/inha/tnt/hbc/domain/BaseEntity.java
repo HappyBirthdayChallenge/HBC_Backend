@@ -9,6 +9,8 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Getter;
 
 @Getter
@@ -17,9 +19,11 @@ import lombok.Getter;
 public class BaseEntity {
 
 	@CreatedDate
+	@JsonIgnore
 	private LocalDateTime createdAt;
 
 	@LastModifiedDate
+	@JsonIgnore
 	private LocalDateTime updatedAt;
 
 }

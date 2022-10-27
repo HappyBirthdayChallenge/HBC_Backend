@@ -19,7 +19,7 @@ import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
-public class KakaoClient {
+public class KakaoOAuth2Client {
 
 	private final RestTemplate restTemplate;
 	@Value("${spring.security.oauth2.client.provider.kakao.user-info-uri}")

@@ -1,6 +1,7 @@
 package inha.tnt.hbc.application.member.controller;
 
 import static inha.tnt.hbc.model.ResultCode.*;
+import static inha.tnt.hbc.util.Constants.*;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -9,26 +10,31 @@ import inha.tnt.hbc.application.member.service.AuthService;
 import inha.tnt.hbc.domain.member.entity.Member;
 import inha.tnt.hbc.domain.member.service.IdentityVerificationService;
 import inha.tnt.hbc.exception.EntityNotFoundException;
+import inha.tnt.hbc.infra.sms.SMSClient;
 import inha.tnt.hbc.model.ResultResponse;
 import inha.tnt.hbc.model.member.AuthApi;
-import inha.tnt.hbc.model.member.dto.CodeRequest;
-import inha.tnt.hbc.model.member.dto.EmailRequest;
+import inha.tnt.hbc.model.member.dto.VerifyCodeRequest;
+import inha.tnt.hbc.model.member.dto.PhoneRequest;
 import inha.tnt.hbc.model.member.dto.FindPasswordRequest;
 import inha.tnt.hbc.model.member.dto.FindUsernameRequest;
 import inha.tnt.hbc.model.member.dto.IdentifyRequest;
 import inha.tnt.hbc.model.member.dto.SigninRequest;
 import inha.tnt.hbc.model.member.dto.SignupRequest;
 import inha.tnt.hbc.model.member.dto.UsernameRequest;
+import inha.tnt.hbc.model.member.dto.VerifyCodeResponse;
 import inha.tnt.hbc.security.jwt.dto.JwtDto;
+import inha.tnt.hbc.util.RandomUtils;
 import inha.tnt.hbc.vo.Image;
 import lombok.RequiredArgsConstructor;
 
+// TODO: 비즈니스 로직 모두 service단에서 호출 후, 응답 모델 반환받아서 그대로 return하기
 @RestController
 @RequiredArgsConstructor
 public class AuthController implements AuthApi {
 
 	private final AuthService authService;
 	private final IdentityVerificationService identityVerificationService;
+	private final SMSClient smsClient;
 
 	@Override
 	public ResponseEntity<ResultResponse> signin(SigninRequest request) {
@@ -51,24 +57,36 @@ public class AuthController implements AuthApi {
 	}
 
 	@Override
-	public ResponseEntity<ResultResponse> checkEmail(EmailRequest request) {
+	public ResponseEntity<ResultResponse> checkEmail(PhoneRequest request) {
 		return null;
 	}
 
 	@Override
-	public ResponseEntity<ResultResponse> sendCodeToEmail(EmailRequest request) {
-		return null;
+	public ResponseEntity<ResultResponse> sendCodeBySms(PhoneRequest request) {
+		final String code = RandomUtils.generateNumber(AUTH_CODE_LENGTH);
+		identityVerificationService.saveAuthCode(code, request.getPhone());
+		smsClient.sendSMS(request.getPhone(), String.format(AUTH_CODE_MESSAGE, code));
+		return ResponseEntity.ok(ResultResponse.of(SEND_CODE_SUCCESS));
 	}
 
 	@Override
-	public ResponseEntity<ResultResponse> verifyCode(CodeRequest request) {
-		return null;
+	public ResponseEntity<ResultResponse> verifyCode(VerifyCodeRequest request) {
+		if (!identityVerificationService.isValid(request.getCode(), request.getPhone())) {
+			return ResponseEntity.ok(ResultResponse.of(CODE_INVALID));
+		}
+		identityVerificationService.delete(request.getCode());
+		final String key = RandomUtils.generateAuthKey();
+		identityVerificationService.saveAuthKey(key, request.getPhone());
+		final VerifyCodeResponse response = VerifyCodeResponse.builder()
+			.key(key)
+			.build();
+		return ResponseEntity.ok(ResultResponse.of(CODE_VERIFIED, response));
 	}
 
 	@Override
 	public ResponseEntity<ResultResponse> signup(SignupRequest request) {
-		if (!identityVerificationService.isValid(request.getKey())) {
-			return ResponseEntity.ok(ResultResponse.of(KEY_UNVERIFIED));
+		if (!identityVerificationService.isValid(request.getKey(), request.getPhone())) {
+			return ResponseEntity.ok(ResultResponse.of(KEY_INVALID));
 		}
 		final Member member = authService.signup(request.getUsername(), request.getPassword(), request.getName(),
 			request.getPhone(), request.getBirthDate(), Image.getInitial());

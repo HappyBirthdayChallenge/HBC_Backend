@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import inha.tnt.hbc.model.Void;
 import inha.tnt.hbc.model.ErrorResponse;
 import inha.tnt.hbc.model.ResultResponse;
-import inha.tnt.hbc.model.member.dto.CodeRequest;
-import inha.tnt.hbc.model.member.dto.EmailRequest;
+import inha.tnt.hbc.model.member.dto.VerifyCodeRequest;
+import inha.tnt.hbc.model.member.dto.PhoneRequest;
 import inha.tnt.hbc.model.member.dto.FindPasswordRequest;
 import inha.tnt.hbc.model.member.dto.FindUsernameRequest;
 import inha.tnt.hbc.model.member.dto.IdentifyRequest;
@@ -26,6 +26,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
+// TODO: Description 구체화
 @Api(tags = "회원 인증")
 @RequestMapping("/auth")
 public interface AuthApi {
@@ -52,17 +53,17 @@ public interface AuthApi {
 	@PostMapping("/check/username")
 	ResponseEntity<ResultResponse> checkUsername(@Valid @RequestBody UsernameRequest request);
 
-	@ApiOperation(value = "이메일 유효성 확인")
-	@PostMapping("/check/email")
-	ResponseEntity<ResultResponse> checkEmail(@Valid @RequestBody EmailRequest request);
+	@ApiOperation(value = "휴대폰 번호 유효성 확인")
+	@PostMapping("/check/phone")
+	ResponseEntity<ResultResponse> checkEmail(@Valid @RequestBody PhoneRequest request);
 
-	@ApiOperation(value = "이메일 인증코드 전송")
+	@ApiOperation(value = "휴대폰 문자(SMS) 인증코드 전송")
 	@PostMapping("/send/code")
-	ResponseEntity<ResultResponse> sendCodeToEmail(@Valid @RequestBody EmailRequest request);
+	ResponseEntity<ResultResponse> sendCodeBySms(@Valid @RequestBody PhoneRequest request);
 
 	@ApiOperation(value = "인증코드 검증")
 	@PostMapping("/verify/code")
-	ResponseEntity<ResultResponse> verifyCode(@Valid @RequestBody CodeRequest request);
+	ResponseEntity<ResultResponse> verifyCode(@Valid @RequestBody VerifyCodeRequest request);
 
 	@ApiOperation(value = "일반 회원 가입")
 	@PostMapping("/signup")

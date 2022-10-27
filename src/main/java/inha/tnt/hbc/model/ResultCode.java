@@ -29,13 +29,11 @@ public enum ResultCode {
 	// Jwt
 	JWT_REISSUE_SUCCESS(200, "R-J001", "토큰 재발급에 성공하였습니다."),
 
-	// Email
-	EMAIL_SEND_SUCCESS(200, "R-E001", "메일 전송에 성공하였습니다."),
-
 	// Identity Verification
 	CODE_VERIFIED(200, "R-IV001", "인증 코드 검증에 성공하였습니다."),
-	CODE_UNVERIFIED(200, "R-IV002", "유효하지 않은 인증 코드입니다."),
-	KEY_UNVERIFIED(200, "R-IV003", "유효하지 않은 인증 키입니다."),
+	CODE_INVALID(200, "R-IV002", "유효하지 않은 인증 코드입니다."),
+	KEY_INVALID(200, "R-IV003", "유효하지 않은 인증 키입니다."),
+	SEND_CODE_SUCCESS(200, "R-IV004", "인증 코드 전송에 성공하였습니다."),
 	;
 
 	private final int status;

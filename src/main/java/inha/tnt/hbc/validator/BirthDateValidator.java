@@ -1,5 +1,8 @@
 package inha.tnt.hbc.validator;
 
+
+import static inha.tnt.hbc.model.ErrorCode.*;
+
 import java.time.LocalDate;
 
 import javax.validation.ConstraintValidator;
@@ -10,6 +13,7 @@ import org.springframework.stereotype.Component;
 import inha.tnt.hbc.annotation.BirthDay;
 import inha.tnt.hbc.vo.BirthDate;
 
+// TODO: [Refactor] 에러 메시지 상수화
 @Component
 public class BirthDateValidator implements ConstraintValidator<BirthDay, BirthDate> {
 
@@ -20,19 +24,15 @@ public class BirthDateValidator implements ConstraintValidator<BirthDay, BirthDa
 	@Override
 	public boolean isValid(BirthDate value, ConstraintValidatorContext context) {
 		context.disableDefaultConstraintViolation();
-		final String nullMessage = "널이어서는 안됩니다";
-
 		if (value == null) {
-			final String errorMessage = nullMessage;
-			context.buildConstraintViolationWithTemplate(errorMessage)
+			context.buildConstraintViolationWithTemplate(NOT_NULL.getMessage())
 				.addConstraintViolation();
 			return false;
 		}
 
 		boolean flag = true;
 		if (value.getType() == null) {
-			final String errorMessage = nullMessage;
-			context.buildConstraintViolationWithTemplate(errorMessage)
+			context.buildConstraintViolationWithTemplate(NOT_NULL.getMessage())
 				.addPropertyNode("type")
 				.addConstraintViolation();
 			flag = false;
@@ -46,8 +46,7 @@ public class BirthDateValidator implements ConstraintValidator<BirthDay, BirthDa
 		}
 
 		if (value.getYear() == null) {
-			final String errorMessage = nullMessage;
-			context.buildConstraintViolationWithTemplate(errorMessage)
+			context.buildConstraintViolationWithTemplate(NOT_NULL.getMessage())
 				.addPropertyNode("year")
 				.addConstraintViolation();
 			flag = false;
@@ -61,8 +60,7 @@ public class BirthDateValidator implements ConstraintValidator<BirthDay, BirthDa
 		}
 
 		if (value.getMonth() == null) {
-			final String errorMessage = nullMessage;
-			context.buildConstraintViolationWithTemplate(errorMessage)
+			context.buildConstraintViolationWithTemplate(NOT_NULL.getMessage())
 				.addPropertyNode("month")
 				.addConstraintViolation();
 			flag = false;
@@ -75,8 +73,7 @@ public class BirthDateValidator implements ConstraintValidator<BirthDay, BirthDa
 			flag = false;
 		}
 		if (value.getDate() == null) {
-			final String errorMessage = nullMessage;
-			context.buildConstraintViolationWithTemplate(errorMessage)
+			context.buildConstraintViolationWithTemplate(NOT_NULL.getMessage())
 				.addPropertyNode("date")
 				.addConstraintViolation();
 			flag = false;

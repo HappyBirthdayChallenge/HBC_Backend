@@ -11,8 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import inha.tnt.hbc.domain.member.entity.Member;
 import inha.tnt.hbc.domain.member.service.MemberService;
 import inha.tnt.hbc.exception.EntityNotFoundException;
-import inha.tnt.hbc.exception.InvalidArgumentException;
-import inha.tnt.hbc.model.ErrorResponse.FieldError;
+import inha.tnt.hbc.model.ResultResponse;
 import inha.tnt.hbc.security.jwt.dto.JwtDto;
 import inha.tnt.hbc.util.JwtUtils;
 import inha.tnt.hbc.vo.BirthDate;
@@ -51,6 +50,22 @@ public class AuthService {
 			.accessToken(jwtUtils.generateAccessToken(member))
 			.refreshToken(jwtUtils.generateRefreshToken(member))
 			.build();
+	}
+
+	public ResultResponse checkUsername(String username) {
+		if (!memberService.isExistingUsername(username)) {
+			return ResultResponse.of(USERNAME_AVAILABLE);
+		} else {
+			return ResultResponse.of(USERNAME_ALREADY_USED);
+		}
+	}
+
+	public ResultResponse checkPhone(String phone) {
+		if (!memberService.isExistingPhone(phone)) {
+			return ResultResponse.of(PHONE_AVAILABLE);
+		} else {
+			return ResultResponse.of(PHONE_ALREADY_USED);
+		}
 	}
 
 }

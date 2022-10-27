@@ -25,6 +25,7 @@ public enum ResultCode {
 	BIRTHDAY_SETUP_SUCCESS(200, "R-M012", "생일 입력에 성공하였습니다."),
 	ADD_FRIEND_SUCCESS(200, "R-M013", "친구 추가에 성공하였습니다."),
 	GET_FRIENDS_SUCCESS(200, "R-M014", "친구 목록 조회에 성공하였습니다."),
+	PHONE_AVAILABLE(200, "R-M015", "사용 가능한 휴대폰 번호입니다."),
 
 	// Jwt
 	JWT_REISSUE_SUCCESS(200, "R-J001", "토큰 재발급에 성공하였습니다."),

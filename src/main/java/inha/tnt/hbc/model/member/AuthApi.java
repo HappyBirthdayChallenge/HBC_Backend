@@ -55,7 +55,7 @@ public interface AuthApi {
 
 	@ApiOperation(value = "휴대폰 번호 유효성 확인")
 	@PostMapping("/check/phone")
-	ResponseEntity<ResultResponse> checkEmail(@Valid @RequestBody PhoneRequest request);
+	ResponseEntity<ResultResponse> checkPhone(@Valid @RequestBody PhoneRequest request);
 
 	@ApiOperation(value = "휴대폰 문자(SMS) 인증코드 전송")
 	@PostMapping("/send/code")

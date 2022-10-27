@@ -53,12 +53,12 @@ public class AuthController implements AuthApi {
 
 	@Override
 	public ResponseEntity<ResultResponse> checkUsername(UsernameRequest request) {
-		return null;
+		return ResponseEntity.ok(authService.checkUsername(request.getUsername()));
 	}
 
 	@Override
-	public ResponseEntity<ResultResponse> checkEmail(PhoneRequest request) {
-		return null;
+	public ResponseEntity<ResultResponse> checkPhone(PhoneRequest request) {
+		return ResponseEntity.ok(authService.checkPhone(request.getPhone()));
 	}
 
 	@Override

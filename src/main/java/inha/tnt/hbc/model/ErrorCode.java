@@ -15,6 +15,7 @@ public enum ErrorCode {
 	HTTP_MESSAGE_NOT_READABLE(400, "E-G005", "HTTP Request Body 형식이 올바르지 않습니다."),
 	REQUEST_PARAMETER_MISSING(400, "E-G006", "요청 파라미터는 필수입니다."),
 	REQUEST_HEADER_MISSING(400, "E-G007", "요청 헤더는 필수입니다."),
+	NOT_NULL(400, "E-G008", "널이어서는 안됩니다."),
 
 	// Authorization
 	AUTHORIZATION_HEADER_MISSING(401, "E-A001", "인증 헤더는 필수입니다."),

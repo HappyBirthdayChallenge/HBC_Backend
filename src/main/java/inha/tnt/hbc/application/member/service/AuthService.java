@@ -30,9 +30,6 @@ public class AuthService {
 	@Transactional
 	public Member signup(String username, String password, String name, String phone, BirthDate birthDate,
 		Image image) {
-		if (memberService.isExistingUsername(username)) {
-			throw new InvalidArgumentException(FieldError.of("username", username, USERNAME_ALREADY_USED.getMessage()));
-		}
 		final Member member = Member.builder()
 			.username(username)
 			.password(passwordEncoder.encode(password))

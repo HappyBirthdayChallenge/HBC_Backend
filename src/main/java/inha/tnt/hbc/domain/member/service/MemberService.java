@@ -37,4 +37,9 @@ public class MemberService {
 			.orElseThrow(() -> new EntityNotFoundException(MEMBER_UNFOUNDED));
 	}
 
+	@Transactional(readOnly = true)
+	public boolean isExistingPhone(String phone) {
+		return memberRepository.findByPhone(phone).isPresent();
+	}
+
 }

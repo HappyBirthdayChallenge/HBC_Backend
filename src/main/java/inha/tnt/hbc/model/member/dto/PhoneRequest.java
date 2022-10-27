@@ -1,8 +1,6 @@
 package inha.tnt.hbc.model.member.dto;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotNull;
-
+import inha.tnt.hbc.annotation.Phone;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -14,11 +12,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class EmailRequest {
+public class PhoneRequest {
 
-	@NotNull
-	@Email
-	@ApiModelProperty(value = "이메일", required = true, example = "example@gmail.com")
-	private String email;
+	@Phone
+	@ApiModelProperty(value = "휴대폰 번호", required = true, example = "010-9128-5708")
+	private String phone;
 
 }

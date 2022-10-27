@@ -1,8 +1,6 @@
 package inha.tnt.hbc.model.member.dto;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-
+import inha.tnt.hbc.annotation.Username;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -16,8 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UsernameRequest {
 
-	@NotNull
-	@Pattern(regexp = "^[A-Za-z\\d]{5,20}$")
+	@Username
 	@ApiModelProperty(value = "아이디(영문자 || 숫자)[5, 20]", example = "dkdlel123", required = true)
 	private String username;
 

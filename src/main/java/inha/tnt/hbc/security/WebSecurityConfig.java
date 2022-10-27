@@ -39,7 +39,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	private static final String[] AUTH_WHITELIST_SWAGGER = {"/v2/api-docs", "/configuration/ui",
 		"/swagger-resources/**", "/configuration/security", "/swagger-ui.html/**", "/webjars/**", "/swagger/**"};
 	private static final String[] AUTH_WHITELIST_GUEST = {"/", "/csrf", "/error", "/auth/**", "/oauth2/**",
-		"/batch/**", "/admins/**"};
+		"/batch/**", "/admins/**", "/test/**"};
 	private static final String OAUTH2_REDIRECT_URI = "/oauth2/signin/*";
 	private static final String OAUTH2_AUTHORIZE_URI = "/oauth2/authorize";
 

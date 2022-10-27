@@ -21,9 +21,11 @@ public class PhoneValidator implements ConstraintValidator<Phone, String> {
 
 	public static final String REGEXP = "^\\d{3}-\\d{3,4}-\\d{4}$";
 	private final MemberService memberService;
+	private boolean check;
 
 	@Override
 	public void initialize(Phone constraintAnnotation) {
+		check = constraintAnnotation.check();
 	}
 
 	@Override
@@ -39,7 +41,7 @@ public class PhoneValidator implements ConstraintValidator<Phone, String> {
 				.addConstraintViolation();
 			return false;
 		}
-		if (memberService.isExistingPhone(phone)) {
+		if (check && memberService.isExistingPhone(phone)) {
 			context.buildConstraintViolationWithTemplate(PHONE_ALREADY_USED.getMessage())
 				.addConstraintViolation();
 			return false;

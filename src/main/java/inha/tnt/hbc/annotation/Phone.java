@@ -16,6 +16,8 @@ import inha.tnt.hbc.validator.PhoneValidator;
 @Constraint(validatedBy = PhoneValidator.class)
 public @interface Phone {
 
+	boolean check() default false;
+
 	String message() default "";
 
 	Class<?>[] groups() default {};

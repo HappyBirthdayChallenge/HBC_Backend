@@ -42,7 +42,7 @@ public class Member extends BaseEntity {
 	private BirthDate birthDate;
 	@Embedded
 	private Image image;
-	private String email;
+	private String phone;
 	private String authorities;
 
 	public void setupBirthDate(BirthDate birthDate) {

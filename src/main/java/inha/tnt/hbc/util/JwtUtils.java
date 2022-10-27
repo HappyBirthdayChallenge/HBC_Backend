@@ -41,7 +41,6 @@ public class JwtUtils {
 	public static final String CLAIM_USERNAME = "uname";
 	public static final String CLAIM_NAME = "name";
 	public static final String CLAIM_BIRTHDAY = "birth";
-	public static final String CLAIM_EMAIL = "email";
 	public static final String CLAIM_IMAGE_URL = "img";
 	public static final String TOKEN_TYPE = "typ";
 	public static final String TOKEN_NAME = "JWT";
@@ -106,7 +105,6 @@ public class JwtUtils {
 		claims.put(CLAIM_USERNAME, attributes.get(CLAIM_USERNAME));
 		claims.put(CLAIM_NAME, attributes.get(CLAIM_NAME));
 		claims.put(CLAIM_BIRTHDAY, attributes.get(CLAIM_BIRTHDAY));
-		claims.put(CLAIM_EMAIL, attributes.get(CLAIM_EMAIL));
 		claims.put(CLAIM_IMAGE_URL, attributes.get(CLAIM_IMAGE_URL));
 		return generateJwt(validity, claims, subject);
 	}
@@ -118,7 +116,6 @@ public class JwtUtils {
 		claims.put(CLAIM_USERNAME, member.getUsername());
 		claims.put(CLAIM_NAME, member.getName());
 		claims.put(CLAIM_BIRTHDAY, member.getBirthDate());
-		claims.put(CLAIM_EMAIL, member.getEmail());
 		claims.put(CLAIM_IMAGE_URL, member.getImage().getUrl());
 		return generateJwt(validity, claims, subject);
 	}

@@ -28,7 +28,7 @@ public class AuthService {
 	private final JwtUtils jwtUtils;
 
 	@Transactional
-	public Member signup(String username, String password, String name, String email, BirthDate birthDate,
+	public Member signup(String username, String password, String name, String phone, BirthDate birthDate,
 		Image image) {
 		if (memberService.isExistingUsername(username)) {
 			throw new InvalidArgumentException(FieldError.of("username", username, USERNAME_ALREADY_USED.getMessage()));
@@ -37,7 +37,7 @@ public class AuthService {
 			.username(username)
 			.password(passwordEncoder.encode(password))
 			.name(name)
-			.email(email)
+			.phone(phone)
 			.birthDate(birthDate)
 			.image(image)
 			.authorities(ROLE_USER.name())

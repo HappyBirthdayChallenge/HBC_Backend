@@ -24,7 +24,6 @@ public class KakaoUserInfo {
 	public OAuth2Attributes convert() {
 		return OAuth2Attributes.builder()
 			.attributeKey(this.id)
-			.email(this.kakaoAccount.email)
 			.name(this.kakaoAccount.profile.nickname)
 			.imageUrl(this.kakaoAccount.profile.profileImageUrl)
 			.provider(OAuth2Provider.KAKAO.name())
@@ -39,7 +38,6 @@ public class KakaoUserInfo {
 	private static class KakaoAccount {
 
 		private Profile profile;
-		private String email;
 
 	}
 

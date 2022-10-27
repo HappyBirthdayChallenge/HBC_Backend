@@ -31,7 +31,6 @@ public class OAuth2Attributes {
 	private String provider;
 	private Long attributeKey;
 	private String name;
-	private String email;
 	private String imageUrl;
 
 	public static OAuth2Attributes of(String provider, Map<String, Object> attributes) {
@@ -47,10 +46,7 @@ public class OAuth2Attributes {
 	 */
 	private static OAuth2Attributes kakao(Map<String, Object> attributes) {
 		final Long id = (Long)attributes.get("id");
-
 		final Map<String, Object> kakaoAccount = (Map<String, Object>)attributes.get("kakao_account");
-		final String email = (String)kakaoAccount.get("email");
-
 		final Map<String, Object> profile = (Map<String, Object>)kakaoAccount.get("profile");
 		final String name = (String)kakaoAccount.get("nickname");
 		final String imageUrl = (String)profile.get("profile_image_url");
@@ -58,7 +54,6 @@ public class OAuth2Attributes {
 		return OAuth2Attributes.builder()
 			.attributes(attributes)
 			.attributeKey(id)
-			.email(email)
 			.name(name)
 			.imageUrl(imageUrl)
 			.provider(KAKAO.name())
@@ -82,7 +77,6 @@ public class OAuth2Attributes {
 		map.put(NAME_ATTRIBUTE_KEY, this.attributeKey);
 		map.put(PROVIDER_KEY, this.provider);
 		map.put(CLAIM_IMAGE_URL, this.imageUrl);
-		map.put(CLAIM_EMAIL, this.email);
 		map.put(CLAIM_NAME, this.name);
 		return map;
 	}

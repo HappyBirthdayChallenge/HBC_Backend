@@ -9,7 +9,6 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import inha.tnt.hbc.application.member.service.AuthService;
 import inha.tnt.hbc.domain.member.entity.Member;
 import inha.tnt.hbc.domain.member.entity.oauth2.OAuth2Account;
 import inha.tnt.hbc.domain.member.entity.oauth2.OAuth2AccountPK;
@@ -47,7 +46,7 @@ public class OAuth2Service {
 			.orElseGet(() -> signup(primaryKey, oAuth2Attributes));
 	}
 
-	@Transactional(readOnly = true)
+	@Transactional
 	public JwtDto signin(String provider, String token) {
 		final OAuth2Attributes oAuth2Attributes = oAuth2Client.getUserInfo(provider, token);
 		final OAuth2User oAuth2User = oAuth2Attributes.toOAuth2User(getMember(oAuth2Attributes));

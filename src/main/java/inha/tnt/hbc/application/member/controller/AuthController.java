@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import inha.tnt.hbc.application.member.service.AuthService;
 import inha.tnt.hbc.domain.member.entity.Member;
+import inha.tnt.hbc.domain.member.service.IdentityVerificationService;
 import inha.tnt.hbc.exception.EntityNotFoundException;
 import inha.tnt.hbc.model.ResultResponse;
 import inha.tnt.hbc.model.member.AuthApi;
@@ -19,7 +20,6 @@ import inha.tnt.hbc.model.member.dto.SigninRequest;
 import inha.tnt.hbc.model.member.dto.SignupRequest;
 import inha.tnt.hbc.model.member.dto.UsernameRequest;
 import inha.tnt.hbc.security.jwt.dto.JwtDto;
-import inha.tnt.hbc.vo.BirthDate;
 import inha.tnt.hbc.vo.Image;
 import lombok.RequiredArgsConstructor;
 
@@ -28,6 +28,7 @@ import lombok.RequiredArgsConstructor;
 public class AuthController implements AuthApi {
 
 	private final AuthService authService;
+	private final IdentityVerificationService identityVerificationService;
 
 	@Override
 	public ResponseEntity<ResultResponse> signin(SigninRequest request) {
@@ -64,11 +65,14 @@ public class AuthController implements AuthApi {
 		return null;
 	}
 
-	// TODO: 검증 로직 추가
 	@Override
 	public ResponseEntity<ResultResponse> signup(SignupRequest request) {
+		if (!identityVerificationService.isValid(request.getKey())) {
+			return ResponseEntity.ok(ResultResponse.of(KEY_UNVERIFIED));
+		}
 		final Member member = authService.signup(request.getUsername(), request.getPassword(), request.getName(),
 			request.getPhone(), request.getBirthDate(), Image.getInitial());
+		identityVerificationService.delete(request.getKey());
 		return ResponseEntity.ok(ResultResponse.of(SIGNUP_SUCCESS, member));
 	}
 

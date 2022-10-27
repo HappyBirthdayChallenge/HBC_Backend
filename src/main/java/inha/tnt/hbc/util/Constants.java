@@ -7,10 +7,13 @@ import lombok.NoArgsConstructor;
 public final class Constants {
 
 	public static final int NONE = -1;
+	public static final int AUTH_CODE_LENGTH = 6;
+	public static final String AUTH_CODE_MESSAGE = "[HappyBirthdayChallenge]\n인증 코드는 %s 입니다.";
 
 	public static final String ALL_PATTERN = "/**";
 
 	public static final String BREAK_TAG = "<br>";
+	public static final String NEWLINE = "\n";
 
 	public static final String DASH = "-";
 	public static final String EMPTY = "";

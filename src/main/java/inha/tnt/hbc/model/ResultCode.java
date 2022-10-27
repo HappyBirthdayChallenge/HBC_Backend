@@ -15,7 +15,7 @@ public enum ResultCode {
 	EMAIL_AVAILABLE(200, "R-M002", "사용 가능한 이메일입니다."),
 	SIGNUP_SUCCESS(200, "R-M003", "회원가입에 성공하였습니다."),
 	USERNAME_ALREADY_USED(200, "R-M004", "이미 사용하고 있는 아이디입니다."),
-	EMAIL_ALREADY_USED(200, "R-M005", "이미 사용하고 있는 이메일입니다."),
+	PHONE_ALREADY_USED(200, "R-M005", "이미 사용하고 있는 휴대폰 번호입니다."),
 	NAME_EMAIL_UNFOUNDED(200, "R-M006", "이름 혹은 이메일을 사용하는 회원이 존재하지 않습니다."),
 	NAME_EMAIL_FOUNDED(200, "R-M007", "이름과 이메일을 사용하는 회원이 존재합니다."),
 	USERNAME_FIND_SUCCESS(200, "R-M008", "아이디 찾기에 성공하였습니다."),

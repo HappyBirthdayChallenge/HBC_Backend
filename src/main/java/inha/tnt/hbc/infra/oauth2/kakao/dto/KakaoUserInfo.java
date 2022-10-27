@@ -5,13 +5,16 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
 import inha.tnt.hbc.domain.member.entity.oauth2.OAuth2Provider;
 import inha.tnt.hbc.security.oauth2.OAuth2Attributes;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class KakaoUserInfo {
 
@@ -31,6 +34,7 @@ public class KakaoUserInfo {
 	@Getter
 	@Builder
 	@AllArgsConstructor
+	@NoArgsConstructor(access = AccessLevel.PROTECTED)
 	@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 	private static class KakaoAccount {
 
@@ -42,6 +46,7 @@ public class KakaoUserInfo {
 	@Getter
 	@Builder
 	@AllArgsConstructor
+	@NoArgsConstructor(access = AccessLevel.PROTECTED)
 	@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 	private static class Profile {
 

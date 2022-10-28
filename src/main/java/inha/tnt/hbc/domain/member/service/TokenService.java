@@ -29,6 +29,11 @@ public class TokenService {
 		return redisTemplate.opsForValue().get(generateRedisKey(memberId));
 	}
 
+	@Async
+	public void deleteRefreshToken(Long memberId) {
+		redisTemplate.opsForValue().set(generateRedisKey(memberId), EMPTY, 1, MILLISECONDS);
+	}
+
 	private String generateRedisKey(Long key) {
 		return REDIS_PREFIX_KEY + DELIMITER + MEMBER_ID_INFIX_KEY + DELIMITER + key;
 	}

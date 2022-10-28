@@ -1,6 +1,6 @@
 package inha.tnt.hbc.security.oauth2;
 
-import static inha.tnt.hbc.domain.member.entity.oauth2.OAuth2Provider.*;
+import static inha.tnt.hbc.domain.member.entity.oauth2.OAuth2Providers.*;
 import static inha.tnt.hbc.util.JwtUtils.*;
 
 import java.util.HashMap;
@@ -13,7 +13,6 @@ import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import inha.tnt.hbc.domain.member.entity.Member;
-import inha.tnt.hbc.security.oauth2.exception.UnsupportedPlatformSignInException;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -37,7 +36,7 @@ public class OAuth2Attributes {
 		if (provider.equals(KAKAO.name())) {
 			return kakao(attributes);
 		} else {
-			throw new UnsupportedPlatformSignInException();
+			throw new RuntimeException();
 		}
 	}
 

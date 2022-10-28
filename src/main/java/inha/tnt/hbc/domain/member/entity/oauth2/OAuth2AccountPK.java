@@ -25,7 +25,7 @@ public class OAuth2AccountPK implements Serializable {
 	private static final long serialVersionUID = 2868210232929931052L;
 
 	@Enumerated(EnumType.STRING)
-	private OAuth2Provider provider;
+	private OAuth2Providers provider;
 
 	@Column(name = "sns_account_id")
 	private Long id;

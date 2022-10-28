@@ -3,7 +3,7 @@ package inha.tnt.hbc.infra.oauth2.kakao.dto;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
-import inha.tnt.hbc.domain.member.entity.oauth2.OAuth2Provider;
+import inha.tnt.hbc.domain.member.entity.oauth2.OAuth2Providers;
 import inha.tnt.hbc.security.oauth2.OAuth2Attributes;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -26,7 +26,7 @@ public class KakaoUserInfo {
 			.attributeKey(this.id)
 			.name(this.kakaoAccount.profile.nickname)
 			.imageUrl(this.kakaoAccount.profile.profileImageUrl)
-			.provider(OAuth2Provider.KAKAO.name())
+			.provider(OAuth2Providers.KAKAO.name())
 			.build();
 	}
 

@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import inha.tnt.hbc.domain.member.entity.Member;
 import inha.tnt.hbc.domain.member.entity.oauth2.OAuth2Account;
 import inha.tnt.hbc.domain.member.entity.oauth2.OAuth2AccountPK;
-import inha.tnt.hbc.domain.member.entity.oauth2.OAuth2Provider;
+import inha.tnt.hbc.domain.member.entity.oauth2.OAuth2Providers;
 import inha.tnt.hbc.domain.member.service.OAuth2AccountService;
 import inha.tnt.hbc.infra.aws.S3Uploader;
 import inha.tnt.hbc.infra.oauth2.OAuth2Client;
@@ -20,6 +20,7 @@ import inha.tnt.hbc.security.jwt.dto.JwtDto;
 import inha.tnt.hbc.security.oauth2.OAuth2Attributes;
 import inha.tnt.hbc.util.ImageUtils;
 import inha.tnt.hbc.util.JwtUtils;
+import inha.tnt.hbc.util.RandomUtils;
 import inha.tnt.hbc.vo.BirthDate;
 import inha.tnt.hbc.vo.Image;
 import lombok.RequiredArgsConstructor;
@@ -38,7 +39,7 @@ public class OAuth2Service {
 
 	@Transactional
 	public Member getMember(OAuth2Attributes oAuth2Attributes) {
-		final OAuth2Provider provider = OAuth2Provider.valueOf(oAuth2Attributes.getProvider());
+		final OAuth2Providers provider = OAuth2Providers.valueOf(oAuth2Attributes.getProvider());
 		final Long userId = oAuth2Attributes.getAttributeKey();
 		final OAuth2AccountPK primaryKey = new OAuth2AccountPK(provider, userId);
 		return OAuth2AccountService.getWithMember(primaryKey)
@@ -47,7 +48,7 @@ public class OAuth2Service {
 	}
 
 	@Transactional
-	public JwtDto signin(String provider, String token) {
+	public JwtDto signin(OAuth2Providers provider, String token) {
 		final OAuth2Attributes oAuth2Attributes = oAuth2Client.getUserInfo(provider, token);
 		final OAuth2User oAuth2User = oAuth2Attributes.toOAuth2User(getMember(oAuth2Attributes));
 		final String accessToken = jwtUtils.generateAccessToken(oAuth2User);
@@ -59,7 +60,8 @@ public class OAuth2Service {
 	}
 
 	private Member signup(OAuth2AccountPK primaryKey, OAuth2Attributes oAuth2Attributes) {
-		final String username = OAUTH2_USERNAME_PREFIX + DELIMITER + System.currentTimeMillis();
+		final String seed = System.currentTimeMillis() + RandomUtils.generateNumber(5);
+		final String username = OAUTH2_USERNAME_PREFIX + DELIMITER + seed;
 		final String password = UUID.randomUUID().toString();
 		final String name = oAuth2Attributes.getName();
 		final String imageUrl = oAuth2Attributes.getImageUrl();

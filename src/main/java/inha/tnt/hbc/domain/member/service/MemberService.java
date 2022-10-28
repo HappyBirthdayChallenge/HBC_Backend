@@ -48,4 +48,10 @@ public class MemberService {
 			.orElseThrow(() -> new EntityNotFoundException(MEMBER_UNFOUNDED));
 	}
 
+	@Transactional(readOnly = true)
+	public Member findByNameAndPhoneAndUsername(String name, String phone, String username) {
+		return memberRepository.findByNameAndPhoneAndUsername(name, phone, username)
+			.orElseThrow(() -> new EntityNotFoundException(MEMBER_UNFOUNDED));
+	}
+
 }

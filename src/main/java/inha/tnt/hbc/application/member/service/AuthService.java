@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import inha.tnt.hbc.domain.member.entity.Member;
 import inha.tnt.hbc.domain.member.service.MemberService;
 import inha.tnt.hbc.domain.member.service.TokenService;
+import inha.tnt.hbc.exception.EntityNotFoundException;
 import inha.tnt.hbc.model.ResultResponse;
 import inha.tnt.hbc.security.jwt.dto.JwtDto;
 import inha.tnt.hbc.util.JwtUtils;
@@ -92,6 +93,15 @@ public class AuthService {
 			return ResultResponse.of(JWT_REISSUE_SUCCESS, jwtDto);
 		} catch (JwtException e) {
 			return ResultResponse.of(JWT_REISSUE_FAILURE);
+		}
+	}
+
+	public ResultResponse identify(String name, String phone) {
+		try {
+			memberService.findByNameAndPhone(name, phone);
+			return ResultResponse.of(IDENTIFY_SUCCESS);
+		} catch (EntityNotFoundException e) {
+			return ResultResponse.of(IDENTIFY_FAILURE);
 		}
 	}
 

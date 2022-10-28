@@ -7,22 +7,19 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import inha.tnt.hbc.application.member.service.AuthService;
-import inha.tnt.hbc.domain.member.entity.Member;
 import inha.tnt.hbc.domain.member.service.IdentityVerificationService;
-import inha.tnt.hbc.exception.EntityNotFoundException;
 import inha.tnt.hbc.infra.sms.SMSClient;
 import inha.tnt.hbc.model.ResultResponse;
 import inha.tnt.hbc.model.member.AuthApi;
-import inha.tnt.hbc.model.member.dto.VerifyCodeRequest;
-import inha.tnt.hbc.model.member.dto.PhoneRequest;
 import inha.tnt.hbc.model.member.dto.FindPasswordRequest;
 import inha.tnt.hbc.model.member.dto.FindUsernameRequest;
 import inha.tnt.hbc.model.member.dto.IdentifyRequest;
+import inha.tnt.hbc.model.member.dto.PhoneRequest;
 import inha.tnt.hbc.model.member.dto.SigninRequest;
 import inha.tnt.hbc.model.member.dto.SignupRequest;
 import inha.tnt.hbc.model.member.dto.UsernameRequest;
+import inha.tnt.hbc.model.member.dto.VerifyCodeRequest;
 import inha.tnt.hbc.model.member.dto.VerifyCodeResponse;
-import inha.tnt.hbc.security.jwt.dto.JwtDto;
 import inha.tnt.hbc.util.RandomUtils;
 import inha.tnt.hbc.vo.Image;
 import lombok.RequiredArgsConstructor;
@@ -38,17 +35,12 @@ public class AuthController implements AuthApi {
 
 	@Override
 	public ResponseEntity<ResultResponse> signin(SigninRequest request) {
-		try {
-			final JwtDto jwtDto = authService.signin(request.getUsername(), request.getPassword());
-			return ResponseEntity.ok(ResultResponse.of(SIGNIN_SUCCESS, jwtDto));
-		} catch (EntityNotFoundException e) {
-			return ResponseEntity.ok(ResultResponse.of(USERNAME_PASSWORD_INCORRECT));
-		}
+		return ResponseEntity.ok(authService.signin(request.getUsername(), request.getPassword()));
 	}
 
 	@Override
 	public ResponseEntity<ResultResponse> reissue(String refreshToken) {
-		return null;
+		return ResponseEntity.ok(authService.reissueToken(refreshToken));
 	}
 
 	@Override

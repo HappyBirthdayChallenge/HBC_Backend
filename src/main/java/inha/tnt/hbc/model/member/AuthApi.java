@@ -15,6 +15,7 @@ import inha.tnt.hbc.model.ResultResponse;
 import inha.tnt.hbc.model.Void;
 import inha.tnt.hbc.model.member.dto.FindPasswordRequest;
 import inha.tnt.hbc.model.member.dto.FindUsernameRequest;
+import inha.tnt.hbc.model.member.dto.FindUsernameResponse;
 import inha.tnt.hbc.model.member.dto.IdentifyRequest;
 import inha.tnt.hbc.model.member.dto.PhoneRequest;
 import inha.tnt.hbc.model.member.dto.SigninRequest;
@@ -140,7 +141,7 @@ public interface AuthApi {
 	@ApiResponses({
 		@ApiResponse(code = 1, response = Void.class, message = ""
 			+ "status: 200 | code: R-IV003 | message: 유효하지 않은 인증 키입니다."),
-		@ApiResponse(code = 2, response = Void.class, message = ""
+		@ApiResponse(code = 2, response = FindUsernameResponse.class, message = ""
 			+ "status: 200 | code: R-M008 | message: 아이디 찾기에 성공하였습니다."),
 		@ApiResponse(code = 500, response = ErrorResponse.class, message = ""
 			+ "status: 400 | code: E-G002 | message: 입력 값이 유효하지 않습니다.\n"
@@ -151,6 +152,15 @@ public interface AuthApi {
 	ResponseEntity<ResultResponse> findUsername(@Valid @RequestBody FindUsernameRequest request);
 
 	@ApiOperation(value = "비밀번호 찾기")
+	@ApiResponses({
+		@ApiResponse(code = 1, response = Void.class, message = ""
+			+ "status: 200 | code: R-IV003 | message: 유효하지 않은 인증 키입니다.\n"
+			+ "status: 200 | code: R-M009 | message: 비밀번호 찾기에 성공하였습니다."),
+		@ApiResponse(code = 500, response = ErrorResponse.class, message = ""
+			+ "status: 400 | code: E-G002 | message: 입력 값이 유효하지 않습니다.\n"
+			+ "status: 400 | code: E-M001 | message: 존재하지 않는 회원입니다.\n"
+			+ "status: 500 | code: E-G001 | message: 내부 서버 오류입니다.")
+	})
 	@PostMapping("/find/password")
 	ResponseEntity<ResultResponse> findPassword(@Valid @RequestBody FindPasswordRequest request);
 

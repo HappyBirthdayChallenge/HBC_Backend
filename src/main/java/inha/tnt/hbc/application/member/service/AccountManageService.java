@@ -1,11 +1,13 @@
 package inha.tnt.hbc.application.member.service;
 
-import static inha.tnt.hbc.domain.member.entity.MemberRoles.*;
+import static inha.tnt.hbc.model.ResultCode.*;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import inha.tnt.hbc.domain.member.entity.Member;
+import inha.tnt.hbc.domain.member.service.TokenService;
+import inha.tnt.hbc.model.ResultResponse;
 import inha.tnt.hbc.security.jwt.dto.JwtDto;
 import inha.tnt.hbc.util.JwtUtils;
 import inha.tnt.hbc.util.SecurityContextUtils;
@@ -18,6 +20,7 @@ public class AccountManageService {
 
 	private final SecurityContextUtils securityContextUtils;
 	private final JwtUtils jwtUtils;
+	private final TokenService tokenService;
 
 	@Transactional
 	public JwtDto setupMyBirthdayAndGenerateJwt(BirthDate birthDate) {
@@ -29,6 +32,12 @@ public class AccountManageService {
 			.accessToken(accessToken)
 			.refreshToken(refreshToken)
 			.build();
+	}
+
+	public ResultResponse signout() {
+		final Long memberId = securityContextUtils.takeoutMemberId();
+		tokenService.deleteRefreshToken(memberId);
+		return ResultResponse.of(SIGNOUT_SUCCESS);
 	}
 
 }

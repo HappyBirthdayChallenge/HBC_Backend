@@ -15,6 +15,7 @@ import inha.tnt.hbc.domain.member.service.MemberService;
 import inha.tnt.hbc.domain.member.service.TokenService;
 import inha.tnt.hbc.exception.EntityNotFoundException;
 import inha.tnt.hbc.model.ResultResponse;
+import inha.tnt.hbc.model.member.dto.FindPasswordRequest;
 import inha.tnt.hbc.model.member.dto.FindUsernameResponse;
 import inha.tnt.hbc.security.jwt.dto.JwtDto;
 import inha.tnt.hbc.util.JwtUtils;
@@ -116,6 +117,18 @@ public class AuthService {
 		final Member member = memberService.findByNameAndPhone(name, phone);
 		identityVerificationService.delete(key, FIND_ID);
 		return ResultResponse.of(USERNAME_FIND_SUCCESS, new FindUsernameResponse(member.getUsername()));
+	}
+
+	@Transactional
+	public ResultResponse findPassword(FindPasswordRequest request) {
+		if (!identityVerificationService.isValid(request.getKey(), request.getPhone(), FIND_PW)) {
+			return ResultResponse.of(KEY_INVALID);
+		}
+		final Member member = memberService.findByNameAndPhoneAndUsername(request.getName(), request.getPhone(),
+			request.getUsername());
+		member.changePassword(passwordEncoder.encode(request.getPassword()));
+		identityVerificationService.delete(request.getKey(), FIND_PW);
+		return ResultResponse.of(PASSWORD_FIND_SUCCESS);
 	}
 
 }

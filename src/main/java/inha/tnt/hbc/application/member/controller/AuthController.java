@@ -88,10 +88,10 @@ public class AuthController implements AuthApi {
 		if (!identityVerificationService.isValid(request.getKey(), request.getPhone())) {
 			return ResponseEntity.ok(ResultResponse.of(KEY_INVALID));
 		}
-		final Member member = authService.signup(request.getUsername(), request.getPassword(), request.getName(),
+		authService.signup(request.getUsername(), request.getPassword(), request.getName(),
 			request.getPhone(), request.getBirthDate(), Image.getInitial());
 		identityVerificationService.delete(request.getKey());
-		return ResponseEntity.ok(ResultResponse.of(SIGNUP_SUCCESS, member));
+		return ResponseEntity.ok(ResultResponse.of(SIGNUP_SUCCESS));
 	}
 
 	@Override

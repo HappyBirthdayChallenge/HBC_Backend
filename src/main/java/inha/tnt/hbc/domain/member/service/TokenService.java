@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 public class TokenService {
 
 	private static final String REDIS_PREFIX_KEY = "rt";
+	private static final String MEMBER_ID_INFIX_KEY = "mi";
 	private final RedisTemplate<String, String> redisTemplate;
 	@Value("${jwt.valid.refresh}")
 	private long REFRESH_TOKEN_VALIDITY;
@@ -29,7 +30,7 @@ public class TokenService {
 	}
 
 	private String generateRedisKey(Long key) {
-		return REDIS_PREFIX_KEY + DELIMITER + key;
+		return REDIS_PREFIX_KEY + DELIMITER + MEMBER_ID_INFIX_KEY + DELIMITER + key;
 	}
 
 }

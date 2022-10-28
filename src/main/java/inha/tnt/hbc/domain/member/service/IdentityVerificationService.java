@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 // TODO: [Refactor] RedisAdapter
@@ -21,26 +23,34 @@ public class IdentityVerificationService {
 	@Value("${auth.valid.key}")
 	private long AUTH_KEY_VALIDITY;
 
-	public boolean isValid(String key, String value) {
-		final String fullKey = generateRedisKey(key);
+	public boolean isValid(String key, String value, IdentityVerificationTypes type) {
+		final String fullKey = generateRedisKey(key, type);
 		return redisTemplate.opsForValue().get(fullKey) != null &&
 			String.valueOf(redisTemplate.opsForValue().get(fullKey)).equals(value);
 	}
 
-	public void delete(String key) {
-		redisTemplate.delete(generateRedisKey(key));
+	public void delete(String key, IdentityVerificationTypes type) {
+		redisTemplate.delete(generateRedisKey(key, type));
 	}
 
-	public void saveAuthCode(String code, String phone) {
-		redisTemplate.opsForValue().set(generateRedisKey(code), phone, AUTH_CODE_VALIDITY, MILLISECONDS);
+	public void saveAuthCode(String code, String phone, IdentityVerificationTypes type) {
+		redisTemplate.opsForValue().set(generateRedisKey(code, type), phone, AUTH_CODE_VALIDITY, MILLISECONDS);
 	}
 
-	public void saveAuthKey(String key, String phone) {
-		redisTemplate.opsForValue().set(generateRedisKey(key), phone, AUTH_KEY_VALIDITY, MILLISECONDS);
+	public void saveAuthKey(String key, String phone, IdentityVerificationTypes type) {
+		redisTemplate.opsForValue().set(generateRedisKey(key, type), phone, AUTH_KEY_VALIDITY, MILLISECONDS);
 	}
 
-	private String generateRedisKey(String key) {
-		return REDIS_PREFIX_KEY + DELIMITER + key;
+	private String generateRedisKey(String key, IdentityVerificationTypes type) {
+		return REDIS_PREFIX_KEY + DELIMITER + type.getInfix() + DELIMITER + key;
+	}
+
+	@Getter
+	@AllArgsConstructor
+	public enum IdentityVerificationTypes {
+		SIGNUP("su"), FIND_ID("fi"), FIND_PW("fp");
+
+		private final String infix;
 	}
 
 }

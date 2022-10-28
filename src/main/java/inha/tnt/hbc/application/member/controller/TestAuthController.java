@@ -32,7 +32,7 @@ public class TestAuthController {
 	@PostMapping("/key/generate")
 	public String generateAuthKey(@RequestParam String phone) {
 		final String authKey = UUID.randomUUID().toString();
-		redisTemplate.opsForValue().set("iv_" + authKey, phone, AUTH_KEY_VALIDITY, MILLISECONDS);
+		redisTemplate.opsForValue().set("iv_ak_" + authKey, phone, AUTH_KEY_VALIDITY, MILLISECONDS);
 		return authKey;
 	}
 

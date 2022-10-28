@@ -1,5 +1,6 @@
 package inha.tnt.hbc.application.member.controller;
 
+import static inha.tnt.hbc.domain.member.service.IdentityVerificationService.IdentityVerificationTypes.*;
 import static inha.tnt.hbc.model.ResultCode.*;
 import static inha.tnt.hbc.util.Constants.*;
 
@@ -56,19 +57,19 @@ public class AuthController implements AuthApi {
 	@Override
 	public ResponseEntity<ResultResponse> sendCodeBySms(PhoneRequest request) {
 		final String code = RandomUtils.generateNumber(AUTH_CODE_LENGTH);
-		identityVerificationService.saveAuthCode(code, request.getPhone());
+		identityVerificationService.saveAuthCode(code, request.getPhone(), request.getType());
 		smsClient.sendSMS(request.getPhone(), String.format(AUTH_CODE_MESSAGE, code));
 		return ResponseEntity.ok(ResultResponse.of(SEND_CODE_SUCCESS));
 	}
 
 	@Override
 	public ResponseEntity<ResultResponse> verifyCode(VerifyCodeRequest request) {
-		if (!identityVerificationService.isValid(request.getCode(), request.getPhone())) {
+		if (!identityVerificationService.isValid(request.getCode(), request.getPhone(), request.getType())) {
 			return ResponseEntity.ok(ResultResponse.of(CODE_INVALID));
 		}
-		identityVerificationService.delete(request.getCode());
+		identityVerificationService.delete(request.getCode(), request.getType());
 		final String key = RandomUtils.generateAuthKey();
-		identityVerificationService.saveAuthKey(key, request.getPhone());
+		identityVerificationService.saveAuthKey(key, request.getPhone(), request.getType());
 		final VerifyCodeResponse response = VerifyCodeResponse.builder()
 			.key(key)
 			.build();
@@ -77,12 +78,12 @@ public class AuthController implements AuthApi {
 
 	@Override
 	public ResponseEntity<ResultResponse> signup(SignupRequest request) {
-		if (!identityVerificationService.isValid(request.getKey(), request.getPhone())) {
+		if (!identityVerificationService.isValid(request.getKey(), request.getPhone(), SIGNUP)) {
 			return ResponseEntity.ok(ResultResponse.of(KEY_INVALID));
 		}
 		authService.signup(request.getUsername(), request.getPassword(), request.getName(),
 			request.getPhone(), request.getBirthDate(), Image.getInitial());
-		identityVerificationService.delete(request.getKey());
+		identityVerificationService.delete(request.getKey(), SIGNUP);
 		return ResponseEntity.ok(ResultResponse.of(SIGNUP_SUCCESS));
 	}
 

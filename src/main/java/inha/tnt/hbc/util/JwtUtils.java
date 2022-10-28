@@ -65,6 +65,11 @@ public class JwtUtils {
 		return claims.get(CLAIM_PRIMARY_KEY, Long.class);
 	}
 
+	public Long getMemberId(String token) {
+		final Claims claims = getAllClaims(token);
+		return claims.get(CLAIM_PRIMARY_KEY, Long.class);
+	}
+
 	public Authentication getAuthentication(String token) {
 		final Claims claims = getAllClaims(token);
 		final List<SimpleGrantedAuthority> authorities = getAuthorities(claims);
@@ -88,9 +93,22 @@ public class JwtUtils {
 		return generateJwt(member, REFRESH_TOKEN_VALIDITY, REFRESH_TOKEN.name());
 	}
 
+	public String generateAccessToken(String token) {
+		return generateJwt(token, ACCESS_TOKEN_VALIDITY, ACCESS_TOKEN.name());
+	}
+
+	public String generateRefreshToken(String token) {
+		return generateJwt(token, REFRESH_TOKEN_VALIDITY, REFRESH_TOKEN.name());
+	}
+
 	@PostConstruct
 	protected void init() {
 		SECRET_KEY = Base64.getEncoder().encodeToString(SECRET_KEY.getBytes());
+	}
+
+	private String generateJwt(String token, long validity, String subject) {
+		return generateJwt(validity, getAllClaims(token), subject);
+
 	}
 
 	private String generateJwt(long validity, Map<String, Object> claims, String subject) {

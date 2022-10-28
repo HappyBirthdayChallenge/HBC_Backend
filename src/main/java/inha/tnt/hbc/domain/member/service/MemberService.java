@@ -42,4 +42,10 @@ public class MemberService {
 		return memberRepository.findByPhone(phone).isPresent();
 	}
 
+	@Transactional(readOnly = true)
+	public Member findByNameAndPhone(String name, String phone) {
+		return memberRepository.findByNameAndPhone(name, phone)
+			.orElseThrow(() -> new EntityNotFoundException(MEMBER_UNFOUNDED));
+	}
+
 }

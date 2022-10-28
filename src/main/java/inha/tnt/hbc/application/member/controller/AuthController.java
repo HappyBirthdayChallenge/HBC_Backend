@@ -106,7 +106,11 @@ public class AuthController implements AuthApi {
 
 	@Override
 	public ResponseEntity<ResultResponse> findPassword(FindPasswordRequest request) {
-		return null;
+		if (!request.getPassword().equals(request.getPasswordCheck())) {
+			throw new InvalidArgumentException(FieldError.of("password_check", request.getPasswordCheck(),
+				PASSWORD_MISMATCHED));
+		}
+		return ResponseEntity.ok(authService.findPassword(request));
 	}
 
 }

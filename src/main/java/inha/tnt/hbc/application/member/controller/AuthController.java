@@ -1,6 +1,7 @@
 package inha.tnt.hbc.application.member.controller;
 
 import static inha.tnt.hbc.domain.member.service.IdentityVerificationService.IdentityVerificationTypes.*;
+import static inha.tnt.hbc.model.ErrorCode.*;
 import static inha.tnt.hbc.model.ResultCode.*;
 import static inha.tnt.hbc.util.Constants.*;
 
@@ -9,7 +10,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import inha.tnt.hbc.application.member.service.AuthService;
 import inha.tnt.hbc.domain.member.service.IdentityVerificationService;
+import inha.tnt.hbc.exception.InvalidArgumentException;
 import inha.tnt.hbc.infra.sms.SMSClient;
+import inha.tnt.hbc.model.ErrorResponse.FieldError;
 import inha.tnt.hbc.model.ResultResponse;
 import inha.tnt.hbc.model.member.AuthApi;
 import inha.tnt.hbc.model.member.dto.FindPasswordRequest;
@@ -78,6 +81,10 @@ public class AuthController implements AuthApi {
 
 	@Override
 	public ResponseEntity<ResultResponse> signup(SignupRequest request) {
+		if (!request.getPassword().equals(request.getPasswordCheck())) {
+			throw new InvalidArgumentException(FieldError.of("password_check", request.getPasswordCheck(),
+				PASSWORD_MISMATCHED));
+		}
 		if (!identityVerificationService.isValid(request.getKey(), request.getPhone(), SIGNUP)) {
 			return ResponseEntity.ok(ResultResponse.of(KEY_INVALID));
 		}
@@ -94,7 +101,7 @@ public class AuthController implements AuthApi {
 
 	@Override
 	public ResponseEntity<ResultResponse> findUsername(FindUsernameRequest request) {
-		return null;
+		return ResponseEntity.ok(authService.findUsername(request.getName(), request.getPhone(), request.getKey()));
 	}
 
 	@Override

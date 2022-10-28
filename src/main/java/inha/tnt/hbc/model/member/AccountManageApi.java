@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import inha.tnt.hbc.annotation.BirthDay;
 import inha.tnt.hbc.model.ErrorResponse;
 import inha.tnt.hbc.model.ResultResponse;
+import inha.tnt.hbc.model.Void;
 import inha.tnt.hbc.security.jwt.dto.JwtDto;
 import inha.tnt.hbc.vo.BirthDate;
 import io.swagger.annotations.Api;
@@ -33,5 +34,16 @@ public interface AccountManageApi {
 	})
 	@PostMapping("/birthday")
 	ResponseEntity<ResultResponse> setupBirthday(@Valid @BirthDay @RequestBody BirthDate birthDate);
+
+	@ApiOperation(value = "로그아웃")
+	@ApiResponses({
+		@ApiResponse(code = 1, response = Void.class, message = ""
+			+ "status: 200 | code: R-M018 | message: 로그아웃에 성공하였습니다."),
+		@ApiResponse(code = 2, response = ErrorResponse.class, message = ""
+			+ "status: 401 | code: E-A003 | message: 인증에 실패하였습니다.\n"
+			+ "status: 500 | code: E-G001 | message: 내부 서버 오류입니다.")
+	})
+	@PostMapping("/signout")
+	ResponseEntity<ResultResponse> signout();
 
 }

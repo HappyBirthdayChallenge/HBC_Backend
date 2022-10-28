@@ -28,6 +28,7 @@ public enum ResultCode {
 	PHONE_AVAILABLE(200, "R-M015", "사용 가능한 휴대폰 번호입니다."),
 	IDENTIFY_SUCCESS(200, "R-M016", "본인 여부 확인에 성공하였습니다."),
 	IDENTIFY_FAILURE(200, "R-M017", "본인 여부 확인에 실패하였습니다."),
+	SIGNOUT_SUCCESS(200, "R-M018", "로그아웃에 성공하였습니다."),
 
 	// Jwt
 	JWT_REISSUE_SUCCESS(200, "R-J001", "토큰 재발급에 성공하였습니다."),

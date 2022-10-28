@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,8 +17,8 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 
-@Api(tags = "회원 인증(Test)")
-@RequestMapping("/test/auth")
+@Api(tags = "Test")
+@RequestMapping("/test")
 @RestController
 @RequiredArgsConstructor
 public class TestAuthController {
@@ -31,8 +32,14 @@ public class TestAuthController {
 	@PostMapping("/key/generate")
 	public String generateAuthKey(@RequestParam String phone) {
 		final String authKey = UUID.randomUUID().toString();
-		redisTemplate.opsForValue().set(authKey, phone, AUTH_KEY_VALIDITY, MILLISECONDS);
+		redisTemplate.opsForValue().set("iv_" + authKey, phone, AUTH_KEY_VALIDITY, MILLISECONDS);
 		return authKey;
+	}
+
+	@ApiOperation(value = "Redis key 조회")
+	@GetMapping("/key")
+	public String getValue(@RequestParam String key) {
+		return redisTemplate.opsForValue().get(key);
 	}
 
 }

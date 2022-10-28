@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
 import inha.tnt.hbc.annotation.BirthDay;
+import inha.tnt.hbc.annotation.Password;
 import inha.tnt.hbc.annotation.Phone;
 import inha.tnt.hbc.annotation.Username;
 import inha.tnt.hbc.vo.BirthDate;
@@ -28,12 +29,10 @@ public class SignupRequest {
 	@Username(check = true)
 	@ApiModelProperty(value = "아이디(영문자 || 숫자)[5, 20]", example = "dkdlel123", required = true)
 	private String username;
-	@NotNull
-	@Pattern(regexp = "^.*(?=^.{10,20}$)(?=.*\\d)(?=.*[a-zA-Z])(?=.*[`~!@#$%^&*()]).*$")
+	@Password
 	@ApiModelProperty(value = "비밀번호(영문자 && 숫자 && 특수문자)[10, 20]", example = "qlalfqjsgh1@", required = true)
 	private String password;
-	@NotNull
-	@Pattern(regexp = "^.*(?=^.{10,20}$)(?=.*\\d)(?=.*[a-zA-Z])(?=.*[`~!@#$%^&*()]).*$")
+	@Password
 	@ApiModelProperty(value = "비밀번호(영문자 && 숫자 && 특수문자)[10, 20]", example = "qlalfqjsgh1@", required = true)
 	private String passwordCheck;
 	@Phone(check = true)

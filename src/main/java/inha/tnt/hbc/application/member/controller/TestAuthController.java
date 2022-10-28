@@ -27,12 +27,12 @@ public class TestAuthController {
 	@Value("${auth.valid.key}")
 	private long AUTH_KEY_VALIDITY;
 
-	@ApiOperation(value = "인증 키 생성")
+	@ApiOperation(value = "회원가입 인증 키 생성")
 	@ApiImplicitParam(name = "phone", value = "휴대폰 번호", required = true, example = "010-9128-5708")
 	@PostMapping("/key/generate")
 	public String generateAuthKey(@RequestParam String phone) {
 		final String authKey = UUID.randomUUID().toString();
-		redisTemplate.opsForValue().set("iv_ak_" + authKey, phone, AUTH_KEY_VALIDITY, MILLISECONDS);
+		redisTemplate.opsForValue().set("iv_su_" + authKey, phone, AUTH_KEY_VALIDITY, MILLISECONDS);
 		return authKey;
 	}
 

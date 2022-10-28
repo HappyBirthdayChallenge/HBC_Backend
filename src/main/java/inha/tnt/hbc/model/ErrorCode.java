@@ -19,7 +19,7 @@ public enum ErrorCode {
 
 	// Authorization
 	AUTHORIZATION_HEADER_MISSING(401, "E-A001", "인증 헤더는 필수입니다."),
-	BEARER_PREFIX_MISSING(401, "E-A002", "인증 헤더에 Bearer 접두사는 필수입니다."),
+	BEARER_PREFIX_MISSING(401, "E-A002", "인증 토큰에 \"Bearer \" 접두사는 필수입니다."),
 	AUTHENTICATION_FAILURE(401, "E-A003", "인증에 실패하였습니다."),
 	INSUFFICIENT_AUTHORITY(403, "E-A004", "접근 권한이 부족합니다."),
 

@@ -24,4 +24,9 @@ public class AccountManageController implements AccountManageApi {
 		return ResponseEntity.ok(ResultResponse.of(BIRTHDAY_SETUP_SUCCESS, jwtDto));
 	}
 
+	@Override
+	public ResponseEntity<ResultResponse> signout() {
+		return ResponseEntity.ok(accountManageService.signout());
+	}
+
 }

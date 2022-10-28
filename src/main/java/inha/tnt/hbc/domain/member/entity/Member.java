@@ -57,4 +57,8 @@ public class Member extends BaseEntity {
 			.collect(Collectors.toList());
 	}
 
+	public void changePassword(String password) {
+		this.password = password;
+	}
+
 }

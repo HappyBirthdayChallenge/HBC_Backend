@@ -88,7 +88,7 @@ public class AuthController implements AuthApi {
 
 	@Override
 	public ResponseEntity<ResultResponse> identify(IdentifyRequest request) {
-		return null;
+		return ResponseEntity.ok(authService.identify(request.getName(), request.getPhone()));
 	}
 
 	@Override

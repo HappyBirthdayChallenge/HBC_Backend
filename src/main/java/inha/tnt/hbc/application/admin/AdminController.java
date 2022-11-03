@@ -25,4 +25,10 @@ public class AdminController implements AdminApi {
 		return ResponseEntity.ok(ResultResponse.of(GET_MEMBERS_SUCCESS, members));
 	}
 
+	@Override
+	public ResponseEntity<ResultResponse> deleteMember(Long memberId) {
+		memberRepository.deleteById(memberId);
+		return ResponseEntity.ok(ResultResponse.of(DELETE_MEMBER_SUCCESS));
+	}
+
 }

@@ -50,7 +50,7 @@ public class Member extends BaseEntity {
 	private String phone;
 	private String authorities;
 	@OneToMany(mappedBy = "member", cascade = REMOVE)
-	private List<OAuth2Account> oAuth2Accounts = new ArrayList<>();
+	private final List<OAuth2Account> oAuth2Accounts = new ArrayList<>();
 
 	public void setupBirthDate(BirthDate birthDate) {
 		if (!this.birthDate.isInitial()) {

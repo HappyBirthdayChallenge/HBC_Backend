@@ -1,4 +1,4 @@
-package inha.tnt.hbc.application.member.controller;
+package inha.tnt.hbc.application;
 
 import static inha.tnt.hbc.util.Constants.*;
 import static java.util.concurrent.TimeUnit.*;
@@ -24,7 +24,7 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/test")
 @RestController
 @RequiredArgsConstructor
-public class TestAuthController {
+public class TestController {
 
 	private final RedisTemplate<String, String> redisTemplate;
 	@Value("${auth.valid.key}")

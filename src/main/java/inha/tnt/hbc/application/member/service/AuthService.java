@@ -50,18 +50,21 @@ public class AuthService {
 	}
 
 	public ResultResponse signin(String username, String password) {
-		final Member member = memberService.findByUsername(username);
+		try {
+			final Member member = memberService.findByUsername(username);
+			if (!passwordEncoder.matches(password, member.getPassword())) {
+				return ResultResponse.of(USERNAME_PASSWORD_INCORRECT);
+			}
 
-		if (!passwordEncoder.matches(password, member.getPassword())) {
+			final JwtDto jwtDto = JwtDto.builder()
+				.accessToken(jwtUtils.generateAccessToken(member))
+				.refreshToken(jwtUtils.generateRefreshToken(member))
+				.build();
+			tokenService.saveRefreshToken(member.getId(), jwtDto.getRefreshToken());
+			return ResultResponse.of(SIGNIN_SUCCESS, jwtDto);
+		} catch (EntityNotFoundException e) {
 			return ResultResponse.of(USERNAME_PASSWORD_INCORRECT);
 		}
-
-		final JwtDto jwtDto = JwtDto.builder()
-			.accessToken(jwtUtils.generateAccessToken(member))
-			.refreshToken(jwtUtils.generateRefreshToken(member))
-			.build();
-		tokenService.saveRefreshToken(member.getId(), jwtDto.getRefreshToken());
-		return ResultResponse.of(SIGNIN_SUCCESS, jwtDto);
 	}
 
 	public ResultResponse checkUsername(String username) {

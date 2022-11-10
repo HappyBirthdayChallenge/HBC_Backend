@@ -137,7 +137,9 @@ public interface AuthApi {
 	@PostMapping("/identify")
 	ResponseEntity<ResultResponse> identify(@Valid @RequestBody IdentifyRequest request);
 
-	@ApiOperation(value = "아이디 찾기")
+	@ApiOperation(value = "아이디 찾기", notes = ""
+		+ "1. 본인 여부 확인을 필수로 진행해야 합니다.\n"
+		+ "2. 휴대폰 인증과 인증코드 검증을 통해 인증키를 발급받아야 합니다.")
 	@ApiResponses({
 		@ApiResponse(code = 1, response = Void.class, message = ""
 			+ "status: 200 | code: R-IV003 | message: 유효하지 않은 인증 키입니다."),
@@ -151,7 +153,11 @@ public interface AuthApi {
 	@PostMapping("/find/username")
 	ResponseEntity<ResultResponse> findUsername(@Valid @RequestBody FindUsernameRequest request);
 
-	@ApiOperation(value = "비밀번호 찾기")
+	@ApiOperation(value = "비밀번호 찾기", notes = ""
+		+ "1. 아이디 유효성 검사를 필수로 진행해야 합니다.\n"
+		+ "2. 본인 여부 확인을 필수로 진행해야 합니다.\n"
+		+ "3. 휴대폰 인증과 인증코드 검증을 통해 인증키를 발급받아야 합니다.\n"
+		+ "4. 비밀번호와 비밀번호 확인 일치 여부를 필수로 확인해야 합니다.")
 	@ApiResponses({
 		@ApiResponse(code = 1, response = Void.class, message = ""
 			+ "status: 200 | code: R-IV003 | message: 유효하지 않은 인증 키입니다.\n"

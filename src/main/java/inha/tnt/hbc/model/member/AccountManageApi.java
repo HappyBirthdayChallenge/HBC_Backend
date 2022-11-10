@@ -22,7 +22,7 @@ import io.swagger.annotations.ApiResponses;
 @RequestMapping("/members/accounts")
 public interface AccountManageApi {
 
-	@ApiOperation(value = "생일 입력")
+	@ApiOperation(value = "생일 입력", notes = "생일은 최초 1회만 입력할 수 있습니다.")
 	@ApiResponses({
 		@ApiResponse(code = 1, response = JwtDto.class, message = ""
 			+ "status: 200 | code: R-M012 | message: 생일 입력에 성공하였습니다."),
@@ -35,7 +35,7 @@ public interface AccountManageApi {
 	@PostMapping("/birthday")
 	ResponseEntity<ResultResponse> setupBirthday(@Valid @BirthDay @RequestBody BirthDate birthDate);
 
-	@ApiOperation(value = "로그아웃")
+	@ApiOperation(value = "로그아웃", notes = "Refresh token을 무효화합니다.")
 	@ApiResponses({
 		@ApiResponse(code = 1, response = Void.class, message = ""
 			+ "status: 200 | code: R-M018 | message: 로그아웃에 성공하였습니다."),

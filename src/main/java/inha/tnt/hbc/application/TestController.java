@@ -1,5 +1,6 @@
 package inha.tnt.hbc.application;
 
+import static inha.tnt.hbc.domain.member.service.IdentityVerificationService.AuthTypes.*;
 import static inha.tnt.hbc.util.Constants.*;
 import static java.util.concurrent.TimeUnit.*;
 
@@ -38,8 +39,8 @@ public class TestController {
 	@PostMapping("/key/generate")
 	public String generateAuthKey(@RequestParam String phone, @RequestParam IdentityVerificationTypes type) {
 		final String authKey = UUID.randomUUID().toString();
-		redisTemplate.opsForValue()
-			.set("iv_" + type.getInfix() + DELIMITER + authKey, phone, AUTH_KEY_VALIDITY, MILLISECONDS);
+		final String redisKey = "iv_" + type.getInfix() + DELIMITER + AUTH_KEY.getInfix() + DELIMITER + phone;
+		redisTemplate.opsForValue().set(redisKey, authKey, AUTH_KEY_VALIDITY, MILLISECONDS);
 		return authKey;
 	}
 

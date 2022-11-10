@@ -114,23 +114,23 @@ public class AuthService {
 	}
 
 	public ResultResponse findUsername(String name, String phone, String key) {
-		if (!identityVerificationService.isValid(key, phone, FIND_ID)) {
+		if (!identityVerificationService.isValidKey(phone, key, FIND_ID)) {
 			return ResultResponse.of(KEY_INVALID);
 		}
 		final Member member = memberService.findByNameAndPhone(name, phone);
-		identityVerificationService.delete(key, FIND_ID);
+		identityVerificationService.deleteKey(phone, FIND_ID);
 		return ResultResponse.of(USERNAME_FIND_SUCCESS, new FindUsernameResponse(member.getUsername()));
 	}
 
 	@Transactional
 	public ResultResponse findPassword(FindPasswordRequest request) {
-		if (!identityVerificationService.isValid(request.getKey(), request.getPhone(), FIND_PW)) {
+		if (!identityVerificationService.isValidKey(request.getPhone(), request.getKey(), FIND_PW)) {
 			return ResultResponse.of(KEY_INVALID);
 		}
 		final Member member = memberService.findByNameAndPhoneAndUsername(request.getName(), request.getPhone(),
 			request.getUsername());
 		member.changePassword(passwordEncoder.encode(request.getPassword()));
-		identityVerificationService.delete(request.getKey(), FIND_PW);
+		identityVerificationService.deleteKey(request.getPhone(), FIND_PW);
 		return ResultResponse.of(PASSWORD_FIND_SUCCESS);
 	}
 

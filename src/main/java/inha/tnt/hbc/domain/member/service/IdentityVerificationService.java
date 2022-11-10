@@ -1,5 +1,6 @@
 package inha.tnt.hbc.domain.member.service;
 
+import static inha.tnt.hbc.domain.member.service.IdentityVerificationService.AuthTypes.*;
 import static inha.tnt.hbc.util.Constants.*;
 import static java.util.concurrent.TimeUnit.*;
 
@@ -24,35 +25,60 @@ public class IdentityVerificationService {
 	@Value("${auth.valid.key}")
 	private long AUTH_KEY_VALIDITY;
 
-	public boolean isValid(String key, String value, IdentityVerificationTypes type) {
-		final String fullKey = generateRedisKey(key, type);
+	public boolean isValidCode(String phone, String code, IdentityVerificationTypes type) {
+		final String fullKey = generateRedisKey(AUTH_CODE, type, phone);
 		return redisTemplate.opsForValue().get(fullKey) != null &&
-			String.valueOf(redisTemplate.opsForValue().get(fullKey)).equals(value);
+			String.valueOf(redisTemplate.opsForValue().get(fullKey)).equals(code);
+	}
+
+	public boolean isValidKey(String phone, String key, IdentityVerificationTypes type) {
+		final String fullKey = generateRedisKey(AUTH_KEY, type, phone);
+		return redisTemplate.opsForValue().get(fullKey) != null &&
+			String.valueOf(redisTemplate.opsForValue().get(fullKey)).equals(key);
 	}
 
 	@Async
-	public void delete(String key, IdentityVerificationTypes type) {
-		redisTemplate.delete(generateRedisKey(key, type));
+	public void deleteCode(String phone, IdentityVerificationTypes type) {
+		redisTemplate.delete(generateRedisKey(AUTH_CODE, type, phone));
+	}
+
+	@Async
+	public void deleteKey(String phone, IdentityVerificationTypes type) {
+		redisTemplate.delete(generateRedisKey(AUTH_KEY, type, phone));
 	}
 
 	@Async
 	public void saveAuthCode(String code, String phone, IdentityVerificationTypes type) {
-		redisTemplate.opsForValue().set(generateRedisKey(code, type), phone, AUTH_CODE_VALIDITY, MILLISECONDS);
+		redisTemplate.opsForValue()
+			.set(generateRedisKey(AUTH_CODE, type, phone), code, AUTH_CODE_VALIDITY, MILLISECONDS);
 	}
 
 	@Async
 	public void saveAuthKey(String key, String phone, IdentityVerificationTypes type) {
-		redisTemplate.opsForValue().set(generateRedisKey(key, type), phone, AUTH_KEY_VALIDITY, MILLISECONDS);
+		redisTemplate.opsForValue()
+			.set(generateRedisKey(AUTH_KEY, type, phone), key, AUTH_KEY_VALIDITY, MILLISECONDS);
 	}
 
-	private String generateRedisKey(String key, IdentityVerificationTypes type) {
-		return REDIS_PREFIX_KEY + DELIMITER + type.getInfix() + DELIMITER + key;
+	private String generateRedisKey(AuthTypes authType, IdentityVerificationTypes identityVerificationType,
+		String phone) {
+		return REDIS_PREFIX_KEY + DELIMITER +
+			identityVerificationType.getInfix() + DELIMITER +
+			authType.getInfix() + DELIMITER +
+			phone;
 	}
 
 	@Getter
 	@AllArgsConstructor
 	public enum IdentityVerificationTypes {
 		SIGNUP("su"), FIND_ID("fi"), FIND_PW("fp");
+
+		private final String infix;
+	}
+
+	@Getter
+	@AllArgsConstructor
+	public enum AuthTypes {
+		AUTH_CODE("ac"), AUTH_KEY("ac");
 
 		private final String infix;
 	}

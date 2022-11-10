@@ -67,10 +67,10 @@ public class AuthController implements AuthApi {
 
 	@Override
 	public ResponseEntity<ResultResponse> verifyCode(VerifyCodeRequest request) {
-		if (!identityVerificationService.isValid(request.getCode(), request.getPhone(), request.getType())) {
+		if (!identityVerificationService.isValidCode(request.getPhone(), request.getCode(), request.getType())) {
 			return ResponseEntity.ok(ResultResponse.of(CODE_INVALID));
 		}
-		identityVerificationService.delete(request.getCode(), request.getType());
+		identityVerificationService.deleteCode(request.getPhone(), request.getType());
 		final String key = RandomUtils.generateAuthKey();
 		identityVerificationService.saveAuthKey(key, request.getPhone(), request.getType());
 		final VerifyCodeResponse response = VerifyCodeResponse.builder()
@@ -85,12 +85,12 @@ public class AuthController implements AuthApi {
 			throw new InvalidArgumentException(FieldError.of("password_check", request.getPasswordCheck(),
 				PASSWORD_MISMATCHED));
 		}
-		if (!identityVerificationService.isValid(request.getKey(), request.getPhone(), SIGNUP)) {
+		if (!identityVerificationService.isValidKey(request.getPhone(), request.getKey(), SIGNUP)) {
 			return ResponseEntity.ok(ResultResponse.of(KEY_INVALID));
 		}
 		authService.signup(request.getUsername(), request.getPassword(), request.getName(),
 			request.getPhone(), request.getBirthDate(), Image.getInitial());
-		identityVerificationService.delete(request.getKey(), SIGNUP);
+		identityVerificationService.deleteKey(request.getPhone(), SIGNUP);
 		return ResponseEntity.ok(ResultResponse.of(SIGNUP_SUCCESS));
 	}
 

@@ -1,6 +1,7 @@
 package inha.tnt.hbc.util;
 
 import static inha.tnt.hbc.model.ErrorCode.*;
+import static inha.tnt.hbc.security.oauth2.OAuth2Attributes.*;
 import static inha.tnt.hbc.util.Constants.*;
 import static inha.tnt.hbc.util.JwtUtils.JwtType.*;
 import static java.util.stream.Collectors.*;
@@ -38,10 +39,7 @@ public class JwtUtils {
 	public static final String JWT_TYPE = "Bearer"; // RFC 6750: JWT, OAuth 2.0 token are bearer tokens
 	public static final String CLAIM_ISSUER = "isr";
 	public static final String CLAIM_PRIMARY_KEY = "id";
-	public static final String CLAIM_USERNAME = "uname";
-	public static final String CLAIM_NAME = "name";
-	public static final String CLAIM_BIRTHDAY = "birth";
-	public static final String CLAIM_IMAGE_URL = "img";
+
 	public static final String TOKEN_TYPE = "typ";
 	public static final String TOKEN_NAME = "JWT";
 	public static final String TOKEN_ISSUER = "hbc";
@@ -120,10 +118,6 @@ public class JwtUtils {
 		final Map<String, Object> claims = new HashMap<>();
 		claims.put(CLAIM_AUTHORITIES, convertToList(oAuth2User.getAuthorities()));
 		claims.put(CLAIM_PRIMARY_KEY, attributes.get(CLAIM_PRIMARY_KEY));
-		claims.put(CLAIM_USERNAME, attributes.get(CLAIM_USERNAME));
-		claims.put(CLAIM_NAME, attributes.get(CLAIM_NAME));
-		claims.put(CLAIM_BIRTHDAY, attributes.get(CLAIM_BIRTHDAY));
-		claims.put(CLAIM_IMAGE_URL, attributes.get(CLAIM_IMAGE_URL));
 		return generateJwt(validity, claims, subject);
 	}
 
@@ -131,10 +125,6 @@ public class JwtUtils {
 		final Map<String, Object> claims = new HashMap<>();
 		claims.put(CLAIM_AUTHORITIES, member.combineAndGetAuthorities());
 		claims.put(CLAIM_PRIMARY_KEY, member.getId());
-		claims.put(CLAIM_USERNAME, member.getUsername());
-		claims.put(CLAIM_NAME, member.getName());
-		claims.put(CLAIM_BIRTHDAY, member.getBirthDate());
-		claims.put(CLAIM_IMAGE_URL, member.getImage().getUrl());
 		return generateJwt(validity, claims, subject);
 	}
 

@@ -18,8 +18,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import inha.tnt.hbc.domain.BaseEntity;
 import inha.tnt.hbc.domain.member.entity.oauth2.OAuth2Account;
 import inha.tnt.hbc.domain.member.exception.AlreadySetupBirthDateException;
@@ -51,9 +49,8 @@ public class Member extends BaseEntity {
 	private ProfileImage image;
 	private String phone;
 	private String authorities;
-	@JsonIgnore
 	@OneToMany(mappedBy = "member", cascade = REMOVE)
-	private final List<OAuth2Account> oAuth2Accounts = new ArrayList<>();
+	private List<OAuth2Account> oAuth2Accounts = new ArrayList<>();
 
 	public void setupBirthDate(BirthDate birthDate) {
 		if (!this.birthDate.isInitial()) {

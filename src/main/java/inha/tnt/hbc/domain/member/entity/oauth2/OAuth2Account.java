@@ -7,6 +7,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import inha.tnt.hbc.domain.BaseEntity;
 import inha.tnt.hbc.domain.member.entity.Member;
 import lombok.AccessLevel;
@@ -26,6 +28,7 @@ public class OAuth2Account extends BaseEntity {
 	@EmbeddedId
 	private OAuth2AccountPK id;
 
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "member_id")
 	private Member member;

@@ -1,13 +1,14 @@
 package inha.tnt.hbc.infra.aws;
 
+import static inha.tnt.hbc.infra.aws.S3Constants.*;
 import static inha.tnt.hbc.util.Constants.*;
 
 import java.io.File;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
@@ -15,8 +16,7 @@ import com.amazonaws.services.s3.model.PutObjectRequest;
 
 import inha.tnt.hbc.util.FileUtils;
 import inha.tnt.hbc.util.FileUtils.SimpleFile;
-import inha.tnt.hbc.vo.Image;
-import inha.tnt.hbc.vo.ImageType;
+import inha.tnt.hbc.vo.ProfileImage;
 import lombok.RequiredArgsConstructor;
 
 @Component
@@ -27,36 +27,34 @@ public class S3Uploader {
 	@Value("${cloud.aws.s3.bucket}")
 	private String bucket;
 
-	public Image uploadImage(File file, String dirName) {
+	@Async
+	public void uploadOAuth2ProfileImage(File file, Long memberId) {
 		final SimpleFile simpleFile = FileUtils.convertToSimpleFile(file);
 		final String name = simpleFile.getName();
 		final String type = simpleFile.getType();
 		final String uuid = UUID.randomUUID().toString();
-		final String url = upload(file, generateFilename(dirName, uuid, name, type));
-		return Image.builder()
-			.name(name)
-			.type(ImageType.valueOf(type.toUpperCase()))
-			.uuid(uuid)
-			.url(url)
-			.build();
+		upload(file, generateFilename(generateProfileImageDir(memberId), uuid, name, type));
 	}
 
-	public Image uploadImage(MultipartFile multipartFile, String dirName) {
-		return uploadImage(FileUtils.convertToFile(multipartFile), dirName);
+	@Async
+	public void uploadInitialProfileImage(Long memberId) {
+		final ProfileImage image = ProfileImage.initial();
+		final String pathname = ROOT_DIRECTORY + BACK_SLASH + TEMPORAL_DIRECTORY + BACK_SLASH + image.getFullName();
+		final File file = new File(pathname);
+		final String filename = generateImageFilename(generateProfileImageDir(memberId), image);
+		putS3(file, filename);
 	}
 
-	public void deleteImage(Image image, String dirName) {
-		// TODO: 기본 이미지인 경우 삭제 x -> Image default value로 설정
-		deleteS3(generateImageFilename(dirName, image));
+	private String generateProfileImageDir(Long memberId) {
+		return PROFILE_IMAGE_DIR + SLASH + memberId;
 	}
 
-	private String upload(File file, String filename) {
-		final String uploadImageUrl = putS3(file, filename);
+	private void upload(File file, String filename) {
+		putS3(file, filename);
 		FileUtils.deleteFile(file);
-		return uploadImageUrl;
 	}
 
-	private String generateImageFilename(String dirName, Image image) {
+	private String generateImageFilename(String dirName, ProfileImage image) {
 		return generateFilename(dirName, image.getUuid(), image.getName(), image.getType().name());
 	}
 
@@ -64,10 +62,10 @@ public class S3Uploader {
 		return dirName + SLASH + uuid + DELIMITER + name + DOT + type;
 	}
 
-	private String putS3(File uploadFile, String fileName) {
-		amazonS3Client.putObject(
-			new PutObjectRequest(bucket, fileName, uploadFile).withCannedAcl(CannedAccessControlList.PublicRead));
-		return amazonS3Client.getUrl(bucket, fileName).toString();
+	private void putS3(File uploadFile, String fileName) {
+		final PutObjectRequest request = new PutObjectRequest(bucket, fileName, uploadFile)
+			.withCannedAcl(CannedAccessControlList.PublicRead);
+		amazonS3Client.putObject(request);
 	}
 
 	private void deleteS3(String filename) {

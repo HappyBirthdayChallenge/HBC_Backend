@@ -38,7 +38,7 @@ public class AuthController implements AuthApi {
 
 	@Override
 	public ResponseEntity<ResultResponse> signin(SigninRequest request) {
-		return ResponseEntity.ok(authService.signin(request.getUsername(), request.getPassword()));
+		return ResponseEntity.ok(authService.signin(request));
 	}
 
 	@Override

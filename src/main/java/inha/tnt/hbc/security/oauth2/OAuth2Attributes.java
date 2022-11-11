@@ -25,6 +25,10 @@ public class OAuth2Attributes {
 
 	public final static String NAME_ATTRIBUTE_KEY = "nameAttributeKey";
 	public final static String PROVIDER_KEY = "provider";
+	public static final String USERNAME_KEY = "uname";
+	public static final String NAME_KEY = "name";
+	public static final String BIRTHDAY_KEY = "birth";
+	public static final String IMAGE_URL_KEY = "img";
 
 	private Map<String, Object> attributes;
 	private String provider;
@@ -66,8 +70,8 @@ public class OAuth2Attributes {
 
 		final Map<String, Object> attributes = toMap();
 		attributes.put(CLAIM_PRIMARY_KEY, member.getId());
-		attributes.put(CLAIM_USERNAME, member.getUsername());
-		attributes.put(CLAIM_BIRTHDAY, member.getBirthDate());
+		attributes.put(USERNAME_KEY, member.getUsername());
+		attributes.put(BIRTHDAY_KEY, member.getBirthDate());
 		return new DefaultOAuth2User(authorities, attributes, NAME_ATTRIBUTE_KEY);
 	}
 
@@ -75,8 +79,8 @@ public class OAuth2Attributes {
 		final Map<String, Object> map = new HashMap<>();
 		map.put(NAME_ATTRIBUTE_KEY, this.attributeKey);
 		map.put(PROVIDER_KEY, this.provider);
-		map.put(CLAIM_IMAGE_URL, this.imageUrl);
-		map.put(CLAIM_NAME, this.name);
+		map.put(IMAGE_URL_KEY, this.imageUrl);
+		map.put(NAME_KEY, this.name);
 		return map;
 	}
 

@@ -17,7 +17,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class AccountManageService {
+public class AccountService {
 
 	private final SecurityContextUtils securityContextUtils;
 	private final JwtUtils jwtUtils;

@@ -20,7 +20,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
-@Api(tags = "회원 친구 관리")
+@Api(tags = "친구 API")
 @Validated
 @RequestMapping("/members/friends")
 public interface FriendManageApi {

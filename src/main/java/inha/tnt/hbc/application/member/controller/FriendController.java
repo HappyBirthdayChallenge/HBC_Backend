@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-public class FriendManageController implements FriendManageApi {
+public class FriendController implements FriendManageApi {
 
 	private final FriendManageService friendManageService;
 

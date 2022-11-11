@@ -11,7 +11,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 
-@Api(tags = "관리자")
+@Api(tags = "관리자 API")
 @RequestMapping("/admins")
 public interface AdminApi {
 

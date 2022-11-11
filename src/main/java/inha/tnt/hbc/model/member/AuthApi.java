@@ -7,9 +7,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import inha.tnt.hbc.annotation.Jwt;
 import inha.tnt.hbc.model.ErrorResponse;
 import inha.tnt.hbc.model.ResultResponse;
 import inha.tnt.hbc.model.Void;
@@ -25,12 +23,11 @@ import inha.tnt.hbc.model.member.dto.VerifyCodeRequest;
 import inha.tnt.hbc.model.member.dto.VerifyCodeResponse;
 import inha.tnt.hbc.security.jwt.dto.JwtDto;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
-@Api(tags = "회원 인증")
+@Api(tags = "회원 인증 API")
 @Validated
 @RequestMapping("/auth")
 public interface AuthApi {

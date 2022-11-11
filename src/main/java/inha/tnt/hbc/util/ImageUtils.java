@@ -10,9 +10,12 @@ import java.util.UUID;
 
 import javax.imageio.ImageIO;
 
+import inha.tnt.hbc.vo.ImageType;
+import inha.tnt.hbc.vo.ProfileImage;
+
 public class ImageUtils {
 
-	public static File convert(String imageUrl) {
+	public static File convertToFile(String imageUrl) {
 		try {
 			final URL url = new URL(imageUrl);
 			final String extension = imageUrl.substring(imageUrl.lastIndexOf(DOT) + 1);
@@ -27,6 +30,15 @@ public class ImageUtils {
 			e.printStackTrace();
 			throw new RuntimeException();
 		}
+	}
+
+	public static ProfileImage convertToProfileImage(String imageUrl) {
+		final String extension = imageUrl.substring(imageUrl.lastIndexOf(DOT) + 1);
+		return ProfileImage.builder()
+			.name(UUID.randomUUID().toString())
+			.type(ImageType.valueOf(extension.toUpperCase()))
+			.uuid(UUID.randomUUID().toString())
+			.build();
 	}
 
 }

@@ -26,7 +26,7 @@ public class ProfileImage {
 	private static final String DEFAULT_UUID = "default";
 	@Enumerated(EnumType.STRING)
 	@Column(name = "image_type")
-	private ImageType type;
+	private ProfileImageType type;
 	@Column(name = "image_name")
 	private String name;
 	@Column(name = "image_uuid")
@@ -35,7 +35,7 @@ public class ProfileImage {
 	public static ProfileImage initial() {
 		return ProfileImage.builder()
 			.name(DEFAULT_NAME)
-			.type(ImageType.PNG)
+			.type(ProfileImageType.PNG)
 			.uuid(DEFAULT_UUID)
 			.build();
 	}

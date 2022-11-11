@@ -10,7 +10,7 @@ import java.util.UUID;
 
 import javax.imageio.ImageIO;
 
-import inha.tnt.hbc.domain.member.vo.ImageType;
+import inha.tnt.hbc.domain.member.vo.ProfileImageType;
 import inha.tnt.hbc.domain.member.vo.ProfileImage;
 
 public class ImageUtils {
@@ -36,7 +36,7 @@ public class ImageUtils {
 		final String extension = imageUrl.substring(imageUrl.lastIndexOf(DOT) + 1);
 		return ProfileImage.builder()
 			.name(UUID.randomUUID().toString())
-			.type(ImageType.valueOf(extension.toUpperCase()))
+			.type(ProfileImageType.valueOf(extension.toUpperCase()))
 			.uuid(UUID.randomUUID().toString())
 			.build();
 	}

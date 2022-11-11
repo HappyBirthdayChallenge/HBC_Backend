@@ -21,7 +21,7 @@ public class AdminController implements AdminApi {
 
 	@Override
 	public ResponseEntity<ResultResponse> getMembers() {
-		final List<Member> members = memberRepository.findAll();
+		final List<Member> members = memberRepository.findAllFetchOAuth2Accounts();
 		return ResponseEntity.ok(ResultResponse.of(GET_MEMBERS_SUCCESS, members));
 	}
 

@@ -1,5 +1,6 @@
 package inha.tnt.hbc.domain.member.service;
 
+import static inha.tnt.hbc.domain.member.entity.MemberRoles.*;
 import static inha.tnt.hbc.model.ErrorCode.*;
 
 import org.springframework.stereotype.Service;
@@ -8,6 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 import inha.tnt.hbc.domain.member.entity.Member;
 import inha.tnt.hbc.domain.member.repository.MemberRepository;
 import inha.tnt.hbc.exception.EntityNotFoundException;
+import inha.tnt.hbc.vo.BirthDate;
+import inha.tnt.hbc.vo.ProfileImage;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -17,7 +20,17 @@ public class MemberService {
 	private final MemberRepository memberRepository;
 
 	@Transactional
-	public Member save(Member member) {
+	public Member save(String username, String encodedPassword, String name, String phone, BirthDate birthDate,
+		ProfileImage image) {
+		final Member member = Member.builder()
+			.username(username)
+			.password(encodedPassword)
+			.name(name)
+			.phone(phone)
+			.birthDate(birthDate)
+			.image(image)
+			.authorities(ROLE_USER.name())
+			.build();
 		return memberRepository.save(member);
 	}
 

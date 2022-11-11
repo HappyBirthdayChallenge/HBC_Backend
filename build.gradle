@@ -35,8 +35,7 @@ dependencies {
     implementation 'com.querydsl:querydsl-jpa:5.0.0'
     implementation 'com.querydsl:querydsl-apt:5.0.0' // For converting Entity To QEntity
 
-    // https://mvnrepository.com/artifact/com.google.firebase/firebase-admin
-    runtimeOnly 'com.google.firebase:firebase-admin:9.1.0'
+    implementation 'com.google.firebase:firebase-admin:9.1.0'
 
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'

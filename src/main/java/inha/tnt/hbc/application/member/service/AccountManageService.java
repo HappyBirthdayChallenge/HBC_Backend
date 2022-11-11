@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import inha.tnt.hbc.domain.member.entity.Member;
 import inha.tnt.hbc.domain.member.service.RefreshTokenService;
 import inha.tnt.hbc.model.ResultResponse;
+import inha.tnt.hbc.model.member.dto.MyInfoResponse;
 import inha.tnt.hbc.security.jwt.dto.JwtDto;
 import inha.tnt.hbc.util.JwtUtils;
 import inha.tnt.hbc.util.SecurityContextUtils;
@@ -38,6 +39,10 @@ public class AccountManageService {
 		final Long memberId = securityContextUtils.takeoutMemberId();
 		refreshTokenService.deleteRefreshToken(memberId);
 		return ResultResponse.of(SIGNOUT_SUCCESS);
+	}
+
+	public MyInfoResponse getMyInfo() {
+		return MyInfoResponse.of(securityContextUtils.takeoutMember());
 	}
 
 }

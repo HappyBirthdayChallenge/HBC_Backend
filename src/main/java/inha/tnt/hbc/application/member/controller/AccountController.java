@@ -8,13 +8,14 @@ import org.springframework.web.bind.annotation.RestController;
 import inha.tnt.hbc.application.member.service.AccountManageService;
 import inha.tnt.hbc.model.ResultResponse;
 import inha.tnt.hbc.model.member.AccountManageApi;
+import inha.tnt.hbc.model.member.dto.MyInfoResponse;
 import inha.tnt.hbc.security.jwt.dto.JwtDto;
 import inha.tnt.hbc.vo.BirthDate;
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-public class AccountManageController implements AccountManageApi {
+public class AccountController implements AccountManageApi {
 
 	private final AccountManageService accountManageService;
 
@@ -27,6 +28,12 @@ public class AccountManageController implements AccountManageApi {
 	@Override
 	public ResponseEntity<ResultResponse> signout() {
 		return ResponseEntity.ok(accountManageService.signout());
+	}
+
+	@Override
+	public ResponseEntity<ResultResponse> getMyInfo() {
+		final MyInfoResponse response = accountManageService.getMyInfo();
+		return ResponseEntity.ok(ResultResponse.of(GET_MY_INFO_SUCCESS, response));
 	}
 
 }

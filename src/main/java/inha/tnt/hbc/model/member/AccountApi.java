@@ -1,12 +1,14 @@
 package inha.tnt.hbc.model.member;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Size;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import inha.tnt.hbc.annotation.BirthDay;
 import inha.tnt.hbc.model.ErrorResponse;
@@ -16,6 +18,8 @@ import inha.tnt.hbc.model.member.dto.MyInfoResponse;
 import inha.tnt.hbc.security.jwt.dto.JwtDto;
 import inha.tnt.hbc.domain.member.vo.BirthDate;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -39,7 +43,9 @@ public interface AccountApi {
 
 	@ApiOperation(value = "로그아웃", notes = ""
 		+ "1. 서버에서 Refresh token을 무효화합니다.\n"
-		+ "2. 앞단에서 사용하던 인증 토큰을 모두 삭제해주세요.")
+		+ "2. 앞단에서 사용하던 인증 토큰을 모두 삭제해주세요.\n"
+		+ "3. 서버에서 FCM 토큰을 무효화합니다.")
+	@ApiImplicitParam(name = "fcm_token", value = "FCM token", example = "c2aK9KHmw8E:APA91bF7...", required = true)
 	@ApiResponses({
 		@ApiResponse(code = 1, response = Void.class, message = ""
 			+ "status: 200 | code: R-M018 | message: 로그아웃에 성공하였습니다."),
@@ -48,7 +54,7 @@ public interface AccountApi {
 			+ "status: 500 | code: E-G001 | message: 내부 서버 오류입니다.")
 	})
 	@PostMapping("/signout")
-	ResponseEntity<ResultResponse> signout();
+	ResponseEntity<ResultResponse> signout(@RequestParam(name = "fcm_token") @Size(max = 2000) String fcmToken);
 
 	@ApiOperation(value = "본인 정보 조회")
 	@ApiResponses({

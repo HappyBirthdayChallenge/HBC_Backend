@@ -26,8 +26,8 @@ public class AccountController implements AccountApi {
 	}
 
 	@Override
-	public ResponseEntity<ResultResponse> signout() {
-		return ResponseEntity.ok(accountService.signout());
+	public ResponseEntity<ResultResponse> signout(String fcmToken) {
+		return ResponseEntity.ok(accountService.signout(fcmToken));
 	}
 
 	@Override

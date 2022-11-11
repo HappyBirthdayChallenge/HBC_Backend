@@ -23,13 +23,7 @@ public class FriendRepositoryQuerydslImpl implements FriendRepositoryQuerydsl {
 	@Override
 	public Page<FriendDto> findFriendDtoPage(Long memberId, Pageable pageable) {
 		final List<FriendDto> content = queryFactory
-			.select(new QFriendDto(
-				friend.friendMember.id,
-				friend.friendMember.name,
-				friend.friendMember.username,
-				friend.friendMember.image.url,
-				friend.friendMember.birthDate
-			))
+			.select(new QFriendDto(friend.friendMember))
 			.from(friend)
 			.innerJoin(friend.friendMember, member)
 			.where(friend.member.id.eq(memberId))

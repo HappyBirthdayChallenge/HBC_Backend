@@ -2,7 +2,7 @@ package inha.tnt.hbc.domain.member.dto;
 
 import com.querydsl.core.annotations.QueryProjection;
 
-import inha.tnt.hbc.vo.BirthDate;
+import inha.tnt.hbc.domain.member.entity.Member;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -16,14 +16,13 @@ public class FriendDto {
 	private MemberDto member;
 
 	@QueryProjection
-	public FriendDto(Long memberId, String memberName, String memberUsername, String memberImageUrl,
-		BirthDate memberBirthDate) {
+	public FriendDto(Member member) {
 		this.member = MemberDto.builder()
-			.id(memberId)
-			.name(memberName)
-			.username(memberUsername)
-			.imageUrl(memberImageUrl)
-			.birthDate(memberBirthDate)
+			.id(member.getId())
+			.name(member.getName())
+			.username(member.getUsername())
+			.imageUrl(member.getImageUri())
+			.birthDate(member.getBirthDate())
 			.build();
 	}
 

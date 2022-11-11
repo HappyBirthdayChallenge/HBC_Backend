@@ -1,5 +1,7 @@
 package inha.tnt.hbc.infra.push.firebase;
 
+import static com.google.firebase.messaging.MessagingErrorCode.*;
+
 import java.io.IOException;
 import java.time.LocalDateTime;
 
@@ -18,14 +20,23 @@ import com.google.firebase.messaging.FirebaseMessagingException;
 import com.google.firebase.messaging.Message;
 import com.google.firebase.messaging.Notification;
 
+import inha.tnt.hbc.domain.member.entity.Member;
+import inha.tnt.hbc.domain.member.service.FCMTokenService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * <a href="https://firebase.google.com/docs/reference/fcm/rest/v1/projects.messages?authuser=0&hl=ko">Reference</a>
+ */
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class NotificationService {
 
 	@Value("${fcm.key.path}")
 	private String FCM_KEY_PATH;
+
+	private final FCMTokenService fcmTokenService;
 
 	@PostConstruct
 	public void init() {
@@ -41,7 +52,7 @@ public class NotificationService {
 	}
 
 	@Async
-	public void sendNotification(String token) {
+	public void sendNotification(String token, Member member) {
 		final String now = LocalDateTime.now().toString();
 		final Notification notification = Notification.builder()
 			.setTitle("Happy Birthday Challenge")
@@ -59,7 +70,9 @@ public class NotificationService {
 			log.debug("Send Notification Response: {}", response);
 		} catch (FirebaseMessagingException e) {
 			log.error("[FirebaseMessagingException] ", e);
-			throw new RuntimeException(e);
+			if (e.getMessagingErrorCode().equals(UNREGISTERED)) {
+				fcmTokenService.deleteFCMToken(member.getId(), token);
+			}
 		}
 	}
 

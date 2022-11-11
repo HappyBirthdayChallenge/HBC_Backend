@@ -25,7 +25,6 @@ import inha.tnt.hbc.model.member.dto.UsernameRequest;
 import inha.tnt.hbc.model.member.dto.VerifyCodeRequest;
 import inha.tnt.hbc.model.member.dto.VerifyCodeResponse;
 import inha.tnt.hbc.util.RandomUtils;
-import inha.tnt.hbc.vo.Image;
 import lombok.RequiredArgsConstructor;
 
 // TODO: 비즈니스 로직 모두 service단에서 호출 후, 응답 모델 반환받아서 그대로 return하기
@@ -83,8 +82,7 @@ public class AuthController implements AuthApi {
 		if (!identityVerificationService.isValidKey(request.getPhone(), request.getKey(), SIGNUP)) {
 			return ResponseEntity.ok(ResultResponse.of(KEY_INVALID));
 		}
-		authService.signup(request.getUsername(), request.getPassword(), request.getName(),
-			request.getPhone(), request.getBirthDate(), Image.getInitial());
+		authService.signup(request);
 		identityVerificationService.deleteKey(request.getPhone(), SIGNUP);
 		return ResponseEntity.ok(ResultResponse.of(SIGNUP_SUCCESS));
 	}

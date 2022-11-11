@@ -14,17 +14,20 @@ import inha.tnt.hbc.domain.member.entity.Member;
 import inha.tnt.hbc.domain.member.entity.oauth2.OAuth2Account;
 import inha.tnt.hbc.domain.member.entity.oauth2.OAuth2AccountPK;
 import inha.tnt.hbc.domain.member.entity.oauth2.OAuth2Providers;
+import inha.tnt.hbc.domain.member.service.FCMTokenService;
 import inha.tnt.hbc.domain.member.service.MemberService;
 import inha.tnt.hbc.domain.member.service.OAuth2AccountService;
+import inha.tnt.hbc.domain.member.service.RefreshTokenService;
+import inha.tnt.hbc.domain.member.vo.BirthDate;
+import inha.tnt.hbc.domain.member.vo.ProfileImage;
 import inha.tnt.hbc.infra.aws.S3Uploader;
 import inha.tnt.hbc.infra.oauth2.OAuth2Client;
+import inha.tnt.hbc.model.member.dto.OAuth2SigninRequest;
 import inha.tnt.hbc.security.jwt.dto.JwtDto;
 import inha.tnt.hbc.security.oauth2.OAuth2Attributes;
 import inha.tnt.hbc.util.ImageUtils;
 import inha.tnt.hbc.util.JwtUtils;
 import inha.tnt.hbc.util.RandomUtils;
-import inha.tnt.hbc.domain.member.vo.BirthDate;
-import inha.tnt.hbc.domain.member.vo.ProfileImage;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -33,13 +36,14 @@ public class OAuth2Service {
 
 	private final static String OAUTH2_USERNAME_PREFIX = "user";
 
-	private final AuthService authService;
 	private final MemberService memberService;
 	private final PasswordEncoder passwordEncoder;
 	private final S3Uploader s3Uploader;
 	private final OAuth2AccountService OAuth2AccountService;
 	private final OAuth2Client oAuth2Client;
 	private final JwtUtils jwtUtils;
+	private final FCMTokenService fcmTokenService;
+	private final RefreshTokenService refreshTokenService;
 
 	@Transactional
 	public Member getMember(OAuth2Attributes oAuth2Attributes) {
@@ -52,11 +56,14 @@ public class OAuth2Service {
 	}
 
 	@Transactional
-	public JwtDto signin(OAuth2Providers provider, String token) {
-		final OAuth2Attributes oAuth2Attributes = oAuth2Client.getUserInfo(provider, token);
+	public JwtDto signin(OAuth2SigninRequest request) {
+		final OAuth2Attributes oAuth2Attributes = oAuth2Client.getUserInfo(request.getProvider(),
+			request.getOauth2Token());
 		final OAuth2User oAuth2User = oAuth2Attributes.toOAuth2User(getMember(oAuth2Attributes));
 		final String accessToken = jwtUtils.generateAccessToken(oAuth2User);
 		final String refreshToken = jwtUtils.generateRefreshToken(oAuth2User);
+		refreshTokenService.saveRefreshToken(oAuth2Attributes.getAttributeKey(), refreshToken);
+		fcmTokenService.saveFCMToken(oAuth2Attributes.getAttributeKey(), request.getFcmToken());
 		return JwtDto.builder()
 			.accessToken(accessToken)
 			.refreshToken(refreshToken)

@@ -1,5 +1,6 @@
 package inha.tnt.hbc.vo;
 
+import static inha.tnt.hbc.util.Constants.*;
 import static inha.tnt.hbc.vo.ImageType.*;
 
 import java.util.Objects;
@@ -20,8 +21,10 @@ import lombok.NoArgsConstructor;
 @Embeddable
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Image {
+public class ProfileImage {
 
+	private static final String DEFAULT_NAME = "image";
+	private static final String DEFAULT_UUID = "default";
 	@Enumerated(EnumType.STRING)
 	@Column(name = "image_type")
 	private ImageType type;
@@ -29,17 +32,17 @@ public class Image {
 	private String name;
 	@Column(name = "image_uuid")
 	private String uuid;
-	@Column(name = "image_url")
-	private String url;
 
-	public static Image getInitial() {
-		return Image.builder()
-			.url(
-				"https://hbc-bucket.s3.ap-northeast-2.amazonaws.com/member/550e8400-e29b-41d4-a716-446655440000_account_circle.png")
-			.name("account_circle")
+	public static ProfileImage initial() {
+		return ProfileImage.builder()
+			.name(DEFAULT_NAME)
 			.type(PNG)
-			.uuid("550e8400-e29b-41d4-a716-446655440000")
+			.uuid(DEFAULT_UUID)
 			.build();
+	}
+
+	public String getFullName() {
+		return this.uuid + DELIMITER + this.name + DOT + this.type.name().toLowerCase();
 	}
 
 	@Override
@@ -49,12 +52,14 @@ public class Image {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null || getClass() != obj.getClass())
+		}
+		if (obj == null || getClass() != obj.getClass()) {
 			return false;
+		}
 
-		Image image = (Image)obj;
+		ProfileImage image = (ProfileImage)obj;
 		return Objects.equals(getUuid(), image.getUuid());
 	}
 

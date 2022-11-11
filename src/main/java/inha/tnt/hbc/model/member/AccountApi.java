@@ -22,13 +22,13 @@ import io.swagger.annotations.ApiResponses;
 
 @Api(tags = "회원 계정 API")
 @RequestMapping("/members/accounts")
-public interface AccountManageApi {
+public interface AccountApi {
 
 	@ApiOperation(value = "생일 입력", notes = "생일은 최초 1회만 입력할 수 있습니다.")
 	@ApiResponses({
 		@ApiResponse(code = 1, response = JwtDto.class, message = ""
 			+ "status: 200 | code: R-M012 | message: 생일 입력에 성공하였습니다."),
-		@ApiResponse(code = 2, response = ErrorResponse.class, message = ""
+		@ApiResponse(code = 500, response = ErrorResponse.class, message = ""
 			+ "status: 400 | code: E-G002 | message: 입력 값이 유효하지 않습니다.\n"
 			+ "status: 400 | code: E-M005 | message: 이미 생일을 입력한 회원입니다..\n"
 			+ "status: 401 | code: E-A003 | message: 인증에 실패하였습니다.\n"
@@ -43,7 +43,7 @@ public interface AccountManageApi {
 	@ApiResponses({
 		@ApiResponse(code = 1, response = Void.class, message = ""
 			+ "status: 200 | code: R-M018 | message: 로그아웃에 성공하였습니다."),
-		@ApiResponse(code = 2, response = ErrorResponse.class, message = ""
+		@ApiResponse(code = 500, response = ErrorResponse.class, message = ""
 			+ "status: 401 | code: E-A003 | message: 인증에 실패하였습니다.\n"
 			+ "status: 500 | code: E-G001 | message: 내부 서버 오류입니다.")
 	})
@@ -54,7 +54,7 @@ public interface AccountManageApi {
 	@ApiResponses({
 		@ApiResponse(code = 1, response = MyInfoResponse.class, message = ""
 			+ "status: 200 | code: R-M019 | message: 본인 정보 조회에 성공하였습니다."),
-		@ApiResponse(code = 2, response = ErrorResponse.class, message = ""
+		@ApiResponse(code = 500, response = ErrorResponse.class, message = ""
 			+ "status: 401 | code: E-A003 | message: 인증에 실패하였습니다.\n"
 			+ "status: 500 | code: E-G001 | message: 내부 서버 오류입니다.")
 	})

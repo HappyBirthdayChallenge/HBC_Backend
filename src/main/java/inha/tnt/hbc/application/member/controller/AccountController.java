@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import inha.tnt.hbc.application.member.service.AccountManageService;
 import inha.tnt.hbc.model.ResultResponse;
-import inha.tnt.hbc.model.member.AccountManageApi;
+import inha.tnt.hbc.model.member.AccountApi;
 import inha.tnt.hbc.model.member.dto.MyInfoResponse;
 import inha.tnt.hbc.security.jwt.dto.JwtDto;
 import inha.tnt.hbc.vo.BirthDate;
@@ -15,7 +15,7 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-public class AccountController implements AccountManageApi {
+public class AccountController implements AccountApi {
 
 	private final AccountManageService accountManageService;
 

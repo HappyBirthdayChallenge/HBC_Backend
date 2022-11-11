@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.RestController;
 import inha.tnt.hbc.model.member.dto.FriendListResponse;
 import inha.tnt.hbc.application.member.service.FriendManageService;
 import inha.tnt.hbc.model.ResultResponse;
-import inha.tnt.hbc.model.member.FriendManageApi;
+import inha.tnt.hbc.model.member.FriendApi;
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-public class FriendController implements FriendManageApi {
+public class FriendController implements FriendApi {
 
 	private final FriendManageService friendManageService;
 

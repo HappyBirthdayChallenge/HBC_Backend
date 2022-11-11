@@ -1,6 +1,5 @@
 package inha.tnt.hbc.application.member.service;
 
-import static inha.tnt.hbc.domain.member.entity.MemberRoles.*;
 import static inha.tnt.hbc.domain.member.service.IdentityVerificationService.IdentityVerificationTypes.*;
 import static inha.tnt.hbc.model.ResultCode.*;
 
@@ -13,13 +12,14 @@ import inha.tnt.hbc.domain.member.service.IdentityVerificationService;
 import inha.tnt.hbc.domain.member.service.MemberService;
 import inha.tnt.hbc.domain.member.service.RefreshTokenService;
 import inha.tnt.hbc.exception.EntityNotFoundException;
+import inha.tnt.hbc.infra.aws.S3Uploader;
 import inha.tnt.hbc.model.ResultResponse;
 import inha.tnt.hbc.model.member.dto.FindPasswordRequest;
 import inha.tnt.hbc.model.member.dto.FindUsernameResponse;
+import inha.tnt.hbc.model.member.dto.SignupRequest;
 import inha.tnt.hbc.security.jwt.dto.JwtDto;
 import inha.tnt.hbc.util.JwtUtils;
-import inha.tnt.hbc.vo.BirthDate;
-import inha.tnt.hbc.vo.Image;
+import inha.tnt.hbc.vo.ProfileImage;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -31,20 +31,13 @@ public class AuthService {
 	private final JwtUtils jwtUtils;
 	private final RefreshTokenService refreshTokenService;
 	private final IdentityVerificationService identityVerificationService;
+	private final S3Uploader s3Uploader;
 
 	@Transactional
-	public Member signup(String username, String password, String name, String phone, BirthDate birthDate,
-		Image image) {
-		final Member member = Member.builder()
-			.username(username)
-			.password(passwordEncoder.encode(password))
-			.name(name)
-			.phone(phone)
-			.birthDate(birthDate)
-			.image(image)
-			.authorities(ROLE_USER.name())
-			.build();
-		return memberService.save(member);
+	public void signup(SignupRequest request) {
+		final Member member = memberService.save(request.getUsername(), passwordEncoder.encode(request.getPassword()),
+			request.getName(), request.getPhone(), request.getBirthDate(), ProfileImage.initial());
+		s3Uploader.uploadInitialProfileImage(member.getId());
 	}
 
 	public ResultResponse signin(String username, String password) {

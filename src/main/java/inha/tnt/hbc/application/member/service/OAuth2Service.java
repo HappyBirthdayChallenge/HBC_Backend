@@ -5,6 +5,7 @@ import static inha.tnt.hbc.util.Constants.*;
 import java.io.File;
 import java.util.UUID;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,6 +14,7 @@ import inha.tnt.hbc.domain.member.entity.Member;
 import inha.tnt.hbc.domain.member.entity.oauth2.OAuth2Account;
 import inha.tnt.hbc.domain.member.entity.oauth2.OAuth2AccountPK;
 import inha.tnt.hbc.domain.member.entity.oauth2.OAuth2Providers;
+import inha.tnt.hbc.domain.member.service.MemberService;
 import inha.tnt.hbc.domain.member.service.OAuth2AccountService;
 import inha.tnt.hbc.infra.aws.S3Uploader;
 import inha.tnt.hbc.infra.oauth2.OAuth2Client;
@@ -22,7 +24,7 @@ import inha.tnt.hbc.util.ImageUtils;
 import inha.tnt.hbc.util.JwtUtils;
 import inha.tnt.hbc.util.RandomUtils;
 import inha.tnt.hbc.vo.BirthDate;
-import inha.tnt.hbc.vo.Image;
+import inha.tnt.hbc.vo.ProfileImage;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -32,8 +34,10 @@ public class OAuth2Service {
 	private final static String OAUTH2_USERNAME_PREFIX = "user";
 
 	private final AuthService authService;
-	private final OAuth2AccountService OAuth2AccountService;
+	private final MemberService memberService;
+	private final PasswordEncoder passwordEncoder;
 	private final S3Uploader s3Uploader;
+	private final OAuth2AccountService OAuth2AccountService;
 	private final OAuth2Client oAuth2Client;
 	private final JwtUtils jwtUtils;
 
@@ -62,15 +66,15 @@ public class OAuth2Service {
 	private Member signup(OAuth2AccountPK primaryKey, OAuth2Attributes oAuth2Attributes) {
 		final String seed = System.currentTimeMillis() + RandomUtils.generateNumber(5);
 		final String username = OAUTH2_USERNAME_PREFIX + DELIMITER + seed;
-		final String password = UUID.randomUUID().toString();
+		final String password = passwordEncoder.encode(UUID.randomUUID().toString());
 		final String name = oAuth2Attributes.getName();
 		final String imageUrl = oAuth2Attributes.getImageUrl();
 
-		final File file = ImageUtils.convert(imageUrl);
-		final Image image = s3Uploader.uploadImage(file, S3_DIRECTORY_MEMBER);
-		final Member member = authService.signup(username, password, name, EMPTY, BirthDate.getInitial(), image);
+		final ProfileImage image = ImageUtils.convertToProfileImage(imageUrl);
+		final Member member = memberService.save(username, password, name, EMPTY, BirthDate.getInitial(), image);
 		OAuth2AccountService.connect(member, primaryKey);
-
+		final File file = ImageUtils.convertToFile(imageUrl);
+		s3Uploader.uploadOAuth2ProfileImage(file, member.getId());
 		return member;
 	}
 

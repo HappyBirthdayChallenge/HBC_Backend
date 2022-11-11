@@ -12,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class TokenService {
+public class RefreshTokenService {
 
 	private static final String REDIS_PREFIX_KEY = "rt";
 	private final RedisTemplate<String, String> redisTemplate;

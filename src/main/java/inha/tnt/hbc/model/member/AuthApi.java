@@ -48,20 +48,6 @@ public interface AuthApi {
 	@PostMapping("/signin")
 	ResponseEntity<ResultResponse> signin(@Valid @RequestBody SigninRequest request);
 
-	@ApiOperation(value = "토큰 재발급")
-	@ApiImplicitParam(name = "refreshToken", value = "RefreshToken", required = true, example = "Bearer ey...")
-	@ApiResponses({
-		@ApiResponse(code = 1, response = JwtDto.class, message = ""
-			+ "status: 200 | code: R-J001 | message: 아이디 혹은 비밀번호가 올바르지 않습니다."),
-		@ApiResponse(code = 2, response = Void.class, message = ""
-			+ "status: 200 | code: R-J002 | message: 토큰 재발급에 실패하였습니다."),
-		@ApiResponse(code = 500, response = ErrorResponse.class, message = ""
-			+ "status: 400 | code: E-G002 | message: 입력 값이 유효하지 않습니다.\n"
-			+ "status: 500 | code: E-G001 | message: 내부 서버 오류입니다.")
-	})
-	@PostMapping("/reissue")
-	ResponseEntity<ResultResponse> reissue(@Jwt @RequestParam String refreshToken);
-
 	@ApiOperation(value = "아이디 유효성 확인")
 	@ApiResponses({
 		@ApiResponse(code = 1, response = Void.class, message = ""

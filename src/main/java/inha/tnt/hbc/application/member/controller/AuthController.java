@@ -43,11 +43,6 @@ public class AuthController implements AuthApi {
 	}
 
 	@Override
-	public ResponseEntity<ResultResponse> reissue(String refreshToken) {
-		return ResponseEntity.ok(authService.reissueToken(refreshToken));
-	}
-
-	@Override
 	public ResponseEntity<ResultResponse> checkUsername(UsernameRequest request) {
 		return ResponseEntity.ok(authService.checkUsername(request.getUsername()));
 	}

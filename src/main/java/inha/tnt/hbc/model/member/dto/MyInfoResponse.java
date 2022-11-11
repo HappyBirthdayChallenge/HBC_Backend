@@ -43,7 +43,7 @@ public class MyInfoResponse {
 			.name(member.getName())
 			.username(member.getUsername())
 			.phone(member.getPhone())
-			.imageUrl(member.getImage().getUrl())
+			.imageUrl(member.getImageUri())
 			.authorities(member.combineAndGetAuthorities())
 			.build();
 	}

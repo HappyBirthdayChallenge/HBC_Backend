@@ -30,7 +30,4 @@ public final class Constants {
 	public static final String ROOT_DIRECTORY = System.getProperty("user.dir");
 	public static final String TEMPORAL_DIRECTORY = "upload";
 
-	public static final String S3_DIRECTORY_MEMBER = "member";
-	public static final String S3_DIRECTORY_ROOM = "room";
-
 }

@@ -1,4 +1,4 @@
-package inha.tnt.hbc.vo;
+package inha.tnt.hbc.domain.member.vo;
 
 import static inha.tnt.hbc.util.Constants.*;
 

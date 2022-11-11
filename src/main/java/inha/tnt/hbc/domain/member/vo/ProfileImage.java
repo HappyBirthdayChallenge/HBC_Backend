@@ -1,7 +1,6 @@
-package inha.tnt.hbc.vo;
+package inha.tnt.hbc.domain.member.vo;
 
 import static inha.tnt.hbc.util.Constants.*;
-import static inha.tnt.hbc.vo.ImageType.*;
 
 import java.util.Objects;
 
@@ -36,7 +35,7 @@ public class ProfileImage {
 	public static ProfileImage initial() {
 		return ProfileImage.builder()
 			.name(DEFAULT_NAME)
-			.type(PNG)
+			.type(ImageType.PNG)
 			.uuid(DEFAULT_UUID)
 			.build();
 	}

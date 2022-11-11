@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategies.SnakeCaseStrategy
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
 import inha.tnt.hbc.domain.member.entity.Member;
-import inha.tnt.hbc.vo.BirthDate;
+import inha.tnt.hbc.domain.member.vo.BirthDate;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

@@ -23,8 +23,8 @@ import inha.tnt.hbc.security.oauth2.OAuth2Attributes;
 import inha.tnt.hbc.util.ImageUtils;
 import inha.tnt.hbc.util.JwtUtils;
 import inha.tnt.hbc.util.RandomUtils;
-import inha.tnt.hbc.vo.BirthDate;
-import inha.tnt.hbc.vo.ProfileImage;
+import inha.tnt.hbc.domain.member.vo.BirthDate;
+import inha.tnt.hbc.domain.member.vo.ProfileImage;
 import lombok.RequiredArgsConstructor;
 
 @Service

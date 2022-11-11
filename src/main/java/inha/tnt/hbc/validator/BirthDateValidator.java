@@ -11,7 +11,7 @@ import javax.validation.ConstraintValidatorContext;
 import org.springframework.stereotype.Component;
 
 import inha.tnt.hbc.annotation.BirthDay;
-import inha.tnt.hbc.vo.BirthDate;
+import inha.tnt.hbc.domain.member.vo.BirthDate;
 
 // TODO: [Refactor] 에러 메시지 상수화
 @Component

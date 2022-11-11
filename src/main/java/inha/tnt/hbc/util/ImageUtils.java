@@ -10,8 +10,8 @@ import java.util.UUID;
 
 import javax.imageio.ImageIO;
 
-import inha.tnt.hbc.vo.ImageType;
-import inha.tnt.hbc.vo.ProfileImage;
+import inha.tnt.hbc.domain.member.vo.ImageType;
+import inha.tnt.hbc.domain.member.vo.ProfileImage;
 
 public class ImageUtils {
 

@@ -12,7 +12,7 @@ import inha.tnt.hbc.model.member.dto.MyInfoResponse;
 import inha.tnt.hbc.security.jwt.dto.JwtDto;
 import inha.tnt.hbc.util.JwtUtils;
 import inha.tnt.hbc.util.SecurityContextUtils;
-import inha.tnt.hbc.vo.BirthDate;
+import inha.tnt.hbc.domain.member.vo.BirthDate;
 import lombok.RequiredArgsConstructor;
 
 @Service

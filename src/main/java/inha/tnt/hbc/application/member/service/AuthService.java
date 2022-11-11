@@ -19,7 +19,7 @@ import inha.tnt.hbc.model.member.dto.FindUsernameResponse;
 import inha.tnt.hbc.model.member.dto.SignupRequest;
 import inha.tnt.hbc.security.jwt.dto.JwtDto;
 import inha.tnt.hbc.util.JwtUtils;
-import inha.tnt.hbc.vo.ProfileImage;
+import inha.tnt.hbc.domain.member.vo.ProfileImage;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -33,6 +33,7 @@ public class AuthService {
 	private final IdentityVerificationService identityVerificationService;
 	private final S3Uploader s3Uploader;
 
+	// TODO: 요청 값 재검토 로직 추가
 	@Transactional
 	public void signup(SignupRequest request) {
 		final Member member = memberService.save(request.getUsername(), passwordEncoder.encode(request.getPassword()),

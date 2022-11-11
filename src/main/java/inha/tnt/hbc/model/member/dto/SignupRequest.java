@@ -10,7 +10,7 @@ import inha.tnt.hbc.annotation.BirthDay;
 import inha.tnt.hbc.annotation.Password;
 import inha.tnt.hbc.annotation.Phone;
 import inha.tnt.hbc.annotation.Username;
-import inha.tnt.hbc.vo.BirthDate;
+import inha.tnt.hbc.domain.member.vo.BirthDate;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

@@ -9,8 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 import inha.tnt.hbc.domain.member.entity.Member;
 import inha.tnt.hbc.domain.member.repository.MemberRepository;
 import inha.tnt.hbc.exception.EntityNotFoundException;
-import inha.tnt.hbc.vo.BirthDate;
-import inha.tnt.hbc.vo.ProfileImage;
+import inha.tnt.hbc.domain.member.vo.BirthDate;
+import inha.tnt.hbc.domain.member.vo.ProfileImage;
 import lombok.RequiredArgsConstructor;
 
 @Service

@@ -14,7 +14,7 @@ import inha.tnt.hbc.model.ResultResponse;
 import inha.tnt.hbc.model.Void;
 import inha.tnt.hbc.model.member.dto.MyInfoResponse;
 import inha.tnt.hbc.security.jwt.dto.JwtDto;
-import inha.tnt.hbc.vo.BirthDate;
+import inha.tnt.hbc.domain.member.vo.BirthDate;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;

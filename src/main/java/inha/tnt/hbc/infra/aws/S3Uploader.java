@@ -16,7 +16,7 @@ import com.amazonaws.services.s3.model.PutObjectRequest;
 
 import inha.tnt.hbc.util.FileUtils;
 import inha.tnt.hbc.util.FileUtils.SimpleFile;
-import inha.tnt.hbc.vo.ProfileImage;
+import inha.tnt.hbc.domain.member.vo.ProfileImage;
 import lombok.RequiredArgsConstructor;
 
 @Component

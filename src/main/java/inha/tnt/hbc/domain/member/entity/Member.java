@@ -1,5 +1,6 @@
 package inha.tnt.hbc.domain.member.entity;
 
+import static inha.tnt.hbc.infra.aws.S3Constants.*;
 import static inha.tnt.hbc.util.Constants.*;
 import static javax.persistence.CascadeType.*;
 
@@ -8,7 +9,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -22,7 +22,7 @@ import inha.tnt.hbc.domain.BaseEntity;
 import inha.tnt.hbc.domain.member.entity.oauth2.OAuth2Account;
 import inha.tnt.hbc.domain.member.exception.AlreadySetupBirthDateException;
 import inha.tnt.hbc.vo.BirthDate;
-import inha.tnt.hbc.vo.Image;
+import inha.tnt.hbc.vo.ProfileImage;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -46,7 +46,7 @@ public class Member extends BaseEntity {
 	private String name;
 	private BirthDate birthDate;
 	@Embedded
-	private Image image;
+	private ProfileImage image;
 	private String phone;
 	private String authorities;
 	@OneToMany(mappedBy = "member", cascade = REMOVE)
@@ -66,6 +66,12 @@ public class Member extends BaseEntity {
 
 	public void changePassword(String password) {
 		this.password = password;
+	}
+
+	public String getImageUri() {
+		return BASE_URL + SLASH +
+			PROFILE_IMAGE_DIR + SLASH +
+			this.id + SLASH + this.image.getFullName();
 	}
 
 }

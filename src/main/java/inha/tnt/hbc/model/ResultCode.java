@@ -37,6 +37,9 @@ public enum ResultCode {
 	JWT_REISSUE_FAILURE(200, "R-J002", "토큰 재발급에 실패하였습니다."),
 	JWT_VERIFIED(200, "R-J003", "유효한 토큰입니다."),
 
+	// FCM
+	FCM_REFRESH_SUCCESS(200, "R-F001", "FCM 토큰 갱신 요청에 성공하였습니다."),
+
 	// Identity Verification
 	CODE_VERIFIED(200, "R-IV001", "인증 코드 검증에 성공하였습니다."),
 	CODE_INVALID(200, "R-IV002", "유효하지 않은 인증 코드입니다."),

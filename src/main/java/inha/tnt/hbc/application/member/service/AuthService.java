@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import inha.tnt.hbc.domain.member.entity.Member;
+import inha.tnt.hbc.domain.member.service.FCMTokenService;
 import inha.tnt.hbc.domain.member.service.IdentityVerificationService;
 import inha.tnt.hbc.domain.member.service.MemberService;
 import inha.tnt.hbc.domain.member.service.RefreshTokenService;
@@ -16,6 +17,7 @@ import inha.tnt.hbc.infra.aws.S3Uploader;
 import inha.tnt.hbc.model.ResultResponse;
 import inha.tnt.hbc.model.member.dto.FindPasswordRequest;
 import inha.tnt.hbc.model.member.dto.FindUsernameResponse;
+import inha.tnt.hbc.model.member.dto.SigninRequest;
 import inha.tnt.hbc.model.member.dto.SignupRequest;
 import inha.tnt.hbc.security.jwt.dto.JwtDto;
 import inha.tnt.hbc.util.JwtUtils;
@@ -32,8 +34,8 @@ public class AuthService {
 	private final RefreshTokenService refreshTokenService;
 	private final IdentityVerificationService identityVerificationService;
 	private final S3Uploader s3Uploader;
+	private final FCMTokenService fcmTokenService;
 
-	// TODO: 요청 값 재검토 로직 추가
 	@Transactional
 	public void signup(SignupRequest request) {
 		final Member member = memberService.save(request.getUsername(), passwordEncoder.encode(request.getPassword()),
@@ -41,10 +43,10 @@ public class AuthService {
 		s3Uploader.uploadInitialProfileImage(member.getId());
 	}
 
-	public ResultResponse signin(String username, String password) {
+	public ResultResponse signin(SigninRequest request) {
 		try {
-			final Member member = memberService.findByUsername(username);
-			if (!passwordEncoder.matches(password, member.getPassword())) {
+			final Member member = memberService.findByUsername(request.getUsername());
+			if (!passwordEncoder.matches(request.getPassword(), member.getPassword())) {
 				return ResultResponse.of(USERNAME_PASSWORD_INCORRECT);
 			}
 
@@ -53,6 +55,7 @@ public class AuthService {
 				.refreshToken(jwtUtils.generateRefreshToken(member))
 				.build();
 			refreshTokenService.saveRefreshToken(member.getId(), jwtDto.getRefreshToken());
+			fcmTokenService.saveFCMToken(member.getId(), request.getFcmToken());
 			return ResultResponse.of(SIGNIN_SUCCESS, jwtDto);
 		} catch (EntityNotFoundException e) {
 			return ResultResponse.of(USERNAME_PASSWORD_INCORRECT);

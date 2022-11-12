@@ -23,7 +23,12 @@ public class TokenController implements TokenApi {
 
 	@Override
 	public ResponseEntity<ResultResponse> reissue(String refreshToken) {
-		return ResponseEntity.ok(tokenService.reissueToken(refreshToken));
+		return ResponseEntity.ok(tokenService.reissueJWTToken(refreshToken));
+	}
+
+	@Override
+	public ResponseEntity<ResultResponse> refreshFCM(String fcmToken) {
+		return ResponseEntity.ok(tokenService.refreshFCMToken(fcmToken));
 	}
 
 }

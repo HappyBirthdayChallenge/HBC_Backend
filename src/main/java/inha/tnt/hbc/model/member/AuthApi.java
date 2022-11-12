@@ -32,7 +32,7 @@ import io.swagger.annotations.ApiResponses;
 @RequestMapping("/auth")
 public interface AuthApi {
 
-	@ApiOperation(value = "일반 로그인")
+	@ApiOperation(value = "일반 로그인", notes = "FCM 토큰을 미리 발급받아야 합니다.")
 	@ApiResponses({
 		@ApiResponse(code = 1, response = Void.class, message = ""
 			+ "status: 200 | code: R-M010 | message: 아이디 혹은 비밀번호가 올바르지 않습니다."),

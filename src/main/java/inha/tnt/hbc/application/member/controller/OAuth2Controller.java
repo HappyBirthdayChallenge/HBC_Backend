@@ -6,9 +6,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import inha.tnt.hbc.application.member.service.OAuth2Service;
-import inha.tnt.hbc.domain.member.entity.oauth2.OAuth2Providers;
 import inha.tnt.hbc.model.ResultResponse;
 import inha.tnt.hbc.model.member.OAuth2Api;
+import inha.tnt.hbc.model.member.dto.OAuth2SigninRequest;
 import inha.tnt.hbc.security.jwt.dto.JwtDto;
 import lombok.RequiredArgsConstructor;
 
@@ -19,8 +19,8 @@ public class OAuth2Controller implements OAuth2Api {
 	private final OAuth2Service oAuth2Service;
 
 	@Override
-	public ResponseEntity<ResultResponse> signin(OAuth2Providers provider, String token) {
-		final JwtDto jwtDto = oAuth2Service.signin(provider, token);
+	public ResponseEntity<ResultResponse> signin(OAuth2SigninRequest request) {
+		final JwtDto jwtDto = oAuth2Service.signin(request);
 		return ResponseEntity.ok(ResultResponse.of(SIGNIN_SUCCESS, jwtDto));
 	}
 

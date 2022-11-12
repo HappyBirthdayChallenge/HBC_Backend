@@ -5,10 +5,12 @@ import static inha.tnt.hbc.util.JwtUtils.*;
 
 import org.springframework.stereotype.Service;
 
+import inha.tnt.hbc.domain.member.service.FCMTokenService;
 import inha.tnt.hbc.domain.member.service.RefreshTokenService;
 import inha.tnt.hbc.model.ResultResponse;
 import inha.tnt.hbc.security.jwt.dto.JwtDto;
 import inha.tnt.hbc.util.JwtUtils;
+import inha.tnt.hbc.util.SecurityContextUtils;
 import io.jsonwebtoken.JwtException;
 import lombok.RequiredArgsConstructor;
 
@@ -18,8 +20,10 @@ public class TokenService {
 
 	private final JwtUtils jwtUtils;
 	private final RefreshTokenService refreshTokenService;
+	private final FCMTokenService fcmTokenService;
+	private final SecurityContextUtils securityContextUtils;
 
-	public ResultResponse reissueToken(String refreshToken) {
+	public ResultResponse reissueJWTToken(String refreshToken) {
 		try {
 			final String jwt = refreshToken.substring(TOKEN_PREFIX_LENGTH);
 			final Long memberId = jwtUtils.getMemberId(jwt);
@@ -39,4 +43,11 @@ public class TokenService {
 			return ResultResponse.of(JWT_REISSUE_FAILURE);
 		}
 	}
+
+	public ResultResponse refreshFCMToken(String fcmToken) {
+		final Long memberId = securityContextUtils.takeoutMemberId();
+		fcmTokenService.saveFCMToken(memberId, fcmToken);
+		return ResultResponse.of(FCM_REFRESH_SUCCESS);
+	}
+
 }

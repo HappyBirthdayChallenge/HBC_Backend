@@ -13,7 +13,6 @@ import inha.tnt.hbc.model.member.dto.FriendListResponse;
 import inha.tnt.hbc.application.member.exception.AlreadyFriendException;
 import inha.tnt.hbc.domain.member.dto.FriendDto;
 import inha.tnt.hbc.domain.member.entity.Member;
-import inha.tnt.hbc.domain.member.service.FriendService;
 import inha.tnt.hbc.domain.member.service.MemberService;
 import inha.tnt.hbc.exception.InvalidArgumentException;
 import inha.tnt.hbc.model.ErrorResponse.FieldError;
@@ -22,11 +21,11 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class FriendManageService {
+public class FriendService {
 
 	private final SecurityContextUtils securityContextUtils;
 	private final MemberService memberService;
-	private final FriendService friendService;
+	private final inha.tnt.hbc.domain.member.service.FriendService friendService;
 
 	@Transactional
 	public void addFriend(Long memberId) {

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import inha.tnt.hbc.domain.member.entity.Member;
+import inha.tnt.hbc.domain.member.service.FCMTokenService;
 import inha.tnt.hbc.domain.member.service.RefreshTokenService;
 import inha.tnt.hbc.model.ResultResponse;
 import inha.tnt.hbc.model.member.dto.MyInfoResponse;
@@ -17,11 +18,12 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class AccountManageService {
+public class AccountService {
 
 	private final SecurityContextUtils securityContextUtils;
 	private final JwtUtils jwtUtils;
 	private final RefreshTokenService refreshTokenService;
+	private final FCMTokenService fcmTokenService;
 
 	@Transactional
 	public JwtDto setupMyBirthdayAndGenerateJwt(BirthDate birthDate) {
@@ -35,9 +37,10 @@ public class AccountManageService {
 			.build();
 	}
 
-	public ResultResponse signout() {
+	public ResultResponse signout(String fcmToken) {
 		final Long memberId = securityContextUtils.takeoutMemberId();
 		refreshTokenService.deleteRefreshToken(memberId);
+		fcmTokenService.deleteFCMToken(memberId, fcmToken);
 		return ResultResponse.of(SIGNOUT_SUCCESS);
 	}
 

@@ -9,23 +9,24 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import inha.tnt.hbc.model.member.dto.FriendListResponse;
 import inha.tnt.hbc.application.member.exception.AlreadyFriendException;
 import inha.tnt.hbc.domain.member.dto.FriendDto;
 import inha.tnt.hbc.domain.member.entity.Member;
+import inha.tnt.hbc.domain.member.service.FriendService;
 import inha.tnt.hbc.domain.member.service.MemberService;
 import inha.tnt.hbc.exception.InvalidArgumentException;
 import inha.tnt.hbc.model.ErrorResponse.FieldError;
+import inha.tnt.hbc.model.member.dto.FriendListResponse;
 import inha.tnt.hbc.util.SecurityContextUtils;
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class FriendService {
+public class FriendManageService {
 
 	private final SecurityContextUtils securityContextUtils;
 	private final MemberService memberService;
-	private final inha.tnt.hbc.domain.member.service.FriendService friendService;
+	private final FriendService friendService;
 
 	@Transactional
 	public void addFriend(Long memberId) {

@@ -1,5 +1,7 @@
 package inha.tnt.hbc.domain.room.entity;
 
+import java.util.Random;
+
 public enum CakeDecorationTypes {
 	CAKE_TYPE1,
 	CAKE_TYPE2,
@@ -12,4 +14,10 @@ public enum CakeDecorationTypes {
 	CAKE_TYPE9,
 	CAKE_TYPE10,
 	CAKE_TYPE11,
+	;
+
+	public static CakeDecorationTypes random() {
+		return CakeDecorationTypes.values()[new Random().nextInt(
+			CakeDecorationTypes.values().length)];
+	}
 }

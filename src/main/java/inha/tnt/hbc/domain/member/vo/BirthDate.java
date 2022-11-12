@@ -36,6 +36,7 @@ public class BirthDate {
 	@Enumerated(EnumType.STRING)
 	private DateType type;
 
+	@JsonIgnore
 	public static BirthDate getInitial() {
 		return BirthDate.builder()
 			.year(NONE)

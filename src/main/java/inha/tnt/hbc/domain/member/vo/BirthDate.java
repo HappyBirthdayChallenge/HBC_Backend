@@ -62,15 +62,18 @@ public class BirthDate {
 		return this.year == NONE || this.month == NONE || this.date == NONE;
 	}
 
+	@JsonIgnore
 	private boolean isBirthdayLeapDay() {
 		return month.equals(2) && date.equals(29);
 	}
 
+	@JsonIgnore
 	private boolean isTodayBeforeLeapDay() {
 		final LocalDate now = LocalDate.now();
 		return now.getMonthValue() == 2 && now.getDayOfMonth() == 28;
 	}
 
+	@JsonIgnore
 	private boolean isTodayLeapYear() {
 		final int year = LocalDate.now().getYear();
 		return year % 4 == 0 && year % 100 != 0;

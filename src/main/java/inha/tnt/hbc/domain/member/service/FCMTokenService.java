@@ -8,6 +8,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import inha.tnt.hbc.util.TimeUtils;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -19,7 +20,8 @@ public class FCMTokenService {
 
 	@Async
 	public void saveFCMToken(Long memberId, String fcmToken) {
-		redisTemplate.opsForHash().put(generateRedisKey(memberId), fcmToken, LocalDateTime.now());
+		final String timestamp = TimeUtils.convertToString(LocalDateTime.now());
+		redisTemplate.opsForHash().put(generateRedisKey(memberId), fcmToken, timestamp);
 	}
 
 	@Async

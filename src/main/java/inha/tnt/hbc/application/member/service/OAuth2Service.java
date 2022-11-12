@@ -63,8 +63,9 @@ public class OAuth2Service {
 		final OAuth2User oAuth2User = oAuth2Attributes.toOAuth2User(getMember(oAuth2Attributes));
 		final String accessToken = jwtUtils.generateAccessToken(oAuth2User);
 		final String refreshToken = jwtUtils.generateRefreshToken(oAuth2User);
-		refreshTokenService.saveRefreshToken((Long)oAuth2User.getAttributes().get(CLAIM_PRIMARY_KEY), refreshToken);
-		fcmTokenService.saveFCMToken(oAuth2Attributes.getAttributeKey(), request.getFcmToken());
+		final Long memberId = (Long)oAuth2User.getAttributes().get(CLAIM_PRIMARY_KEY);
+		refreshTokenService.saveRefreshToken(memberId, refreshToken);
+		fcmTokenService.saveFCMToken(memberId, request.getFcmToken());
 		return JwtDto.builder()
 			.accessToken(accessToken)
 			.refreshToken(refreshToken)

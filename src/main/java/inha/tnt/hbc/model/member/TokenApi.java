@@ -47,7 +47,9 @@ public interface TokenApi {
 	@PostMapping("/jwt/reissue")
 	ResponseEntity<ResultResponse> reissue(@Jwt @RequestParam(name = "refresh_token") String refreshToken);
 
-	@ApiOperation(value = "FCM 토큰 갱신")
+	@ApiOperation(value = "FCM 토큰 갱신", notes = ""
+		+ "1. 앱을 실행할 때마다, 로그인되어 있으면 타임스탬프 갱신을 위해 API를 호출하세요.\n"
+		+ "2. FCM 토큰이 갱신되는 경우(onTokenRefresh() 후처리) FCM 토큰을 갱신을 위해 API를 호출하세요.")
 	@ApiImplicitParam(name = "fcm_token", value = "FCM Token", required = true, example = "c2aK9KHmw8E:APA91bF7...")
 	@ApiResponses({
 		@ApiResponse(code = 1, response = Void.class, message = ""

@@ -43,8 +43,8 @@ public interface AccountApi {
 
 	@ApiOperation(value = "로그아웃", notes = ""
 		+ "1. 서버에서 Refresh token을 무효화합니다.\n"
-		+ "2. 앞단에서 사용하던 인증 토큰을 모두 삭제해주세요.\n"
-		+ "3. 서버에서 FCM 토큰을 무효화합니다.")
+		+ "2. 서버에서 FCM 토큰을 무효화합니다."
+		+ "3. 앞단에서 사용하던 토큰을 모두 삭제해주세요.\n")
 	@ApiImplicitParam(name = "fcm_token", value = "FCM token", example = "c2aK9KHmw8E:APA91bF7...", required = true)
 	@ApiResponses({
 		@ApiResponse(code = 1, response = Void.class, message = ""

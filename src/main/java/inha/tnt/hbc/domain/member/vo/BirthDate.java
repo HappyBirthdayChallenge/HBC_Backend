@@ -45,6 +45,7 @@ public class BirthDate {
 			.build();
 	}
 
+	@JsonIgnore
 	public short getNextBirthdayYear() {
 		final LocalDate now = LocalDate.now();
 		final LocalDate birthDate = LocalDate.of(now.getYear(), this.month, this.date);

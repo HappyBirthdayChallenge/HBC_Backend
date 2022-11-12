@@ -1,6 +1,7 @@
 package inha.tnt.hbc.application.member.service;
 
 import static inha.tnt.hbc.util.Constants.*;
+import static inha.tnt.hbc.util.JwtUtils.*;
 
 import java.io.File;
 import java.util.UUID;
@@ -62,7 +63,7 @@ public class OAuth2Service {
 		final OAuth2User oAuth2User = oAuth2Attributes.toOAuth2User(getMember(oAuth2Attributes));
 		final String accessToken = jwtUtils.generateAccessToken(oAuth2User);
 		final String refreshToken = jwtUtils.generateRefreshToken(oAuth2User);
-		refreshTokenService.saveRefreshToken(oAuth2Attributes.getAttributeKey(), refreshToken);
+		refreshTokenService.saveRefreshToken((Long)oAuth2User.getAttributes().get(CLAIM_PRIMARY_KEY), refreshToken);
 		fcmTokenService.saveFCMToken(oAuth2Attributes.getAttributeKey(), request.getFcmToken());
 		return JwtDto.builder()
 			.accessToken(accessToken)

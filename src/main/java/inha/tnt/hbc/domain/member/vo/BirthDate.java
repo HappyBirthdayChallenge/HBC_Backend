@@ -2,6 +2,8 @@ package inha.tnt.hbc.domain.member.vo;
 
 import static inha.tnt.hbc.util.Constants.*;
 
+import java.time.LocalDate;
+
 import javax.persistence.Embeddable;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -43,9 +45,35 @@ public class BirthDate {
 			.build();
 	}
 
+	public short getNextBirthdayYear() {
+		final LocalDate now = LocalDate.now();
+		final LocalDate birthDate = LocalDate.of(now.getYear(), this.month, this.date);
+		if (isBirthdayLeapDay() && !isTodayLeapYear() && isTodayBeforeLeapDay()) {
+			return (short)now.getYear();
+		}
+		if (now.isAfter(birthDate)) {
+			return (short)(now.getYear() + 1);
+		}
+		return (short)now.getYear();
+	}
+
 	@JsonIgnore
 	public boolean isInitial() {
 		return this.year == NONE || this.month == NONE || this.date == NONE;
+	}
+
+	private boolean isBirthdayLeapDay() {
+		return month.equals(2) && date.equals(29);
+	}
+
+	private boolean isTodayBeforeLeapDay() {
+		final LocalDate now = LocalDate.now();
+		return now.getMonthValue() == 2 && now.getDayOfMonth() == 28;
+	}
+
+	private boolean isTodayLeapYear() {
+		final int year = LocalDate.now().getYear();
+		return year % 4 == 0 && year % 100 != 0;
 	}
 
 	@Getter

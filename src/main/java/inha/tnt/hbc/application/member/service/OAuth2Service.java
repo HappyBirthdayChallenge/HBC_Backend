@@ -21,6 +21,7 @@ import inha.tnt.hbc.domain.member.service.OAuth2AccountService;
 import inha.tnt.hbc.domain.member.service.RefreshTokenService;
 import inha.tnt.hbc.domain.member.vo.BirthDate;
 import inha.tnt.hbc.domain.member.vo.ProfileImage;
+import inha.tnt.hbc.domain.room.service.RoomService;
 import inha.tnt.hbc.infra.aws.S3Uploader;
 import inha.tnt.hbc.infra.oauth2.OAuth2Client;
 import inha.tnt.hbc.model.member.dto.OAuth2SigninRequest;
@@ -45,6 +46,7 @@ public class OAuth2Service {
 	private final JwtUtils jwtUtils;
 	private final FCMTokenService fcmTokenService;
 	private final RefreshTokenService refreshTokenService;
+	private final RoomService roomService;
 
 	@Transactional
 	public Member getMember(OAuth2Attributes oAuth2Attributes) {
@@ -82,6 +84,7 @@ public class OAuth2Service {
 		final ProfileImage image = ImageUtils.convertToProfileImage(imageUrl);
 		final Member member = memberService.save(username, password, name, EMPTY, BirthDate.getInitial(), image);
 		OAuth2AccountService.connect(member, primaryKey);
+		roomService.createRandomly(member);
 		final File file = ImageUtils.convertToFile(imageUrl);
 		s3Uploader.uploadOAuth2ProfileImage(file, member.getId());
 		return member;

@@ -12,6 +12,8 @@ import inha.tnt.hbc.domain.member.service.FCMTokenService;
 import inha.tnt.hbc.domain.member.service.IdentityVerificationService;
 import inha.tnt.hbc.domain.member.service.MemberService;
 import inha.tnt.hbc.domain.member.service.RefreshTokenService;
+import inha.tnt.hbc.domain.member.vo.ProfileImage;
+import inha.tnt.hbc.domain.room.service.RoomService;
 import inha.tnt.hbc.exception.EntityNotFoundException;
 import inha.tnt.hbc.infra.aws.S3Uploader;
 import inha.tnt.hbc.model.ResultResponse;
@@ -21,7 +23,6 @@ import inha.tnt.hbc.model.member.dto.SigninRequest;
 import inha.tnt.hbc.model.member.dto.SignupRequest;
 import inha.tnt.hbc.security.jwt.dto.JwtDto;
 import inha.tnt.hbc.util.JwtUtils;
-import inha.tnt.hbc.domain.member.vo.ProfileImage;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -35,11 +36,13 @@ public class AuthService {
 	private final IdentityVerificationService identityVerificationService;
 	private final S3Uploader s3Uploader;
 	private final FCMTokenService fcmTokenService;
+	private final RoomService roomService;
 
 	@Transactional
 	public void signup(SignupRequest request) {
 		final Member member = memberService.save(request.getUsername(), passwordEncoder.encode(request.getPassword()),
 			request.getName(), request.getPhone(), request.getBirthDate(), ProfileImage.initial());
+		roomService.createRandomly(member);
 		s3Uploader.uploadInitialProfileImage(member.getId());
 	}
 

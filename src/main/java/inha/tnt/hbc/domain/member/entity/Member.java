@@ -15,6 +15,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -30,7 +31,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "members")
+@Table(name = "members", indexes = @Index(name = "idx_members_month_date", columnList = "birthday_month, birthday_date"))
 @Getter
 @Builder
 @AllArgsConstructor
@@ -41,13 +42,19 @@ public class Member extends BaseEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "member_id")
 	private Long id;
+	@Column(unique = true, nullable = false)
 	private String username;
+	@Column(nullable = false)
 	private String password;
+	@Column(nullable = false)
 	private String name;
+	@Embedded
 	private BirthDate birthDate;
 	@Embedded
 	private ProfileImage image;
+	@Column(unique = true)
 	private String phone;
+	@Column(nullable = false)
 	private String authorities;
 	@OneToMany(mappedBy = "member", cascade = REMOVE)
 	private List<OAuth2Account> oAuth2Accounts = new ArrayList<>();

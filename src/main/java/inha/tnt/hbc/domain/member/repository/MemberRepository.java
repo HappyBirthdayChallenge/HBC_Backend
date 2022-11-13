@@ -21,4 +21,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 	@Query("select distinct m from Member m left join fetch m.oAuth2Accounts")
 	List<Member> findAllFetchOAuth2Accounts();
 
+	@Query("select m from Member m where m.birthDate.month = :month and m.birthDate.date = :date")
+	List<Member> findAllByBirthDay(int month, int date);
+
 }

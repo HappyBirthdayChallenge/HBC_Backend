@@ -4,6 +4,7 @@ import static inha.tnt.hbc.util.Constants.*;
 
 import java.time.LocalDate;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -26,12 +27,16 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode
 public class BirthDate {
 
+	@Column(name = "birthday_year", nullable = false)
 	@ApiModelProperty(value = "연도(yyyy)", example = "1997", required = true)
 	private Integer year;
+	@Column(name = "birthday_month", nullable = false)
 	@ApiModelProperty(value = "월(MM)", example = "3", required = true)
 	private Integer month;
+	@Column(name = "birthday_date", nullable = false)
 	@ApiModelProperty(value = "일(dd)", example = "6", required = true)
 	private Integer date;
+	@Column(name = "birthday_type", nullable = false)
 	@ApiModelProperty(value = "유형(양력 | 음력)", example = "SOLAR", required = true)
 	@Enumerated(EnumType.STRING)
 	private DateType type;

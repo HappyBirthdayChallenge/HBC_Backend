@@ -25,11 +25,11 @@ public class ProfileImage {
 	private static final String DEFAULT_NAME = "image";
 	private static final String DEFAULT_UUID = "default";
 	@Enumerated(EnumType.STRING)
-	@Column(name = "image_type")
+	@Column(name = "image_type", nullable = false)
 	private ProfileImageType type;
-	@Column(name = "image_name")
+	@Column(name = "image_name", nullable = false)
 	private String name;
-	@Column(name = "image_uuid")
+	@Column(name = "image_uuid", nullable = false)
 	private String uuid;
 
 	public static ProfileImage initial() {

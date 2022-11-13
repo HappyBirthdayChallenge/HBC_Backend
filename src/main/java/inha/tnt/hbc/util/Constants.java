@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class Constants {
 
+	public static final int DAYS_BEFORE_ROOM_CREATION = 7;
 	public static final int NONE = -1;
 	public static final int AUTH_CODE_LENGTH = 6;
 	public static final String AUTH_CODE_MESSAGE = "[HappyBirthdayChallenge]\n인증 코드는 %s 입니다.";

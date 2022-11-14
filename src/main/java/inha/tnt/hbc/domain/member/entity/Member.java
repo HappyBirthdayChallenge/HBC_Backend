@@ -24,6 +24,7 @@ import inha.tnt.hbc.domain.member.entity.oauth2.OAuth2Account;
 import inha.tnt.hbc.domain.member.exception.AlreadySetupBirthDateException;
 import inha.tnt.hbc.domain.member.vo.BirthDate;
 import inha.tnt.hbc.domain.member.vo.ProfileImage;
+import inha.tnt.hbc.domain.room.entity.Room;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -58,6 +59,8 @@ public class Member extends BaseEntity {
 	private String authorities;
 	@OneToMany(mappedBy = "member", cascade = REMOVE)
 	private List<OAuth2Account> oAuth2Accounts = new ArrayList<>();
+	@OneToMany(mappedBy = "member", cascade = REMOVE)
+	private List<Room> rooms = new ArrayList<>();
 
 	public void setupBirthDate(BirthDate birthDate) {
 		if (!this.birthDate.isInitial()) {

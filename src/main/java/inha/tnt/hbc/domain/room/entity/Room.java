@@ -12,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import inha.tnt.hbc.domain.BaseEntity;
 import inha.tnt.hbc.domain.member.entity.Member;
 import lombok.AccessLevel;
@@ -32,6 +34,7 @@ public class Room extends BaseEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "room_id")
 	private Long id;
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "member_id")
 	private Member member;

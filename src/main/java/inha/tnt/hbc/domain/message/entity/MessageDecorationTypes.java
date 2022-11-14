@@ -2,6 +2,14 @@ package inha.tnt.hbc.domain.message.entity;
 
 public enum MessageDecorationTypes {
 	DOLL_TYPE1,
+	DOLL_TYPE2,
+	DOLL_TYPE3,
+	DOLL_TYPE4,
+	DOLL_TYPE5,
+	DOLL_TYPE6,
+	DOLL_TYPE7,
+	DOLL_TYPE8,
+	DOLL_TYPE9,
 
 	PIC_TYPE1,
 

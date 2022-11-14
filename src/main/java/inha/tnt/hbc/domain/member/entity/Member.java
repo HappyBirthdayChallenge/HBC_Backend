@@ -19,6 +19,8 @@ import javax.persistence.Index;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import inha.tnt.hbc.domain.BaseEntity;
 import inha.tnt.hbc.domain.member.entity.oauth2.OAuth2Account;
 import inha.tnt.hbc.domain.member.exception.AlreadySetupBirthDateException;
@@ -59,6 +61,7 @@ public class Member extends BaseEntity {
 	private String authorities;
 	@OneToMany(mappedBy = "member", cascade = REMOVE)
 	private List<OAuth2Account> oAuth2Accounts = new ArrayList<>();
+	@JsonIgnore
 	@OneToMany(mappedBy = "member", cascade = REMOVE)
 	private List<Room> rooms = new ArrayList<>();
 

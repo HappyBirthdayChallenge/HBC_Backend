@@ -21,14 +21,14 @@ import inha.tnt.hbc.domain.room.entity.RoomDecorationTypes;
 public class RoomDto {
 
 	private Long roomId;
-	private Short year;
+	private Integer year;
 	private RoomDecorationTypes roomType;
 	private CakeDecorationTypes cakeType;
 
 	public static RoomDto of(Room room) {
 		return RoomDto.builder()
 			.roomId(room.getId())
-			.year(room.getYear())
+			.year(room.getCreateAt().getYear())
 			.roomType(room.getRoomType())
 			.cakeType(room.getCakeType())
 			.build();

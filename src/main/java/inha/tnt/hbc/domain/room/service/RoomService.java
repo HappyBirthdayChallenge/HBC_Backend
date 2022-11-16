@@ -25,24 +25,21 @@ public class RoomService {
 			.member(member)
 			.roomType(RoomDecorationTypes.random())
 			.cakeType(CakeDecorationTypes.random())
-			.year(member.getBirthDate().getNextBirthdayYear())
 			.build();
 
 		roomRepository.save(room);
 	}
 
-	// TODO: JdbcTemplate batch insert
 	public void createRandomly(List<Member> members) {
 		final List<Room> rooms = members.stream()
 			.map(member -> Room.builder()
 				.member(member)
 				.roomType(RoomDecorationTypes.random())
 				.cakeType(CakeDecorationTypes.random())
-				.year(member.getBirthDate().getNextBirthdayYear())
 				.build()
 			)
 			.collect(Collectors.toList());
-		roomRepository.saveAll(rooms);
+		roomRepository.saveAllInBatch(rooms);
 	}
 
 	@Transactional(readOnly = true)

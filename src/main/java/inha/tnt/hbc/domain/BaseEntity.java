@@ -2,6 +2,7 @@ package inha.tnt.hbc.domain;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.Column;
 import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
 
@@ -20,10 +21,12 @@ public class BaseEntity {
 
 	@CreatedDate
 	@JsonIgnore
-	private LocalDateTime createdAt;
+	@Column(name = "create_at")
+	private LocalDateTime createAt;
 
 	@LastModifiedDate
 	@JsonIgnore
-	private LocalDateTime updatedAt;
+	@Column(name = "update_at")
+	private LocalDateTime updateAt;
 
 }

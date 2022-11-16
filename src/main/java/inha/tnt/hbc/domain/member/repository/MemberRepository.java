@@ -7,8 +7,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import inha.tnt.hbc.domain.member.entity.Member;
+import inha.tnt.hbc.domain.member.repository.querydsl.MemberRepositoryQuerydsl;
 
-public interface MemberRepository extends JpaRepository<Member, Long> {
+public interface MemberRepository extends JpaRepository<Member, Long>, MemberRepositoryQuerydsl {
 
 	Optional<Member> findByUsername(String username);
 
@@ -20,8 +21,5 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
 	@Query("select distinct m from Member m left join fetch m.oAuth2Accounts")
 	List<Member> findAllFetchOAuth2Accounts();
-
-	@Query("select m from Member m where m.birthDate.month = :month and m.birthDate.date = :date")
-	List<Member> findAllByBirthDay(int month, int date);
 
 }

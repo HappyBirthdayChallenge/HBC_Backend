@@ -73,10 +73,7 @@ public class MemberService {
 
 	@Transactional(readOnly = true)
 	public List<Member> findAllWhoCanCreateRoom() {
-		final LocalDate roomCreateDate = LocalDate.now().plusDays(DAYS_BEFORE_ROOM_CREATION);
-		final int month = roomCreateDate.getMonthValue();
-		final int date = roomCreateDate.getDayOfMonth();
-		return memberRepository.findAllByBirthDay(month, date);
+		return memberRepository.findAllByRoomCreateDate(LocalDate.now().plusDays(DAYS_BEFORE_ROOM_CREATION));
 	}
 
 }

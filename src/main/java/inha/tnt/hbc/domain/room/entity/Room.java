@@ -8,22 +8,24 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import inha.tnt.hbc.domain.BaseEntity;
-import inha.tnt.hbc.domain.member.entity.Member;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import inha.tnt.hbc.domain.BaseEntity;
+import inha.tnt.hbc.domain.member.entity.Member;
+
 @Entity
-@Table(name = "rooms")
+@Table(name = "rooms", indexes = @Index(name = "idx_rooms_createAt", columnList = "create_at"))
 @Getter
 @Builder
 @AllArgsConstructor
@@ -38,7 +40,6 @@ public class Room extends BaseEntity {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "member_id")
 	private Member member;
-	private Short year;
 	@Enumerated(EnumType.STRING)
 	private RoomDecorationTypes roomType;
 	@Enumerated(EnumType.STRING)

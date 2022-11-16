@@ -45,4 +45,9 @@ public class RoomService {
 		roomRepository.saveAll(rooms);
 	}
 
+	@Transactional(readOnly = true)
+	public List<Room> getRooms(Long memberId) {
+		return roomRepository.findAllByMemberId(memberId);
+	}
+
 }

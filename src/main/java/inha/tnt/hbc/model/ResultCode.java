@@ -45,6 +45,10 @@ public enum ResultCode {
 	CODE_INVALID(200, "R-IV002", "유효하지 않은 인증 코드입니다."),
 	KEY_INVALID(200, "R-IV003", "유효하지 않은 인증 키입니다."),
 	SEND_CODE_SUCCESS(200, "R-IV004", "인증 코드 전송에 성공하였습니다."),
+
+	// Room
+	GET_ROOMS_SUCCESS(200, "R-R001", "파티룸 목록 조회에 성공하였습니다."),
+
 	;
 
 	private final int status;

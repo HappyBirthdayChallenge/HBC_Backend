@@ -14,10 +14,12 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 
+import lombok.RequiredArgsConstructor;
+
+import inha.tnt.hbc.application.file.dto.LocalFile;
+import inha.tnt.hbc.domain.member.vo.ProfileImage;
 import inha.tnt.hbc.util.FileUtils;
 import inha.tnt.hbc.util.FileUtils.SimpleFile;
-import inha.tnt.hbc.domain.member.vo.ProfileImage;
-import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
@@ -45,13 +47,18 @@ public class S3Uploader {
 		putS3(file, filename);
 	}
 
+	@Async
+	public void upload(LocalFile localFile, String directory) {
+		upload(localFile.getFile(), directory + SLASH + localFile.getFullName());
+	}
+
 	private String generateProfileImageDir(Long memberId) {
 		return PROFILE_IMAGE_DIR + SLASH + memberId;
 	}
 
 	private void upload(File file, String filename) {
 		putS3(file, filename);
-		FileUtils.deleteFile(file);
+		FileUtils.delete(file);
 	}
 
 	private String generateImageFilename(String dirName, ProfileImage image) {

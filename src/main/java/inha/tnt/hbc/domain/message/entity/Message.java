@@ -40,6 +40,7 @@ public class Message extends BaseEntity {
 	@JoinColumn(name = "member_id")
 	private Member member;
 	@Enumerated(EnumType.STRING)
+	@Column(nullable = false)
 	private MessageStatus status;
 	private String content;
 

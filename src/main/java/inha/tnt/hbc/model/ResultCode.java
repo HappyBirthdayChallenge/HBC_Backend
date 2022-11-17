@@ -49,6 +49,15 @@ public enum ResultCode {
 	// Room
 	GET_ROOMS_SUCCESS(200, "R-R001", "파티룸 목록 조회에 성공하였습니다."),
 
+	// Message
+	UPLOAD_MESSAGE_SUCCESS(200, "R-RM001", "메시지 작성에 성공하였습니다."),
+	CREATE_MESSAGE_SUCCESS(200, "R-RM002", "메시지 생성에 성공하였습니다."),
+
+	// File
+	UPLOAD_IMAGE_SUCCESS(200, "R-FI001", "이미지 파일 업로드에 성공하였습니다."),
+	UPLOAD_VIDEO_SUCCESS(200, "R-FI002", "동영상 파일 업로드에 성공하였습니다."),
+	UPLOAD_AUDIO_SUCCESS(200, "R-FI003", "오디오 파일 업로드에 성공하였습니다."),
+
 	;
 
 	private final int status;

@@ -38,6 +38,13 @@ public enum ErrorCode {
 	ALREADY_SETUP_BIRTHDAY(400, "E-M005", "이미 생일을 입력한 회원입니다."),
 	ALREADY_FRIEND(400, "E-M006", "이미 친구관계입니다."),
 	FRIEND_MYSELF_IMPOSSIBLE(400, "E-M007", "자기 자신은 친구로 추가할 수 없습니다."),
+
+	// Room
+	ROOM_UNFOUNDED(400, "E-R001", "존재하지 않는 파티룸입니다."),
+
+	// Message
+	CANNOT_CREATE_MESSAGE_MY_ROOM(400, "E-RM001", "본인 파티룸에는 축하 메시지를 생성할 수 없습니다."),
+	CANNOT_CREATE_MESSAGE_MORE_THAN_ONCE(400, "E-RM002", "한 파티룸에 두 번 이상 축하 메시지를 생성할 수 없습니다."),
 	;
 
 	private final int status;

@@ -1,5 +1,7 @@
 package inha.tnt.hbc.domain.room.service;
 
+import static inha.tnt.hbc.model.ErrorCode.*;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -11,6 +13,8 @@ import inha.tnt.hbc.domain.room.entity.CakeDecorationTypes;
 import inha.tnt.hbc.domain.room.entity.Room;
 import inha.tnt.hbc.domain.room.entity.RoomDecorationTypes;
 import inha.tnt.hbc.domain.room.repository.RoomRepository;
+import inha.tnt.hbc.exception.EntityNotFoundException;
+
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -45,6 +49,11 @@ public class RoomService {
 	@Transactional(readOnly = true)
 	public List<Room> getRooms(Long memberId) {
 		return roomRepository.findAllByMemberId(memberId);
+	}
+
+	public Room findById(Long roomId) {
+		return roomRepository.findById(roomId)
+			.orElseThrow(() -> new EntityNotFoundException(ROOM_UNFOUNDED));
 	}
 
 }

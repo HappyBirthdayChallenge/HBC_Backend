@@ -24,13 +24,14 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import lombok.RequiredArgsConstructor;
+
 import inha.tnt.hbc.security.jwt.JwtAuthenticationFilter;
 import inha.tnt.hbc.security.jwt.JwtAuthenticationProvider;
 import inha.tnt.hbc.security.matcher.SkipPathRequestMatcher;
 import inha.tnt.hbc.security.oauth2.CustomOAuth2UserService;
 import inha.tnt.hbc.security.oauth2.OAuth2SuccessHandler;
 import inha.tnt.hbc.util.JwtUtils;
-import lombok.RequiredArgsConstructor;
 
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -97,11 +98,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http
-			.csrf().disable()
-			.formLogin().disable()
-			.httpBasic().disable()
-			.logout().disable()
-			.cors().configurationSource(configurationSource())
+			.csrf()
+			.disable()
+			.formLogin()
+			.disable()
+			.httpBasic()
+			.disable()
+			.logout()
+			.disable()
+			.cors()
+			.configurationSource(configurationSource())
 			.and()
 
 			.exceptionHandling()
@@ -114,10 +120,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.and()
 
 			.authorizeRequests()
-			.requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
-			.antMatchers("/members/**", "/token/check", "/rooms/**").hasAuthority(ROLE_USER.name())
-			.antMatchers(AUTH_WHITELIST_GUEST).permitAll()
-			.anyRequest().authenticated()
+			.requestMatchers(CorsUtils::isPreFlightRequest)
+			.permitAll()
+			.antMatchers("/members/**", "/token/check", "/rooms/**", "/messages/**", "/files/**")
+			.hasAuthority(ROLE_USER.name())
+			.antMatchers(AUTH_WHITELIST_GUEST)
+			.permitAll()
+			.anyRequest()
+			.authenticated()
 			.and()
 
 			/*.oauth2Login()

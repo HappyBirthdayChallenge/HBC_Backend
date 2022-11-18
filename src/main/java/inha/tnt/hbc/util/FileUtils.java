@@ -57,12 +57,7 @@ public class FileUtils {
 				final String filename = uuid + DELIMITER + originalFilename;
 				file = new File(PATHNAME + DELIMITER + filename);
 			} while (!file.createNewFile());
-			return LocalFile.builder()
-				.file(file)
-				.uuid(uuid)
-				.name(FilenameUtils.getBaseName(originalFilename))
-				.type(FilenameUtils.getExtension(originalFilename))
-				.build();
+			return LocalFile.of(file, uuid, originalFilename);
 		} catch (IOException e) {
 			log.error("New file create failed!", e);
 			throw new RuntimeException(e);

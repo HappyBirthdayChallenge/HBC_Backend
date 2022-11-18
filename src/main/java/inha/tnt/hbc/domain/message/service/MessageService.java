@@ -1,6 +1,7 @@
 package inha.tnt.hbc.domain.message.service;
 
 import static inha.tnt.hbc.domain.message.entity.MessageStatus.*;
+import static inha.tnt.hbc.model.ErrorCode.*;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,6 +14,7 @@ import inha.tnt.hbc.domain.message.exception.CannotCreateMessageInMyRoomExceptio
 import inha.tnt.hbc.domain.message.exception.CannotCreateMessgaeMoreThanOnceException;
 import inha.tnt.hbc.domain.message.repository.MessageRepository;
 import inha.tnt.hbc.domain.room.entity.Room;
+import inha.tnt.hbc.exception.EntityNotFoundException;
 
 @Service
 @RequiredArgsConstructor
@@ -34,6 +36,11 @@ public class MessageService {
 			.status(HOLD)
 			.build();
 		return messageRepository.save(message).getId();
+	}
+
+	public Message findById(Long messageId) {
+		return messageRepository.findById(messageId)
+			.orElseThrow(() -> new EntityNotFoundException(MESSAGE_UNFOUNDED));
 	}
 
 	private boolean isMyRoom(Member member, Room room) {

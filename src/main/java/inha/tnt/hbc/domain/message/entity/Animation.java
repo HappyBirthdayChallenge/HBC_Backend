@@ -34,6 +34,7 @@ public class Animation {
 	@JoinColumn(name = "message_id")
 	private Message message;
 	@Enumerated(EnumType.STRING)
+	@Column(nullable = false)
 	private AnimationTypes type;
 
 }

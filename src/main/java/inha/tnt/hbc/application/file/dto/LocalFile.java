@@ -4,6 +4,8 @@ import static inha.tnt.hbc.util.Constants.*;
 
 import java.io.File;
 
+import org.apache.commons.io.FilenameUtils;
+
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,6 +25,15 @@ public class LocalFile {
 
 	public String getFullName() {
 		return this.uuid + DELIMITER + this.name + DOT + this.type;
+	}
+
+	public static LocalFile of(File file, String uuid, String originalFilename) {
+		return LocalFile.builder()
+			.file(file)
+			.uuid(uuid)
+			.name(FilenameUtils.getBaseName(originalFilename))
+			.type(FilenameUtils.getExtension(originalFilename))
+			.build();
 	}
 
 }

@@ -31,8 +31,11 @@ public class MessageFile {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "message_id")
 	private Message message;
+	@Column(nullable = false)
 	private String name;
+	@Column(nullable = false)
 	private MessageFileTypes type;
+	@Column(nullable = false)
 	private String uuid;
 
 }

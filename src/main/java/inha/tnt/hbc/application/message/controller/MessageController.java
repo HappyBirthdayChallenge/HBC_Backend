@@ -21,7 +21,8 @@ public class MessageController implements MessageApi {
 
 	@Override
 	public ResponseEntity<ResultResponse> upload(MessageRequest request) {
-		return null;
+		messageFacadeService.uploadMessage(request);
+		return ResponseEntity.ok(ResultResponse.of(UPLOAD_MESSAGE_SUCCESS));
 	}
 
 	@Override

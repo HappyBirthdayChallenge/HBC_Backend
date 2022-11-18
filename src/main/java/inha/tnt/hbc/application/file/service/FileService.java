@@ -12,7 +12,7 @@ import inha.tnt.hbc.application.file.dto.LocalFile;
 import inha.tnt.hbc.application.file.exception.CannotAttachFileToDeletedMessage;
 import inha.tnt.hbc.application.file.exception.CannotAttachFileToWrittenMessage;
 import inha.tnt.hbc.domain.message.entity.Message;
-import inha.tnt.hbc.domain.message.service.MessageFileService;
+import inha.tnt.hbc.domain.message.service.MessageFileRedisService;
 import inha.tnt.hbc.domain.message.service.MessageService;
 import inha.tnt.hbc.infra.aws.S3Uploader;
 import inha.tnt.hbc.model.file.dto.FileUploadResponse;
@@ -26,7 +26,7 @@ public class FileService {
 	private final static String S3_DIRECTORY = "temp";
 	private final S3Uploader s3Uploader;
 	private final MessageService messageService;
-	private final MessageFileService messageFileService;
+	private final MessageFileRedisService messageFileRedisService;
 
 	public FileUploadResponse uploadToS3(MultipartFile multipartFile, Long messageId) {
 		final Message message = messageService.findById(messageId);
@@ -39,7 +39,7 @@ public class FileService {
 		final LocalFile localFile = FileUtils.convert(multipartFile);
 		s3Uploader.upload(localFile, S3_DIRECTORY);
 		final String fileId = String.valueOf(System.currentTimeMillis());
-		messageFileService.save(messageId, fileId, localFile);
+		messageFileRedisService.save(messageId, fileId, localFile);
 		return FileUploadResponse
 				.builder()
 				.fileId(fileId)

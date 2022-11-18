@@ -5,11 +5,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import lombok.RequiredArgsConstructor;
+
 import inha.tnt.hbc.domain.member.dto.FriendDto;
 import inha.tnt.hbc.domain.member.entity.Friend;
 import inha.tnt.hbc.domain.member.entity.Member;
 import inha.tnt.hbc.domain.member.repository.FriendRepository;
-import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
@@ -23,11 +24,11 @@ public class FriendService {
 	}
 
 	@Transactional
-	public void addFriend(Member member, Member friendMember) {
+	public void friend(Member member, Member friendMember) {
 		final Friend friend = Friend.builder()
-			.member(member)
-			.friendMember(friendMember)
-			.build();
+				.member(member)
+				.friendMember(friendMember)
+				.build();
 		friendRepository.save(friend);
 	}
 

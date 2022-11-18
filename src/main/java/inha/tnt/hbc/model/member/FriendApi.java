@@ -41,7 +41,8 @@ public interface FriendApi {
 	@GetMapping
 	ResponseEntity<ResultResponse> getFriends(@Min(1) @RequestParam int page, @Min(1) @RequestParam int size);
 
-	@ApiOperation(value = "친구 추가")
+	@ApiOperation(value = "친구 추가", notes = ""
+			+ "상대방을 친구 추가하면, 상대방에게 알림을 전송합니다.")
 	@ApiResponses({
 		@ApiResponse(code = 1, response = Void.class, message = ""
 			+ "status: 200 | code: R-M013 | message: 친구 추가에 성공하였습니다."),

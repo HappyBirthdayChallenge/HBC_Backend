@@ -2,6 +2,8 @@ package inha.tnt.hbc.domain.message.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -33,6 +35,7 @@ public class MessageFile {
 	private Message message;
 	@Column(nullable = false)
 	private String name;
+	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
 	private MessageFileTypes type;
 	@Column(nullable = false)

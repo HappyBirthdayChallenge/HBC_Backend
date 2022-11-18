@@ -19,7 +19,7 @@ public class MessageFileRepositoryJdbcImpl implements MessageFileRepositoryJdbc 
 	@Override
 	public void saveAllInBatch(List<MessageFile> messageFiles) {
 		final String sql =
-			"INSERT INTO rooms (`name`, `type`, `uuid`, `message_id`) " +
+			"INSERT INTO message_files (`name`, `type`, `uuid`, `message_id`) " +
 				"VALUES(?, ?, ?, ?)";
 
 		jdbcTemplate.batchUpdate(

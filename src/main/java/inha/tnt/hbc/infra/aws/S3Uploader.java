@@ -47,7 +47,6 @@ public class S3Uploader {
 		putS3(file, filename);
 	}
 
-	@Async
 	public void upload(LocalFile localFile, String directory) {
 		upload(localFile.getFile(), directory + SLASH + localFile.getFullName());
 	}

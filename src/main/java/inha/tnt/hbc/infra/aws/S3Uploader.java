@@ -38,7 +38,7 @@ public class S3Uploader {
 
 	public void uploadInitialProfileImage(Long memberId) {
 		final ProfileImage image = ProfileImage.initial();
-		final String pathname = ROOT_DIRECTORY + BACK_SLASH + TEMPORAL_DIRECTORY + BACK_SLASH + image.getFullName();
+		final String pathname = ROOT_DIRECTORY + SLASH + TEMPORAL_DIRECTORY + SLASH + image.getFullName();
 		final File file = new File(pathname);
 		final String filename = generateImageFilename(generateProfileImageDir(memberId), image);
 		putS3(file, filename);

@@ -83,7 +83,7 @@ public class OAuth2Service {
 		final ProfileImage image = ImageUtils.convertToProfileImage(imageUrl);
 		final Member member = memberService.save(username, password, name, null, BirthDate.getInitial(), image);
 		OAuth2AccountService.connect(member, primaryKey);
-		final File file = ImageUtils.convertToFile(image);
+		final File file = ImageUtils.convertToFile(image, imageUrl);
 		s3Uploader.uploadOAuth2ProfileImage(file, member.getId());
 		return member;
 	}

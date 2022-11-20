@@ -15,9 +15,9 @@ import inha.tnt.hbc.domain.member.vo.ProfileImage;
 
 public class ImageUtils {
 
-	public static File convertToFile(ProfileImage profileImage) {
+	public static File convertToFile(ProfileImage profileImage, String imageUrl) {
 		try {
-			final URL url = new URL(profileImage.getName());
+			final URL url = new URL(imageUrl);
 			final BufferedImage image = ImageIO.read(url);
 			final String filename = profileImage.getFullName();
 			final String pathname = ROOT_DIRECTORY + BACK_SLASH + TEMPORAL_DIRECTORY + BACK_SLASH + filename;

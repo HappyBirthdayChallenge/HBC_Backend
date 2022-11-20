@@ -36,7 +36,7 @@ public class MessageFileRedisService {
 			.map(hashKey -> {
 				final Object value = redisTemplate.opsForHash().get(key, hashKey);
 				if (value == null) {
-					throw new EntityNotFoundException(FILE_UNFOUNDED);
+					throw new EntityNotFoundException(FILE_UNFOUNDED); // TODO: field error 추가
 				}
 				return value;
 			})
@@ -46,7 +46,7 @@ public class MessageFileRedisService {
 	}
 
 	public void delete(Long messageId) {
-		redisTemplate.opsForHash().delete(generateRedisKey(messageId));
+		redisTemplate.opsForHash().delete(generateRedisKey(messageId)); // TODO: 수정
 	}
 
 	private String generateRedisKey(Long messageId) {

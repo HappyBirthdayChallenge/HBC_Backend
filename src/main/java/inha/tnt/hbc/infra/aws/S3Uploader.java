@@ -7,7 +7,6 @@ import java.io.File;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import com.amazonaws.services.s3.AmazonS3Client;
@@ -29,7 +28,6 @@ public class S3Uploader {
 	@Value("${cloud.aws.s3.bucket}")
 	private String bucket;
 
-	@Async
 	public void uploadOAuth2ProfileImage(File file, Long memberId) {
 		final SimpleFile simpleFile = FileUtils.convertToSimpleFile(file);
 		final String name = simpleFile.getName();
@@ -38,7 +36,6 @@ public class S3Uploader {
 		upload(file, generateFilename(generateProfileImageDir(memberId), uuid, name, type));
 	}
 
-	@Async
 	public void uploadInitialProfileImage(Long memberId) {
 		final ProfileImage image = ProfileImage.initial();
 		final String pathname = ROOT_DIRECTORY + BACK_SLASH + TEMPORAL_DIRECTORY + BACK_SLASH + image.getFullName();
@@ -61,7 +58,7 @@ public class S3Uploader {
 	}
 
 	private String generateImageFilename(String dirName, ProfileImage image) {
-		return generateFilename(dirName, image.getUuid(), image.getName(), image.getType().name());
+		return generateFilename(dirName, image.getUuid(), image.getName(), image.getType().name().toLowerCase());
 	}
 
 	private String generateFilename(String dirName, String uuid, String name, String type) {

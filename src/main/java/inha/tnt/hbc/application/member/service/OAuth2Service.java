@@ -11,6 +11,8 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import lombok.RequiredArgsConstructor;
+
 import inha.tnt.hbc.domain.member.entity.Member;
 import inha.tnt.hbc.domain.member.entity.oauth2.OAuth2Account;
 import inha.tnt.hbc.domain.member.entity.oauth2.OAuth2AccountPK;
@@ -29,7 +31,6 @@ import inha.tnt.hbc.security.oauth2.OAuth2Attributes;
 import inha.tnt.hbc.util.ImageUtils;
 import inha.tnt.hbc.util.JwtUtils;
 import inha.tnt.hbc.util.RandomUtils;
-import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
@@ -82,7 +83,7 @@ public class OAuth2Service {
 		final ProfileImage image = ImageUtils.convertToProfileImage(imageUrl);
 		final Member member = memberService.save(username, password, name, null, BirthDate.getInitial(), image);
 		OAuth2AccountService.connect(member, primaryKey);
-		final File file = ImageUtils.convertToFile(imageUrl);
+		final File file = ImageUtils.convertToFile(image);
 		s3Uploader.uploadOAuth2ProfileImage(file, member.getId());
 		return member;
 	}

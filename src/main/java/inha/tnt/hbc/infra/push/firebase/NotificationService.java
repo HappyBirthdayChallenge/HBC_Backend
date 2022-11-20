@@ -66,7 +66,7 @@ public class NotificationService {
 	private void sendNotification(String token, Long memberId, Message message) {
 		try {
 			final String response = FirebaseMessaging.getInstance().send(message);
-			log.debug("Send Notification Response: {}", response);
+			log.info("Send Notification Response: {}", response);
 		} catch (FirebaseMessagingException e) {
 			log.error("[FirebaseMessagingException] ", e);
 			if (e.getMessagingErrorCode().equals(UNREGISTERED)) {

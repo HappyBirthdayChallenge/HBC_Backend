@@ -19,6 +19,7 @@ import inha.tnt.hbc.application.file.dto.LocalFile;
 import inha.tnt.hbc.domain.member.vo.ProfileImage;
 import inha.tnt.hbc.util.FileUtils;
 import inha.tnt.hbc.util.FileUtils.SimpleFile;
+import inha.tnt.hbc.util.ImageUtils;
 
 @Component
 @RequiredArgsConstructor
@@ -28,11 +29,10 @@ public class S3Uploader {
 	@Value("${cloud.aws.s3.bucket}")
 	private String bucket;
 
-	public void uploadOAuth2ProfileImage(File file, Long memberId) {
-		final SimpleFile simpleFile = FileUtils.convertToSimpleFile(file);
-		final String name = simpleFile.getName();
-		final String type = simpleFile.getType();
-		final String uuid = UUID.randomUUID().toString();
+	public void uploadOAuth2ProfileImage(ProfileImage image, File file, Long memberId) {
+		final String name = image.getName();
+		final String type = image.getType().name().toLowerCase();
+		final String uuid = image.getUuid();
 		upload(file, generateFilename(generateProfileImageDir(memberId), uuid, name, type));
 	}
 

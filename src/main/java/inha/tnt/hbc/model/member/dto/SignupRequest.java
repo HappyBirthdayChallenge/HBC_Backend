@@ -39,8 +39,8 @@ public class SignupRequest {
 	@ApiModelProperty(value = "휴대폰 번호", required = true, example = "010-9128-5708")
 	private String phone;
 	@NotNull
-	@Pattern(regexp = "^[가-힣A-Za-z\\d]{2,20}$")
-	@ApiModelProperty(value = "이름(한글 || 영문자 || 숫자)[2, 20]", example = "손흥민", required = true)
+	@Pattern(regexp = "^[가-힣A-Za-z\\d]{2,10}$")
+	@ApiModelProperty(value = "이름(한글 || 영문자 || 숫자)[2, 10]", example = "손흥민", required = true)
 	private String name;
 	@BirthDay
 	private BirthDate birthDate;

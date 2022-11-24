@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import inha.tnt.hbc.domain.member.entity.Member;
 import inha.tnt.hbc.domain.member.entity.oauth2.OAuth2Account;
@@ -32,6 +33,7 @@ import inha.tnt.hbc.util.ImageUtils;
 import inha.tnt.hbc.util.JwtUtils;
 import inha.tnt.hbc.util.RandomUtils;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class OAuth2Service {
@@ -85,6 +87,9 @@ public class OAuth2Service {
 		OAuth2AccountService.connect(member, primaryKey);
 		final File file = ImageUtils.convertToFile(image, imageUrl);
 		s3Uploader.uploadOAuth2ProfileImage(image, file, member.getId());
+		if (!file.delete()) {
+			log.error("File delete failed!");
+		}
 		return member;
 	}
 

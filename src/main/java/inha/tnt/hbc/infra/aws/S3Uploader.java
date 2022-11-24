@@ -4,7 +4,6 @@ import static inha.tnt.hbc.infra.aws.S3Constants.*;
 import static inha.tnt.hbc.util.Constants.*;
 
 import java.io.File;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -17,9 +16,6 @@ import lombok.RequiredArgsConstructor;
 
 import inha.tnt.hbc.application.file.dto.LocalFile;
 import inha.tnt.hbc.domain.member.vo.ProfileImage;
-import inha.tnt.hbc.util.FileUtils;
-import inha.tnt.hbc.util.FileUtils.SimpleFile;
-import inha.tnt.hbc.util.ImageUtils;
 
 @Component
 @RequiredArgsConstructor
@@ -30,39 +26,20 @@ public class S3Uploader {
 	private String bucket;
 
 	public void uploadOAuth2ProfileImage(ProfileImage image, File file, Long memberId) {
-		final String name = image.getName();
-		final String type = image.getType().name().toLowerCase();
-		final String uuid = image.getUuid();
-		upload(file, generateFilename(generateProfileImageDir(memberId), uuid, name, type));
+		putS3(file, generateProfileImageFilename(memberId, image));
 	}
 
 	public void uploadInitialProfileImage(Long memberId) {
 		final ProfileImage image = ProfileImage.initial();
-		final String pathname = ROOT_DIRECTORY + SLASH + TEMPORAL_DIRECTORY + SLASH + image.getFullName();
-		final File file = new File(pathname);
-		final String filename = generateImageFilename(generateProfileImageDir(memberId), image);
-		putS3(file, filename);
+		putS3(image.getFile(), generateProfileImageFilename(memberId, image));
 	}
 
 	public void upload(LocalFile localFile, String directory) {
-		upload(localFile.getFile(), directory + SLASH + localFile.getFullName());
+		putS3(localFile.getFile(), directory + SLASH + localFile.getFullName());
 	}
 
-	private String generateProfileImageDir(Long memberId) {
-		return PROFILE_IMAGE_DIR + SLASH + memberId;
-	}
-
-	private void upload(File file, String filename) {
-		putS3(file, filename);
-		FileUtils.delete(file);
-	}
-
-	private String generateImageFilename(String dirName, ProfileImage image) {
-		return generateFilename(dirName, image.getUuid(), image.getName(), image.getType().name().toLowerCase());
-	}
-
-	private String generateFilename(String dirName, String uuid, String name, String type) {
-		return dirName + SLASH + uuid + DELIMITER + name + DOT + type;
+	private String generateProfileImageFilename(Long memberId, ProfileImage image) {
+		return PROFILE_IMAGE_DIR + SLASH + memberId + SLASH + image.getFullName();
 	}
 
 	private void putS3(File uploadFile, String fileName) {

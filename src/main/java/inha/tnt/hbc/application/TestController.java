@@ -4,6 +4,7 @@ import static inha.tnt.hbc.domain.member.service.IdentityVerificationService.Aut
 import static inha.tnt.hbc.util.Constants.*;
 import static java.util.concurrent.TimeUnit.*;
 
+import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -48,6 +49,12 @@ public class TestController {
 	@GetMapping("/key")
 	public String getValue(@RequestParam String key) {
 		return redisTemplate.opsForValue().get(key);
+	}
+
+	@ApiOperation(value = "Redis Key 조회(MessageFile)")
+	@GetMapping("/key/mf")
+	public Map<Object, Object> getKeyMessageFile(@RequestParam Long messageId) {
+		return redisTemplate.opsForHash().entries("mf_" + messageId.toString());
 	}
 
 }

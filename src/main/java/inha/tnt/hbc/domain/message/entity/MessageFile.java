@@ -1,5 +1,8 @@
 package inha.tnt.hbc.domain.message.entity;
 
+import static inha.tnt.hbc.infra.aws.S3Constants.*;
+import static inha.tnt.hbc.util.Constants.*;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -26,6 +29,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class MessageFile {
 
+	private final static String MESSAGE_S3_DIRECTORY = "messages";
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "message_file_id")
@@ -40,5 +45,16 @@ public class MessageFile {
 	private MessageFileTypes type;
 	@Column(nullable = false)
 	private String uuid;
+
+	public String getS3Directory() {
+		return MESSAGE_S3_DIRECTORY + SLASH + this.message.getId();
+	}
+
+	public String getFileUri() {
+		return BASE_URL + SLASH +
+			MESSAGE_S3_DIRECTORY + SLASH +
+			this.message.getId() + SLASH +
+			this.uuid + DELIMITER + this.name + DOT + this.type.name().toLowerCase();
+	}
 
 }

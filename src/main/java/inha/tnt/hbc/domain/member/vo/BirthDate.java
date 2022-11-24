@@ -41,6 +41,10 @@ public class BirthDate {
 	@Enumerated(EnumType.STRING)
 	private DateType type;
 
+	public LocalDate convert() {
+		return LocalDate.of(this.year, this.month, this.date);
+	}
+
 	@JsonIgnore
 	public static BirthDate getInitial() {
 		return BirthDate.builder()

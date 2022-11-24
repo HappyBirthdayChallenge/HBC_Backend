@@ -1,5 +1,7 @@
 package inha.tnt.hbc.domain.room.entity;
 
+import java.time.LocalDate;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -44,5 +46,13 @@ public class Room extends BaseEntity {
 	private RoomDecorationTypes roomType;
 	@Enumerated(EnumType.STRING)
 	private CakeDecorationTypes cakeType;
+
+	public boolean isOwner(Member member) {
+		return this.member.getId().equals(member.getId());
+	}
+
+	public boolean isBeforeBirthDay() {
+		return LocalDate.now().isBefore(this.member.getBirthDate().convert());
+	}
 
 }

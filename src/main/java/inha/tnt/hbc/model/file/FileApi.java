@@ -4,6 +4,8 @@ import static org.springframework.http.MediaType.*;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,6 +22,7 @@ import inha.tnt.hbc.annotation.Image;
 import inha.tnt.hbc.annotation.Video;
 import inha.tnt.hbc.model.ErrorResponse;
 import inha.tnt.hbc.model.ResultResponse;
+import inha.tnt.hbc.model.Void;
 import inha.tnt.hbc.model.file.dto.FileUploadResponse;
 
 @Api(tags = "파일 API")
@@ -84,4 +87,17 @@ public interface FileApi {
 	ResponseEntity<ResultResponse> uploadAudio(@Audio @RequestParam(name = "audio") MultipartFile audio,
 		@RequestParam(name = "message_id") Long messageId);
 
+	@ApiOperation(value = "메시지 파일 삭제")
+	@ApiImplicitParam(name = "file_id", value = "메시지 파일 PK", example = "1", required = true)
+	@ApiResponses({
+		@ApiResponse(code = 1, response = Void.class, message = ""
+			+ "status: 200 | code: R-FI004 | message: 메시지 파일 삭제에 성공하였습니다."),
+		@ApiResponse(code = 500, response = ErrorResponse.class, message = ""
+			+ "status: 400 | code: E-F001 | message: 존재하지 않는 파일입니다.\n"
+			+ "status: 401 | code: E-A003 | message: 인증에 실패하였습니다.\n"
+			+ "status: 500 | code: E-G001 | message: 내부 서버 오류입니다.")
+	})
+	@DeleteMapping("/{file_id}")
+	ResponseEntity<ResultResponse> deleteMessageFile(@PathVariable(name = "file_id") Long fileId);
+	
 }

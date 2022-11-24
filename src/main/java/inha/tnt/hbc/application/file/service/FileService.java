@@ -54,4 +54,11 @@ public class FileService {
 			.build();
 	}
 
+	@Transactional
+	public void deleteMessageFile(Long fileId) {
+		final MessageFile messageFile = messageFileService.findById(fileId);
+		messageFileService.deleteById(fileId);
+		messageFileRedisService.delete(messageFile.getMessage().getId(), fileId);
+	}
+
 }

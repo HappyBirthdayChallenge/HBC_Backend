@@ -59,7 +59,7 @@ public enum ResultCode {
 	UPLOAD_IMAGE_SUCCESS(200, "R-FI001", "이미지 파일 업로드에 성공하였습니다."),
 	UPLOAD_VIDEO_SUCCESS(200, "R-FI002", "동영상 파일 업로드에 성공하였습니다."),
 	UPLOAD_AUDIO_SUCCESS(200, "R-FI003", "오디오 파일 업로드에 성공하였습니다."),
-
+	DELETE_MESSAGE_FILE_SUCCESS(200, "R-FI004", "메시지 파일 삭제에 성공하였습니다."),
 	;
 
 	private final int status;

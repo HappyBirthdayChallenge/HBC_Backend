@@ -37,4 +37,10 @@ public class FileController implements FileApi {
 		return ResponseEntity.ok(ResultResponse.of(UPLOAD_AUDIO_SUCCESS, response));
 	}
 
+	@Override
+	public ResponseEntity<ResultResponse> deleteMessageFile(Long fileId) {
+		fileService.deleteMessageFile(fileId);
+		return ResponseEntity.ok(ResultResponse.of(DELETE_MESSAGE_FILE_SUCCESS));
+	}
+
 }

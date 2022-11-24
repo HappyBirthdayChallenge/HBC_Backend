@@ -11,6 +11,7 @@ import inha.tnt.hbc.application.message.service.MessageFacadeService;
 import inha.tnt.hbc.model.ResultResponse;
 import inha.tnt.hbc.model.message.MessageApi;
 import inha.tnt.hbc.model.message.dto.CreateMessageResponse;
+import inha.tnt.hbc.model.message.dto.InquiryMessageResponse;
 import inha.tnt.hbc.model.message.dto.MessageRequest;
 
 @RestController
@@ -29,6 +30,12 @@ public class MessageController implements MessageApi {
 	public ResponseEntity<ResultResponse> create(Long roomId) {
 		final CreateMessageResponse response = messageFacadeService.createMessage(roomId);
 		return ResponseEntity.ok(ResultResponse.of(CREATE_MESSAGE_SUCCESS, response));
+	}
+
+	@Override
+	public ResponseEntity<ResultResponse> inquiry(Long messageId) {
+		final InquiryMessageResponse response = messageFacadeService.inquiryMessage(messageId);
+		return ResponseEntity.ok(ResultResponse.of(INQUIRY_MESSAGE_SUCCESS, response));
 	}
 
 }

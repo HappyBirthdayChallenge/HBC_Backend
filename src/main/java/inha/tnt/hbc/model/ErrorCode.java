@@ -46,6 +46,8 @@ public enum ErrorCode {
 	CANNOT_CREATE_MESSAGE_MY_ROOM(400, "E-RM001", "본인 파티룸에는 축하 메시지를 생성할 수 없습니다."),
 	CANNOT_CREATE_MESSAGE_MORE_THAN_ONCE(400, "E-RM002", "한 파티룸에 두 번 이상 축하 메시지를 생성할 수 없습니다."),
 	MESSAGE_UNFOUNDED(400, "E-RM003", "존재하지 않는 메시지입니다."),
+	THIRD_PARTY_CANNOT_INQUIRY_MESSAGE(400, "E-RM004", "제 3자는 메시지를 조회할 수 없습니다."),
+	ROOM_OWNER_CANNOT_INQUIRY_MESSAGE_BEFORE_BIRTHDAY(400, "E-RM005", "파티룸 주인은 생일 전에 메시지를 조회할 수 없습니다."),
 
 	// File
 	FILE_UNFOUNDED(400, "E-F001", "존재하지 않는 파일입니다."),

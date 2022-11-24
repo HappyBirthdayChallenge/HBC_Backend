@@ -8,21 +8,19 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "decorations")
+@Table(name = "decorations", indexes = @Index(name = "idx_decorations_category", columnList = "category"))
 @Getter
-@Builder
-@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Decoration {
 
@@ -36,5 +34,14 @@ public class Decoration {
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
 	private MessageDecorationTypes type;
+	@Column(name = "category", nullable = false)
+	private String category;
+
+	@Builder
+	public Decoration(Message message, MessageDecorationTypes type) {
+		this.message = message;
+		this.type = type;
+		this.category = type.getCategory();
+	}
 
 }

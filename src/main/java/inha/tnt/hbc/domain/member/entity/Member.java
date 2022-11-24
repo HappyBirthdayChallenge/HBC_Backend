@@ -82,7 +82,7 @@ public class Member extends BaseEntity {
 	}
 
 	public String getImageUri() {
-		return BASE_URL + SLASH +
+		return S3_BASE_URL + SLASH +
 			PROFILE_IMAGE_DIR + SLASH +
 			this.id + SLASH + this.image.getFullName();
 	}

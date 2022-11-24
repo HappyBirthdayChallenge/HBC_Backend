@@ -55,7 +55,7 @@ public class FileUtils {
 			do {
 				uuid = UUID.randomUUID().toString();
 				final String filename = uuid + DELIMITER + originalFilename;
-				file = new File(PATHNAME + DELIMITER + filename);
+				file = new File(PATHNAME + BACK_SLASH + filename);
 			} while (!file.createNewFile());
 			return LocalFile.of(file, uuid, originalFilename);
 		} catch (IOException e) {

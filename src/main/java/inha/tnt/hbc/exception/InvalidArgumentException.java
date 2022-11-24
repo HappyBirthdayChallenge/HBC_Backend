@@ -4,12 +4,17 @@ import static inha.tnt.hbc.model.ErrorCode.*;
 
 import java.util.List;
 
+import inha.tnt.hbc.model.ErrorCode;
 import inha.tnt.hbc.model.ErrorResponse.FieldError;
 
 public class InvalidArgumentException extends BusinessException {
 
 	public InvalidArgumentException(List<FieldError> errors) {
 		super(INPUT_VALUE_INVALID, errors);
+	}
+
+	public InvalidArgumentException(ErrorCode errorCode) {
+		super(errorCode);
 	}
 
 }

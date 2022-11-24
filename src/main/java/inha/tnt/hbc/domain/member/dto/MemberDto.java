@@ -3,6 +3,7 @@ package inha.tnt.hbc.domain.member.dto;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
+import inha.tnt.hbc.domain.member.entity.Member;
 import inha.tnt.hbc.domain.member.vo.BirthDate;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AccessLevel;
@@ -28,5 +29,15 @@ public class MemberDto {
 	private String imageUrl;
 	@ApiModelProperty(value = "회원 생일")
 	private BirthDate birthDate;
+
+	public static MemberDto of(Member member) {
+		return MemberDto.builder()
+			.id(member.getId())
+			.name(member.getName())
+			.username(member.getUsername())
+			.imageUrl(member.getImageUri())
+			.birthDate(member.getBirthDate())
+			.build();
+	}
 
 }

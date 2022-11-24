@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class Constants {
 
+	public static final int PAGE_CORRECTION_VALUE = 1;
+	public static final int PAGE_FIRST_NUMBER = 1;
 	public static final int DAYS_BEFORE_ROOM_CREATION = 7;
 	public static final int NONE = -1;
 	public static final int AUTH_CODE_LENGTH = 6;

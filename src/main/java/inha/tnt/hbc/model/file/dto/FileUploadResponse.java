@@ -18,6 +18,6 @@ import lombok.NoArgsConstructor;
 public class FileUploadResponse {
 
 	@ApiModelProperty(value = "파일 Id", example = "1")
-	private String fileId;
+	private Long fileId;
 
 }

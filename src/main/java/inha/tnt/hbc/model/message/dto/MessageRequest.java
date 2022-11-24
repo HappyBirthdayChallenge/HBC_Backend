@@ -39,7 +39,7 @@ public class MessageRequest {
 	@ApiModelProperty(value = "메시지 내용", example = "생일 축하해!", required = true)
 	private String content;
 	@Size(max = 10)
-	@ApiModelProperty(value = "메시지 파일 ID 목록", example = "[111231245, 111243589]", required = true)
-	private List<String> fileIds = new ArrayList<>();
+	@ApiModelProperty(value = "메시지 파일 ID 목록", example = "[1, 2]", required = true)
+	private List<Long> fileIds = new ArrayList<>();
 
 }

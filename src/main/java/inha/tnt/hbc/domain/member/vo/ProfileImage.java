@@ -2,6 +2,7 @@ package inha.tnt.hbc.domain.member.vo;
 
 import static inha.tnt.hbc.util.Constants.*;
 
+import java.io.File;
 import java.util.Objects;
 
 import javax.persistence.Column;
@@ -38,6 +39,10 @@ public class ProfileImage {
 			.type(ProfileImageType.PNG)
 			.uuid(DEFAULT_UUID)
 			.build();
+	}
+
+	public File getFile() {
+		return new File(ROOT_DIRECTORY + SLASH + TEMPORAL_DIRECTORY + SLASH + this.getFullName());
 	}
 
 	public String getFullName() {

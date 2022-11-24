@@ -11,7 +11,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Getter
 @Builder
 @AllArgsConstructor
@@ -25,6 +27,12 @@ public class LocalFile {
 
 	public String getFullName() {
 		return this.uuid + DELIMITER + this.name + DOT + this.type;
+	}
+
+	public void deleteFile() {
+		if (!file.delete()) {
+			log.error("File delete failed!");
+		}
 	}
 
 	public static LocalFile of(File file, String uuid, String originalFilename) {

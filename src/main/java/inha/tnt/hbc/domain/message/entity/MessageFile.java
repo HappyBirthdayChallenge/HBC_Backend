@@ -29,8 +29,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class MessageFile {
 
-	private final static String MESSAGE_S3_DIRECTORY = "messages";
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "message_file_id")
@@ -50,11 +48,12 @@ public class MessageFile {
 		return MESSAGE_S3_DIRECTORY + SLASH + this.message.getId();
 	}
 
-	public String getFileUri() {
-		return BASE_URL + SLASH +
-			MESSAGE_S3_DIRECTORY + SLASH +
-			this.message.getId() + SLASH +
-			this.uuid + DELIMITER + this.name + DOT + this.type.name().toLowerCase();
+	public String getS3FileUri() {
+		return S3_BASE_URL + SLASH + this.getS3Directory() + SLASH + this.getFileFullName();
+	}
+
+	public String getFileFullName() {
+		return this.uuid + DELIMITER + this.name + DOT + this.type.name().toLowerCase();
 	}
 
 }

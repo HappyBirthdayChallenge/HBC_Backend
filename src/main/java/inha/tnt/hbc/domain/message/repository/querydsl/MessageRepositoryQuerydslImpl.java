@@ -1,5 +1,6 @@
 package inha.tnt.hbc.domain.message.repository.querydsl;
 
+import static inha.tnt.hbc.domain.member.entity.QMember.*;
 import static inha.tnt.hbc.domain.message.entity.MessageStatus.*;
 import static inha.tnt.hbc.domain.message.entity.QAnimation.*;
 import static inha.tnt.hbc.domain.message.entity.QDecoration.*;
@@ -29,7 +30,19 @@ public class MessageRepositoryQuerydslImpl implements MessageRepositoryQuerydsl 
 			.innerJoin(message.animation, animation).fetchJoin()
 			.innerJoin(message.decoration, decoration).fetchJoin()
 			.innerJoin(message.messageFiles, messageFile).fetchJoin()
-			.fetchFirst());
+			.fetchFirst()
+		);
+	}
+
+	@Override
+	public Optional<Message> findFetchRoomMemberByIdAndMemberId(Long messageId, Long memberId) {
+		return Optional.ofNullable(queryFactory
+			.selectFrom(message)
+			.where(message.id.eq(messageId).and(message.member.id.eq(memberId)))
+			.innerJoin(message.room, room).fetchJoin()
+			.innerJoin(room.member, member).fetchJoin()
+			.fetchFirst()
+		);
 	}
 
 }

@@ -48,8 +48,8 @@ public class NotificationService {
 		try {
 			final ClassPathResource resource = new ClassPathResource(FCM_KEY_PATH);
 			final FirebaseOptions options = FirebaseOptions.builder()
-					.setCredentials(GoogleCredentials.fromStream(resource.getInputStream()))
-					.build();
+				.setCredentials(GoogleCredentials.fromStream(resource.getInputStream()))
+				.build();
 			FirebaseApp.initializeApp(options);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
@@ -59,8 +59,14 @@ public class NotificationService {
 	@Async
 	public void sendFriendAlarm(Member subject, Member object) {
 		fcmTokenService.getFcmTokens(object)
-				.forEach(token -> sendNotification(token, object.getId(),
-						generateMessage(token, String.format(NEW_FRIEND, subject.getName()))));
+			.forEach(token -> sendNotification(token, object.getId(),
+				generateMessage(token, String.format(NEW_FRIEND, subject.getName()))));
+	}
+
+	@Async
+	public void sendMessageAlarm(Member object) {
+		fcmTokenService.getFcmTokens(object)
+			.forEach(token -> sendNotification(token, object.getId(), generateMessage(token, NEW_MESSAGE)));
 	}
 
 	private void sendNotification(String token, Long memberId, Message message) {
@@ -78,15 +84,15 @@ public class NotificationService {
 	private Message generateMessage(String token, String messageBody) {
 		final String now = LocalDateTime.now().toString();
 		final Notification notification = Notification.builder()
-				.setTitle(TITLE)
-				.setBody(messageBody)
-				.setImage(IMAGE_URI)
-				.build();
+			.setTitle(TITLE)
+			.setBody(messageBody)
+			.setImage(IMAGE_URI)
+			.build();
 		return Message.builder()
-				.putData(TIME, now)
-				.setNotification(notification)
-				.setToken(token)
-				.build();
+			.putData(TIME, now)
+			.setNotification(notification)
+			.setToken(token)
+			.build();
 	}
 
 }

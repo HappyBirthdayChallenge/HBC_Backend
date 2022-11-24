@@ -12,11 +12,11 @@ import inha.tnt.hbc.domain.message.entity.Message;
 import inha.tnt.hbc.domain.message.service.AnimationService;
 import inha.tnt.hbc.domain.message.service.DecorationService;
 import inha.tnt.hbc.domain.message.service.MessageFileRedisService;
-import inha.tnt.hbc.domain.message.service.MessageFileService;
 import inha.tnt.hbc.domain.message.service.MessageService;
 import inha.tnt.hbc.domain.room.entity.Room;
 import inha.tnt.hbc.domain.room.service.RoomService;
 import inha.tnt.hbc.exception.InvalidArgumentException;
+import inha.tnt.hbc.infra.push.firebase.NotificationService;
 import inha.tnt.hbc.model.message.dto.CreateMessageResponse;
 import inha.tnt.hbc.model.message.dto.InquiryMessageResponse;
 import inha.tnt.hbc.model.message.dto.MessageRequest;
@@ -29,10 +29,10 @@ public class MessageFacadeService {
 	private final MessageService messageService;
 	private final RoomService roomService;
 	private final SecurityContextUtils securityContextUtils;
-	private final MessageFileService messageFileService;
 	private final MessageFileRedisService messageFileRedisService;
 	private final DecorationService decorationService;
 	private final AnimationService animationService;
+	private final NotificationService notificationService;
 
 	@Transactional
 	public CreateMessageResponse createMessage(Long roomId) {
@@ -43,12 +43,13 @@ public class MessageFacadeService {
 
 	@Transactional
 	public void uploadMessage(MessageRequest request) {
-		final Member member = securityContextUtils.takeoutMember();
-		final Message message = messageService.findByIdAndMember(request.getMessageId(), member);
+		final Long memberId = securityContextUtils.takeoutMemberId();
+		final Message message = messageService.findFetchRoomMemberByIdAndMemberId(request.getMessageId(), memberId);
 		decorationService.save(message, request.getDecorationType());
 		animationService.save(message, request.getAnimationType());
 		message.uploadMessage(request.getContent());
 		messageFileRedisService.delete(message.getId());
+		notificationService.sendMessageAlarm(message.getRoom().getMember());
 	}
 
 	public InquiryMessageResponse inquiryMessage(Long messageId) {

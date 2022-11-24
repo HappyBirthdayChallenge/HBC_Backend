@@ -1,5 +1,7 @@
 package inha.tnt.hbc.domain.message.service;
 
+import static inha.tnt.hbc.model.ErrorCode.*;
+
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -9,6 +11,7 @@ import inha.tnt.hbc.domain.message.entity.Message;
 import inha.tnt.hbc.domain.message.entity.MessageFile;
 import inha.tnt.hbc.domain.message.entity.MessageFileTypes;
 import inha.tnt.hbc.domain.message.repository.MessageFileRepository;
+import inha.tnt.hbc.exception.EntityNotFoundException;
 
 @Service
 @RequiredArgsConstructor
@@ -24,6 +27,15 @@ public class MessageFileService {
 			.uuid(localFile.getUuid())
 			.build();
 		return messageFileRepository.save(messageFile);
+	}
+
+	public void deleteById(Long fileId) {
+		messageFileRepository.deleteById(fileId);
+	}
+
+	public MessageFile findById(Long fileId) {
+		return messageFileRepository.findById(fileId)
+			.orElseThrow(() -> new EntityNotFoundException(FILE_UNFOUNDED));
 	}
 
 }

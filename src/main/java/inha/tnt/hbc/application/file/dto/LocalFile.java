@@ -30,8 +30,10 @@ public class LocalFile {
 	}
 
 	public void deleteFile() {
-		if (!file.delete()) {
-			log.error("File delete failed!");
+		if (this.file.delete()) {
+			log.debug("File delete success!");
+		} else {
+			log.debug("File delete failed!");
 		}
 	}
 

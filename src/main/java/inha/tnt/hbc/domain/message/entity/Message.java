@@ -66,7 +66,7 @@ public class Message extends BaseEntity {
 
 	public List<String> getFileUris() {
 		return messageFiles.stream()
-			.map(MessageFile::getFileUri)
+			.map(MessageFile::getS3FileUri)
 			.collect(Collectors.toList());
 	}
 

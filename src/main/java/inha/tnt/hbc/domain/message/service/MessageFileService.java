@@ -1,16 +1,13 @@
 package inha.tnt.hbc.domain.message.service;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 
-import inha.tnt.hbc.domain.message.dto.MessageFileDto;
+import inha.tnt.hbc.application.file.dto.LocalFile;
 import inha.tnt.hbc.domain.message.entity.Message;
 import inha.tnt.hbc.domain.message.entity.MessageFile;
+import inha.tnt.hbc.domain.message.entity.MessageFileTypes;
 import inha.tnt.hbc.domain.message.repository.MessageFileRepository;
 
 @Service
@@ -19,12 +16,14 @@ public class MessageFileService {
 
 	private final MessageFileRepository messageFileRepository;
 
-	@Transactional
-	public void saveAll(Message message, List<MessageFileDto> messageFileDtos) {
-		final List<MessageFile> messageFiles = messageFileDtos.stream()
-			.map(dto -> dto.convertToEntity(message))
-			.collect(Collectors.toList());
-		messageFileRepository.saveAllInBatch(messageFiles);
+	public MessageFile save(Message message, LocalFile localFile) {
+		final MessageFile messageFile = MessageFile.builder()
+			.message(message)
+			.name(localFile.getName())
+			.type(MessageFileTypes.valueOf(localFile.getType().toUpperCase()))
+			.uuid(localFile.getUuid())
+			.build();
+		return messageFileRepository.save(messageFile);
 	}
 
 }

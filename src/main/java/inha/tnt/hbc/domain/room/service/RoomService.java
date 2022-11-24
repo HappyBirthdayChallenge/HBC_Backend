@@ -8,14 +8,14 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import lombok.RequiredArgsConstructor;
+
 import inha.tnt.hbc.domain.member.entity.Member;
 import inha.tnt.hbc.domain.room.entity.CakeDecorationTypes;
 import inha.tnt.hbc.domain.room.entity.Room;
 import inha.tnt.hbc.domain.room.entity.RoomDecorationTypes;
 import inha.tnt.hbc.domain.room.repository.RoomRepository;
 import inha.tnt.hbc.exception.EntityNotFoundException;
-
-import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
@@ -46,7 +46,6 @@ public class RoomService {
 		roomRepository.saveAllInBatch(rooms);
 	}
 
-	@Transactional(readOnly = true)
 	public List<Room> getRooms(Long memberId) {
 		return roomRepository.findAllByMemberId(memberId);
 	}

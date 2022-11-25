@@ -38,6 +38,10 @@ public class S3Uploader {
 		putS3(localFile.getFile(), directory + SLASH + localFile.getFullName());
 	}
 
+	public void delete(String directory, String filename) {
+		deleteS3(directory + SLASH + filename);
+	}
+
 	private String generateProfileImageFilename(Long memberId, ProfileImage image) {
 		return PROFILE_IMAGE_DIR + SLASH + memberId + SLASH + image.getFullName();
 	}

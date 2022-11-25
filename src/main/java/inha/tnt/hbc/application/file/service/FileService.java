@@ -58,7 +58,8 @@ public class FileService {
 	public void deleteMessageFile(Long fileId) {
 		final MessageFile messageFile = messageFileService.findById(fileId);
 		messageFileService.deleteById(fileId);
-		messageFileRedisService.delete(messageFile.getMessage().getId(), fileId);
+		messageFileRedisService.delete(messageFile.getMessage().getId(), fileId); // TODO: key 삭제 안됨 검토
+		s3Uploader.delete(messageFile.getS3Directory(), messageFile.getFileFullName());
 	}
 
 }

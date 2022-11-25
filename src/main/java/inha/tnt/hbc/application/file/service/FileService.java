@@ -35,7 +35,7 @@ public class FileService {
 	private final MessageFileService messageFileService;
 
 	@Transactional
-	public FileUploadResponse uploadToS3(MultipartFile multipartFile, Long messageId) {
+	public Long uploadToS3(MultipartFile multipartFile, Long messageId) {
 		final Member member = securityContextUtils.takeoutMember();
 		final Message message = messageService.findByIdAndMember(messageId, member);
 		if (message.getStatus().equals(DELETED)) {
@@ -49,9 +49,7 @@ public class FileService {
 		messageFileRedisService.save(messageId, messageFile.getId(), localFile);
 		s3Uploader.upload(localFile, messageFile.getS3Directory());
 		localFile.deleteFile();
-		return FileUploadResponse.builder()
-			.fileId(messageFile.getId())
-			.build();
+		return messageFile.getId();
 	}
 
 	@Transactional

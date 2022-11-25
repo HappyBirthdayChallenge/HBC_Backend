@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -34,7 +35,10 @@ public interface FileApi {
 		+ "1. PNG, JPG, JPEG, GIF 형식만 지원합니다.\n"
 		+ "2. 최대 10MB까지 업로드할 수 있습니다."
 	)
-	@ApiImplicitParam(name = "message_id", value = "메시지 PK", example = "1", required = true)
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = "message_id", value = "메시지 PK", example = "1", required = true),
+		@ApiImplicitParam(name = "client_id", value = "클라이언트 ID", example = "1", required = true)
+	})
 	@ApiResponses({
 		@ApiResponse(code = 1, response = FileUploadResponse.class, message = ""
 			+ "status: 200 | code: R-FI001 | message: 이미지 파일 업로드에 성공하였습니다."),
@@ -47,13 +51,16 @@ public interface FileApi {
 	})
 	@PostMapping(value = "/upload/image", consumes = MULTIPART_FORM_DATA_VALUE)
 	ResponseEntity<ResultResponse> uploadImage(@Image @RequestParam(name = "image") MultipartFile image,
-		@RequestParam(name = "message_id") Long messageId);
+		@RequestParam(name = "message_id") Long messageId, @RequestParam(name = "client_id") Long clientId);
 
 	@ApiOperation(value = "동영상 파일 업로드", notes = ""
 		+ "1. MP4 형식만 지원합니다.\n"
 		+ "2. 최대 300MB까지 업로드할 수 있습니다."
 	)
-	@ApiImplicitParam(name = "message_id", value = "메시지 PK", example = "1", required = true)
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = "message_id", value = "메시지 PK", example = "1", required = true),
+		@ApiImplicitParam(name = "client_id", value = "클라이언트 ID", example = "1", required = true)
+	})
 	@ApiResponses({
 		@ApiResponse(code = 1, response = FileUploadResponse.class, message = ""
 			+ "status: 200 | code: R-FI003 | message: 동영상 파일 업로드에 성공하였습니다."),
@@ -66,13 +73,17 @@ public interface FileApi {
 	})
 	@PostMapping(value = "/upload/video", consumes = MULTIPART_FORM_DATA_VALUE)
 	ResponseEntity<ResultResponse> uploadVideo(@Video @RequestParam(name = "video") MultipartFile video,
-		@RequestParam(name = "message_id") Long messageId);
+		@RequestParam(name = "message_id") Long messageId, @RequestParam(name = "client_id") Long clientId);
 
 	@ApiOperation(value = "오디오 파일 업로드", notes = ""
 		+ "1. M4A 형식만 지원합니다.\n"
 		+ "2. 최대 10MB까지 업로드할 수 있습니다."
 	)
-	@ApiImplicitParam(name = "message_id", value = "메시지 PK", example = "1", required = true)
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = "message_id", value = "메시지 PK", example = "1", required = true),
+		@ApiImplicitParam(name = "client_id", value = "클라이언트 ID", example = "1", required = true)
+
+	})
 	@ApiResponses({
 		@ApiResponse(code = 1, response = FileUploadResponse.class, message = ""
 			+ "status: 200 | code: R-FI002 | message: 오디오 파일 업로드에 성공하였습니다."),
@@ -85,7 +96,7 @@ public interface FileApi {
 	})
 	@PostMapping(value = "/upload/audio", consumes = MULTIPART_FORM_DATA_VALUE)
 	ResponseEntity<ResultResponse> uploadAudio(@Audio @RequestParam(name = "audio") MultipartFile audio,
-		@RequestParam(name = "message_id") Long messageId);
+		@RequestParam(name = "message_id") Long messageId, @RequestParam(name = "client_id") Long clientId);
 
 	@ApiOperation(value = "메시지 파일 삭제")
 	@ApiImplicitParam(name = "file_id", value = "메시지 파일 PK", example = "1", required = true)
@@ -99,5 +110,5 @@ public interface FileApi {
 	})
 	@DeleteMapping("/{file_id}")
 	ResponseEntity<ResultResponse> deleteMessageFile(@PathVariable(name = "file_id") Long fileId);
-	
+
 }

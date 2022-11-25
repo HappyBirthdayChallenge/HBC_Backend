@@ -20,20 +20,23 @@ public class FileController implements FileApi {
 	private final FileService fileService;
 
 	@Override
-	public ResponseEntity<ResultResponse> uploadImage(MultipartFile image, Long messageId) {
-		final FileUploadResponse response = fileService.uploadToS3(image, messageId);
+	public ResponseEntity<ResultResponse> uploadImage(MultipartFile image, Long messageId, Long clientId) {
+		final Long fileId = fileService.uploadToS3(image, messageId);
+		final FileUploadResponse response = FileUploadResponse.of(fileId, clientId);
 		return ResponseEntity.ok(ResultResponse.of(UPLOAD_IMAGE_SUCCESS, response));
 	}
 
 	@Override
-	public ResponseEntity<ResultResponse> uploadVideo(MultipartFile video, Long messageId) {
-		final FileUploadResponse response = fileService.uploadToS3(video, messageId);
+	public ResponseEntity<ResultResponse> uploadVideo(MultipartFile video, Long messageId, Long clientId) {
+		final Long fileId = fileService.uploadToS3(video, messageId);
+		final FileUploadResponse response = FileUploadResponse.of(fileId, clientId);
 		return ResponseEntity.ok(ResultResponse.of(UPLOAD_VIDEO_SUCCESS, response));
 	}
 
 	@Override
-	public ResponseEntity<ResultResponse> uploadAudio(MultipartFile audio, Long messageId) {
-		final FileUploadResponse response = fileService.uploadToS3(audio, messageId);
+	public ResponseEntity<ResultResponse> uploadAudio(MultipartFile audio, Long messageId, Long clientId) {
+		final Long fileId = fileService.uploadToS3(audio, messageId);
+		final FileUploadResponse response = FileUploadResponse.of(fileId, clientId);
 		return ResponseEntity.ok(ResultResponse.of(UPLOAD_AUDIO_SUCCESS, response));
 	}
 

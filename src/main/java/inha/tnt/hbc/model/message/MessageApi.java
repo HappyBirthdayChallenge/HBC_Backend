@@ -81,6 +81,8 @@ public interface MessageApi {
 			+ "status: 200 | code: R-RM004 | message: 메시지 작성 취소에 성공하였습니다."),
 		@ApiResponse(code = 500, response = ErrorResponse.class, message = ""
 			+ "status: 400 | code: E-G002 | message: 입력 값이 유효하지 않습니다.\n"
+			+ "status: 400 | code: E-RM006 | message: 이미 삭제된 메시지는 작성 취소가 불가능합니다.\n"
+			+ "status: 400 | code: E-RM007 | message: 이미 업로드된 메시지는 작성 취소가 불가능합니다.\n"
 			+ "status: 400 | code: E-RM003 | message: 존재하지 않는 메시지입니다.\n"
 			+ "status: 401 | code: E-A003 | message: 인증에 실패하였습니다.\n"
 			+ "status: 500 | code: E-G001 | message: 내부 서버 오류입니다.")

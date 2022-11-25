@@ -50,6 +50,7 @@ public enum ErrorCode {
 	ROOM_OWNER_CANNOT_INQUIRY_MESSAGE_BEFORE_BIRTHDAY(400, "E-RM005", "파티룸 주인은 생일 전에 메시지를 조회할 수 없습니다."),
 	CANNOT_CANCEL_DELETED_MESSAGE(400, "E-RM006", "이미 삭제된 메시지는 작성 취소가 불가능합니다."),
 	CANNOT_CANCEL_WRITTEN_MESSAGE(400, "E-RM007", "이미 업로드된 메시지는 작성 취소가 불가능합니다."),
+	CANNOT_UPLOAD_AFTER_BIRTHDAY(400, "E-RM008", "생일 이후로는 축하 메시지를 업로드할 수 없습니다."),
 
 	// File
 	FILE_UNFOUNDED(400, "E-F001", "존재하지 않는 파일입니다."),

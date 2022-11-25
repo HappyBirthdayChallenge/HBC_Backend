@@ -50,6 +50,9 @@ public class MessageFacadeService {
 	public void uploadMessage(MessageRequest request) {
 		final Long memberId = securityContextUtils.takeoutMemberId();
 		final Message message = messageService.findFetchRoomMemberByIdAndMemberId(request.getMessageId(), memberId);
+		if (!message.getRoom().isAfterBirthDay()) {
+			throw new InvalidArgumentException(CANNOT_UPLOAD_AFTER_BIRTHDAY);
+		}
 		decorationService.save(message, request.getDecorationType());
 		animationService.save(message, request.getAnimationType());
 		message.uploadMessage(request.getContent());
@@ -78,8 +81,8 @@ public class MessageFacadeService {
 			throw new InvalidArgumentException(CANNOT_CANCEL_WRITTEN_MESSAGE);
 		}
 		message.delete();
-		decorationService.deleteByMessage(message);
-		animationService.deleteByMessage(message);
+		// decorationService.deleteByMessage(message);
+		// animationService.deleteByMessage(message);
 		messageFileService.deleteByMessage(message);
 		messageFileRedisService.delete(messageId);
 		s3Uploader.deleteDirectory(message.getS3Directory());

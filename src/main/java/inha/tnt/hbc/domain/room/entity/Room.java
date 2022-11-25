@@ -55,4 +55,8 @@ public class Room extends BaseEntity {
 		return LocalDate.now().isBefore(this.member.getBirthDate().convert());
 	}
 
+	public boolean isAfterBirthDay() {
+		return LocalDate.now().isAfter(this.member.getBirthDate().convert());
+	}
+
 }

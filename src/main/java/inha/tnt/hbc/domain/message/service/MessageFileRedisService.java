@@ -33,7 +33,7 @@ public class MessageFileRedisService {
 	}
 
 	public void delete(Long messageId, Long fileId) {
-		redisTemplate.opsForHash().delete(messageId.toString(), fileId.toString());
+		redisTemplate.opsForHash().delete(generateRedisKey(messageId), fileId.toString());
 	}
 
 	private String generateRedisKey(Long messageId) {

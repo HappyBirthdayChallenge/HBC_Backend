@@ -48,8 +48,8 @@ public enum ErrorCode {
 	MESSAGE_UNFOUNDED(400, "E-RM003", "존재하지 않는 메시지입니다."),
 	THIRD_PARTY_CANNOT_INQUIRY_MESSAGE(400, "E-RM004", "제 3자는 메시지를 조회할 수 없습니다."),
 	ROOM_OWNER_CANNOT_INQUIRY_MESSAGE_BEFORE_BIRTHDAY(400, "E-RM005", "파티룸 주인은 생일 전에 메시지를 조회할 수 없습니다."),
-	CANNOT_CANCEL_DELETED_MESSAGE(400, "E-RM006", "파티룸 주인은 생일 전에 메시지를 조회할 수 없습니다."),
-	CANNOT_CANCEL_WRITTEN_MESSAGE(400, "E-RM007", "파티룸 주인은 생일 전에 메시지를 조회할 수 없습니다."),
+	CANNOT_CANCEL_DELETED_MESSAGE(400, "E-RM006", "이미 삭제된 메시지는 작성 취소가 불가능합니다."),
+	CANNOT_CANCEL_WRITTEN_MESSAGE(400, "E-RM007", "이미 업로드된 메시지는 작성 취소가 불가능합니다."),
 
 	// File
 	FILE_UNFOUNDED(400, "E-F001", "존재하지 않는 파일입니다."),

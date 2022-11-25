@@ -6,7 +6,6 @@ import static java.util.concurrent.TimeUnit.*;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
@@ -37,23 +36,19 @@ public class IdentityVerificationService {
 			String.valueOf(redisTemplate.opsForValue().get(fullKey)).equals(key);
 	}
 
-	@Async
 	public void deleteCode(String phone, IdentityVerificationTypes type) {
 		redisTemplate.delete(generateRedisKey(AUTH_CODE, type, phone));
 	}
 
-	@Async
 	public void deleteKey(String phone, IdentityVerificationTypes type) {
 		redisTemplate.delete(generateRedisKey(AUTH_KEY, type, phone));
 	}
 
-	@Async
 	public void saveAuthCode(String code, String phone, IdentityVerificationTypes type) {
 		redisTemplate.opsForValue()
 			.set(generateRedisKey(AUTH_CODE, type, phone), code, AUTH_CODE_VALIDITY, MILLISECONDS);
 	}
 
-	@Async
 	public void saveAuthKey(String key, String phone, IdentityVerificationTypes type) {
 		redisTemplate.opsForValue()
 			.set(generateRedisKey(AUTH_KEY, type, phone), key, AUTH_KEY_VALIDITY, MILLISECONDS);

@@ -10,7 +10,9 @@ import org.springframework.stereotype.Component;
 
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.ObjectListing;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.amazonaws.services.s3.model.S3ObjectSummary;
 
 import lombok.RequiredArgsConstructor;
 
@@ -36,6 +38,22 @@ public class S3Uploader {
 
 	public void upload(LocalFile localFile, String directory) {
 		putS3(localFile.getFile(), directory + SLASH + localFile.getFullName());
+	}
+
+	/**
+	 * <a href="https://stackoverflow.com/questions/42442259/delete-a-folder-and-its-content-aws-s3-java">Reference</a>
+	 */
+	public void deleteDirectory(String directory) {
+		ObjectListing objects = amazonS3Client.listObjects(bucket, directory);
+		while (true) {
+			for (S3ObjectSummary objectSummary : objects.getObjectSummaries()) {
+				amazonS3Client.deleteObject(bucket, objectSummary.getKey());
+			}
+			if (!objects.isTruncated()) {
+				break;
+			}
+			objects = amazonS3Client.listNextBatchOfObjects(objects);
+		}
 	}
 
 	public void delete(String directory, String filename) {

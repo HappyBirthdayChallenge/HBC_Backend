@@ -38,4 +38,10 @@ public class MessageController implements MessageApi {
 		return ResponseEntity.ok(ResultResponse.of(INQUIRY_MESSAGE_SUCCESS, response));
 	}
 
+	@Override
+	public ResponseEntity<ResultResponse> cancel(Long messageId) {
+		messageFacadeService.cancelMessage(messageId);
+		return ResponseEntity.ok(ResultResponse.of(CANCEL_MESSAGE_SUCCESS));
+	}
+
 }

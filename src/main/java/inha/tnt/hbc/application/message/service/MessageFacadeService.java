@@ -1,5 +1,6 @@
 package inha.tnt.hbc.application.message.service;
 
+import static inha.tnt.hbc.domain.message.entity.MessageStatus.*;
 import static inha.tnt.hbc.model.ErrorCode.*;
 
 import org.springframework.stereotype.Service;
@@ -12,10 +13,12 @@ import inha.tnt.hbc.domain.message.entity.Message;
 import inha.tnt.hbc.domain.message.service.AnimationService;
 import inha.tnt.hbc.domain.message.service.DecorationService;
 import inha.tnt.hbc.domain.message.service.MessageFileRedisService;
+import inha.tnt.hbc.domain.message.service.MessageFileService;
 import inha.tnt.hbc.domain.message.service.MessageService;
 import inha.tnt.hbc.domain.room.entity.Room;
 import inha.tnt.hbc.domain.room.service.RoomService;
 import inha.tnt.hbc.exception.InvalidArgumentException;
+import inha.tnt.hbc.infra.aws.S3Uploader;
 import inha.tnt.hbc.infra.push.firebase.NotificationService;
 import inha.tnt.hbc.model.message.dto.CreateMessageResponse;
 import inha.tnt.hbc.model.message.dto.InquiryMessageResponse;
@@ -30,9 +33,11 @@ public class MessageFacadeService {
 	private final RoomService roomService;
 	private final SecurityContextUtils securityContextUtils;
 	private final MessageFileRedisService messageFileRedisService;
+	private final MessageFileService messageFileService;
 	private final DecorationService decorationService;
 	private final AnimationService animationService;
 	private final NotificationService notificationService;
+	private final S3Uploader s3Uploader;
 
 	@Transactional
 	public CreateMessageResponse createMessage(Long roomId) {
@@ -61,6 +66,23 @@ public class MessageFacadeService {
 			throw new InvalidArgumentException(ROOM_OWNER_CANNOT_INQUIRY_MESSAGE_BEFORE_BIRTHDAY);
 		}
 		return InquiryMessageResponse.of(member, message);
+	}
+
+	@Transactional
+	public void cancelMessage(Long messageId) {
+		final Member member = securityContextUtils.takeoutMember();
+		final Message message = messageService.findByIdAndMember(messageId, member);
+		if (message.getStatus().equals(DELETED)) {
+			throw new InvalidArgumentException(CANNOT_CANCEL_DELETED_MESSAGE);
+		} else if (message.getStatus().equals(WRITTEN)) {
+			throw new InvalidArgumentException(CANNOT_CANCEL_WRITTEN_MESSAGE);
+		}
+		message.delete();
+		decorationService.deleteByMessage(message);
+		animationService.deleteByMessage(message);
+		messageFileService.deleteByMessage(message);
+		messageFileRedisService.delete(messageId);
+		s3Uploader.deleteDirectory(message.getS3Directory());
 	}
 
 	private boolean isRoomOwnerAndBeforeBirthday(Member member, Room room) {

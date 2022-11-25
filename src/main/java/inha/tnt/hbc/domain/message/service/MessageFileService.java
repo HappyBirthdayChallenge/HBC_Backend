@@ -38,4 +38,8 @@ public class MessageFileService {
 			.orElseThrow(() -> new EntityNotFoundException(FILE_UNFOUNDED));
 	}
 
+	public void deleteByMessage(Message message) {
+		messageFileRepository.deleteByMessage(message);
+	}
+
 }

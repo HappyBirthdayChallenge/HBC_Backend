@@ -1,6 +1,8 @@
 package inha.tnt.hbc.domain.message.entity;
 
 import static inha.tnt.hbc.domain.message.entity.MessageStatus.*;
+import static inha.tnt.hbc.infra.aws.S3Constants.*;
+import static inha.tnt.hbc.util.Constants.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,6 +74,15 @@ public class Message extends BaseEntity {
 
 	public boolean isWriter(Member member) {
 		return this.member.getId().equals(member.getId());
+	}
+
+	public String getS3Directory() {
+		return MESSAGE_S3_DIRECTORY + SLASH + this.id;
+	}
+
+	public void delete() {
+		this.content = null;
+		this.status = DELETED;
 	}
 
 }

@@ -25,4 +25,8 @@ public class AnimationService {
 		animationRepository.save(animation);
 	}
 
+	public void deleteByMessage(Message message) {
+		animationRepository.deleteByMessage(message);
+	}
+
 }

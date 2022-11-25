@@ -31,4 +31,8 @@ public class DecorationService {
 		return decorationRepository.findAllByRoomIdAndCategory(roomId, type.getCategory(), pageable);
 	}
 
+	public void deleteByMessage(Message message) {
+		decorationRepository.deleteByMessage(message);
+	}
+
 }

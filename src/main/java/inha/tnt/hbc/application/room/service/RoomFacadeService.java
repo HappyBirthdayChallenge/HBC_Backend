@@ -53,7 +53,14 @@ public class RoomFacadeService {
 			.isLast(page >= totalPages)
 			.isEmpty(page > totalPages)
 			.totalPages(totalPages)
+			.totalElements((int)calculateTotalElements(foods, photos, dolls, gifts))
 			.build();
+	}
+
+	private long calculateTotalElements(Page<Decoration> foods, Page<Decoration> photos, Page<Decoration> dolls,
+		Page<Decoration> gifts) {
+		return foods.getTotalElements() + dolls.getTotalElements() + photos.getTotalElements()
+			+ dolls.getTotalElements() + gifts.getTotalElements();
 	}
 
 	private int calculateTotalPages(Page<Decoration> foods, Page<Decoration> drinks, Page<Decoration> photos,

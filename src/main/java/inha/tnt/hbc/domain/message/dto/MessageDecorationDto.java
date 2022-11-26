@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,7 +23,9 @@ import inha.tnt.hbc.domain.message.entity.MessageDecorationTypes;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class MessageDecorationDto {
 
+	@ApiModelProperty(value = "메시지 PK", example = "1")
 	private Long messageId;
+	@ApiModelProperty(value = "장식품 유형", example = "DOLL_TYPE1")
 	private MessageDecorationTypes decorationType;
 
 	public static MessageDecorationDto of(Decoration decoration) {

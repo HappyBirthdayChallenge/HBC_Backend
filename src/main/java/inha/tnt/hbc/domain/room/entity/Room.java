@@ -3,6 +3,7 @@ package inha.tnt.hbc.domain.room.entity;
 import java.time.LocalDate;
 
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -25,9 +26,10 @@ import lombok.NoArgsConstructor;
 
 import inha.tnt.hbc.domain.BaseEntity;
 import inha.tnt.hbc.domain.member.entity.Member;
+import inha.tnt.hbc.domain.member.vo.BirthDate;
 
 @Entity
-@Table(name = "rooms", indexes = @Index(name = "idx_rooms_createAt", columnList = "create_at"))
+@Table(name = "rooms", indexes = @Index(name = "idx_rooms_birthday", columnList = "birthday_year, birthday_month, birthday_date"))
 @Getter
 @Builder
 @AllArgsConstructor
@@ -46,17 +48,19 @@ public class Room extends BaseEntity {
 	private RoomDecorationTypes roomType;
 	@Enumerated(EnumType.STRING)
 	private CakeDecorationTypes cakeType;
+	@Embedded
+	private BirthDate birthDate;
 
 	public boolean isOwner(Member member) {
 		return this.member.getId().equals(member.getId());
 	}
 
 	public boolean isBeforeBirthDay() {
-		return LocalDate.now().isBefore(this.member.getBirthDate().convert());
+		return LocalDate.now().isBefore(this.birthDate.convert());
 	}
 
 	public boolean isAfterBirthDay() {
-		return LocalDate.now().isAfter(this.member.getBirthDate().convert());
+		return LocalDate.now().isAfter(this.birthDate.convert());
 	}
 
 }

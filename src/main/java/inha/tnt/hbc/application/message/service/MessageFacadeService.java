@@ -49,7 +49,7 @@ public class MessageFacadeService {
 	@Transactional
 	public void uploadMessage(MessageRequest request) {
 		final Long memberId = securityContextUtils.takeoutMemberId();
-		final Message message = messageService.findFetchRoomMemberByIdAndMemberId(request.getMessageId(), memberId);
+		final Message message = messageService.findFetchRoomByIdAndMemberId(request.getMessageId(), memberId);
 		if (!message.getRoom().isAfterBirthDay()) {
 			throw new InvalidArgumentException(CANNOT_UPLOAD_AFTER_BIRTHDAY);
 		}
@@ -57,7 +57,7 @@ public class MessageFacadeService {
 		animationService.save(message, request.getAnimationType());
 		message.uploadMessage(request.getContent());
 		messageFileRedisService.delete(message.getId());
-		notificationService.sendMessageAlarm(message.getRoom().getMember());
+		notificationService.sendMessageAlarm(message.getRoom().getMember().getId());
 	}
 
 	public InquiryMessageResponse inquiryMessage(Long messageId) {
@@ -81,6 +81,7 @@ public class MessageFacadeService {
 			throw new InvalidArgumentException(CANNOT_CANCEL_WRITTEN_MESSAGE);
 		}
 		message.delete();
+		// TODO: 아래 2개 메소드 메시지 삭제 API에서 사용
 		// decorationService.deleteByMessage(message);
 		// animationService.deleteByMessage(message);
 		messageFileService.deleteByMessage(message);

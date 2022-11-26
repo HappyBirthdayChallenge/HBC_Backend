@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 
-import inha.tnt.hbc.domain.member.entity.Member;
 import inha.tnt.hbc.util.TimeUtils;
 
 @Service
@@ -30,9 +29,9 @@ public class FCMTokenService {
 		redisTemplate.opsForHash().delete(generateRedisKey(memberId), fcmToken);
 	}
 
-	public List<String> getFcmTokens(Member member) {
+	public List<String> getFcmTokens(Long memberId) {
 		return redisTemplate.opsForHash()
-			.keys(generateRedisKey(member.getId()))
+			.keys(generateRedisKey(memberId))
 			.stream()
 			.map(Object::toString)
 			.collect(Collectors.toList());

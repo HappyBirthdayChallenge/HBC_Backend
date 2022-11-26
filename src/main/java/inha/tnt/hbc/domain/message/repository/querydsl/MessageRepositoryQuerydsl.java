@@ -12,6 +12,6 @@ public interface MessageRepositoryQuerydsl {
 	Optional<Message> findFetchRoomAndDecorationAndAnimationAndMessageFilesById(Long messageId);
 
 	@Transactional(readOnly = true)
-	Optional<Message> findFetchRoomMemberByIdAndMemberId(Long messageId, Long memberId);
+	Optional<Message> findFetchRoomByIdAndMemberId(Long messageId, Long memberId);
 
 }

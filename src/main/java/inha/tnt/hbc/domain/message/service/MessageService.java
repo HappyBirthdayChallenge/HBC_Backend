@@ -38,8 +38,8 @@ public class MessageService {
 		return messageRepository.save(message).getId();
 	}
 
-	public Message findFetchRoomMemberByIdAndMemberId(Long messageId, Long memberId) {
-		return messageRepository.findFetchRoomMemberByIdAndMemberId(messageId, memberId)
+	public Message findFetchRoomByIdAndMemberId(Long messageId, Long memberId) {
+		return messageRepository.findFetchRoomByIdAndMemberId(messageId, memberId)
 			.orElseThrow(() -> new EntityNotFoundException(MESSAGE_UNFOUNDED));
 	}
 

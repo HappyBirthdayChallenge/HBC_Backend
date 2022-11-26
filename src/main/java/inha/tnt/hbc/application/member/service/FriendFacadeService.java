@@ -1,5 +1,7 @@
 package inha.tnt.hbc.application.member.service;
 
+import static inha.tnt.hbc.util.Constants.*;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -37,16 +39,17 @@ public class FriendFacadeService {
 			throw new AlreadyFriendException();
 		}
 		friendService.friend(member, friendMember);
-		notificationService.sendFriendAlarm(member, friendMember);
+		notificationService.sendFriendAlarm(member, friendMember.getId());
 	}
 
 	@Transactional(readOnly = true)
 	public FriendListResponse getFriends(int page, int size) {
 		final Long memberId = securityContextUtils.takeoutMemberId();
-		final Page<FriendDto> friendDtoPage = friendService.findFriendDtoPage(memberId, PageRequest.of(page - 1, size));
+		final PageRequest pageable = PageRequest.of(page - PAGE_CORRECTION_VALUE, size);
+		final Page<FriendDto> friendDtoPage = friendService.findFriendDtoPage(memberId, pageable);
 		return FriendListResponse.builder()
-				.page(friendDtoPage)
-				.build();
+			.page(friendDtoPage)
+			.build();
 	}
 
 }

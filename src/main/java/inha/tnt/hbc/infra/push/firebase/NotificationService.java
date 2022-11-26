@@ -57,16 +57,16 @@ public class NotificationService {
 	}
 
 	@Async
-	public void sendFriendAlarm(Member subject, Member object) {
-		fcmTokenService.getFcmTokens(object)
-			.forEach(token -> sendNotification(token, object.getId(),
-				generateMessage(token, String.format(NEW_FRIEND, subject.getName()))));
+	public void sendFriendAlarm(Member member, Long friendMemberId) {
+		fcmTokenService.getFcmTokens(friendMemberId)
+			.forEach(token -> sendNotification(token, friendMemberId,
+				generateMessage(token, String.format(NEW_FRIEND, member.getName()))));
 	}
 
 	@Async
-	public void sendMessageAlarm(Member object) {
-		fcmTokenService.getFcmTokens(object)
-			.forEach(token -> sendNotification(token, object.getId(), generateMessage(token, NEW_MESSAGE)));
+	public void sendMessageAlarm(Long memberId) {
+		fcmTokenService.getFcmTokens(memberId)
+			.forEach(token -> sendNotification(token, memberId, generateMessage(token, NEW_MESSAGE)));
 	}
 
 	private void sendNotification(String token, Long memberId, Message message) {

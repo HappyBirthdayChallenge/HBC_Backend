@@ -55,6 +55,7 @@ public enum ResultCode {
 	CREATE_MESSAGE_SUCCESS(200, "R-RM002", "메시지 생성에 성공하였습니다."),
 	INQUIRY_MESSAGE_SUCCESS(200, "R-RM003", "메시지 조회에 성공하였습니다."),
 	CANCEL_MESSAGE_SUCCESS(200, "R-RM004", "메시지 작성 취소에 성공하였습니다."),
+	DELETE_MESSAGE_SUCCESS(200, "R-RM005", "메시지 삭제에 성공하였습니다."),
 
 	// File
 	UPLOAD_IMAGE_SUCCESS(200, "R-FI001", "이미지 파일 업로드에 성공하였습니다."),

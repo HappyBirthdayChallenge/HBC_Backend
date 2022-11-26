@@ -81,9 +81,24 @@ public class MessageFacadeService {
 			throw new InvalidArgumentException(CANNOT_CANCEL_WRITTEN_MESSAGE);
 		}
 		message.delete();
-		// TODO: 아래 2개 메소드 메시지 삭제 API에서 사용
-		// decorationService.deleteByMessage(message);
-		// animationService.deleteByMessage(message);
+		messageFileService.deleteByMessage(message);
+		messageFileRedisService.delete(messageId);
+		s3Uploader.deleteDirectory(message.getS3Directory());
+	}
+
+	@Transactional
+	public void deleteMessage(Long messageId) {
+		final Long memberId = securityContextUtils.takeoutMemberId();
+		final Message message = messageService.findFetchRoomByIdAndMemberId(messageId, memberId);
+		if (!message.getStatus().equals(WRITTEN)) {
+			throw new InvalidArgumentException(CANNOT_DELETE_MESSAGE);
+		}
+		if (!message.getRoom().isBeforeBirthDay()) {
+			throw new InvalidArgumentException(CANNOT_DELETE_MESSAGE_AFTER_BIRTHDAY);
+		}
+		message.delete();
+		decorationService.deleteByMessage(message);
+		animationService.deleteByMessage(message);
 		messageFileService.deleteByMessage(message);
 		messageFileRedisService.delete(messageId);
 		s3Uploader.deleteDirectory(message.getS3Directory());

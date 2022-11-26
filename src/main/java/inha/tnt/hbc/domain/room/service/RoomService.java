@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 
@@ -23,14 +22,12 @@ public class RoomService {
 
 	private final RoomRepository roomRepository;
 
-	@Transactional
 	public void createRandomly(Member member) {
 		final Room room = Room.builder()
 			.member(member)
 			.roomType(RoomDecorationTypes.random())
 			.cakeType(CakeDecorationTypes.random())
 			.build();
-
 		roomRepository.save(room);
 	}
 

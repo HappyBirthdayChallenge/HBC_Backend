@@ -19,7 +19,6 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,8 +30,6 @@ import inha.tnt.hbc.domain.member.vo.BirthDate;
 @Entity
 @Table(name = "rooms", indexes = @Index(name = "idx_rooms_birthday", columnList = "birthday_year, birthday_month, birthday_date"))
 @Getter
-@Builder
-@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Room extends BaseEntity {
 
@@ -50,6 +47,14 @@ public class Room extends BaseEntity {
 	private CakeDecorationTypes cakeType;
 	@Embedded
 	private BirthDate birthDate;
+
+	@Builder
+	public Room(Member member, RoomDecorationTypes roomType, CakeDecorationTypes cakeType) {
+		this.member = member;
+		this.roomType = roomType;
+		this.cakeType = cakeType;
+		this.birthDate = member.getBirthDate().getNextBirthdate();
+	}
 
 	public boolean isOwner(Member member) {
 		return this.member.getId().equals(member.getId());

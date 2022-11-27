@@ -6,12 +6,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import inha.tnt.hbc.domain.message.entity.Message;
 
+@Transactional(readOnly = true)
 public interface MessageRepositoryQuerydsl {
 
-	@Transactional(readOnly = true)
 	Optional<Message> findFetchRoomAndDecorationAndAnimationAndMessageFilesById(Long messageId);
 
-	@Transactional(readOnly = true)
 	Optional<Message> findFetchRoomMemberByIdAndMemberId(Long messageId, Long memberId);
+
+	Optional<Message> findFetchRoomAndDecorationAndAnimationByIdAndMemberId(Long messageId, Long memberId);
 
 }

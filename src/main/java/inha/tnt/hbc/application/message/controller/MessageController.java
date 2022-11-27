@@ -50,4 +50,10 @@ public class MessageController implements MessageApi {
 		return ResponseEntity.ok(ResultResponse.of(DELETE_MESSAGE_SUCCESS));
 	}
 
+	@Override
+	public ResponseEntity<ResultResponse> edit(Long messageId, MessageRequest request) {
+		messageFacadeService.editMessage(request);
+		return ResponseEntity.ok(ResultResponse.of(EDIT_MESSAGE_SUCCESS));
+	}
+
 }

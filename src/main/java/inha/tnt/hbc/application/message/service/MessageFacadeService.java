@@ -43,6 +43,9 @@ public class MessageFacadeService {
 	public CreateMessageResponse createMessage(Long roomId) {
 		final Member member = securityContextUtils.takeoutMember();
 		final Room room = roomService.findById(roomId);
+		if (!room.isBeforeBirthDay()) {
+			throw new InvalidArgumentException(CANNOT_CREATE_MESSAGE_AFTER_BIRTHDAY);
+		}
 		return CreateMessageResponse.of(messageService.create(member, room));
 	}
 
@@ -91,7 +94,7 @@ public class MessageFacadeService {
 		final Long memberId = securityContextUtils.takeoutMemberId();
 		final Message message = messageService.findFetchRoomMemberByIdAndMemberId(messageId, memberId);
 		if (!message.getStatus().equals(WRITTEN)) {
-			throw new InvalidArgumentException(CANNOT_DELETE_MESSAGE);
+			throw new InvalidArgumentException(CANNOT_DELETE_NOT_WRITTEN_MESSAGE);
 		}
 		if (!message.getRoom().isBeforeBirthDay()) {
 			throw new InvalidArgumentException(CANNOT_DELETE_MESSAGE_AFTER_BIRTHDAY);
@@ -102,6 +105,23 @@ public class MessageFacadeService {
 		messageFileService.deleteByMessage(message);
 		messageFileRedisService.delete(messageId);
 		s3Uploader.deleteDirectory(message.getS3Directory());
+	}
+
+	@Transactional
+	public void editMessage(MessageRequest request) {
+		final Long memberId = securityContextUtils.takeoutMemberId();
+		final Message message = messageService.findFetchRoomAndDecorationAndAnimationByIdAndMemberId(
+			request.getMessageId(), memberId);
+		if (!message.getStatus().equals(WRITTEN)) {
+			throw new InvalidArgumentException(CANNOT_EDIT_NOT_WRITTEN_MESSAGE);
+		}
+		if (!message.getRoom().isAfterBirthDay()) {
+			throw new InvalidArgumentException(CANNOT_EDIT_AFTER_BIRTHDAY);
+		}
+		message.getDecoration().change(request.getDecorationType());
+		message.getAnimation().change(request.getAnimationType());
+		message.uploadMessage(request.getContent());
+		messageFileRedisService.delete(message.getId());
 	}
 
 	private boolean isRoomOwnerAndBeforeBirthday(Member member, Room room) {

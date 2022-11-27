@@ -53,6 +53,11 @@ public class MessageService {
 			.orElseThrow(() -> new EntityNotFoundException(MESSAGE_UNFOUNDED));
 	}
 
+	public Message findFetchRoomAndDecorationAndAnimationByIdAndMemberId(Long messageId, Long memberId) {
+		return messageRepository.findFetchRoomAndDecorationAndAnimationByIdAndMemberId(messageId, memberId)
+			.orElseThrow(() -> new EntityNotFoundException(MESSAGE_UNFOUNDED));
+	}
+
 	private boolean isMyRoom(Member member, Room room) {
 		return room.getMember().getId().equals(member.getId());
 	}

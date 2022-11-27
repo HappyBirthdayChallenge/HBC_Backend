@@ -51,8 +51,11 @@ public enum ErrorCode {
 	CANNOT_CANCEL_DELETED_MESSAGE(400, "E-RM006", "이미 삭제된 메시지는 작성 취소가 불가능합니다."),
 	CANNOT_CANCEL_WRITTEN_MESSAGE(400, "E-RM007", "이미 업로드된 메시지는 작성 취소가 불가능합니다."),
 	CANNOT_UPLOAD_AFTER_BIRTHDAY(400, "E-RM008", "생일 이후로는 축하 메시지를 업로드할 수 없습니다."),
-	CANNOT_DELETE_MESSAGE(400, "E-RM009", "작성된 메시지만 삭제가 가능합니다."),
+	CANNOT_DELETE_NOT_WRITTEN_MESSAGE(400, "E-RM009", "작성된 메시지만 삭제 가능합니다."),
 	CANNOT_DELETE_MESSAGE_AFTER_BIRTHDAY(400, "E-RM010", "생일 이후로는 메시지를 삭제할 수 없습니다."),
+	CANNOT_EDIT_AFTER_BIRTHDAY(400, "E-RM011", "생일 이후로는 메시지를 수정할 수 없습니다."),
+	CANNOT_EDIT_NOT_WRITTEN_MESSAGE(400, "E-RM012", "작성된 메시지만 수정 가능합니다."),
+	CANNOT_CREATE_MESSAGE_AFTER_BIRTHDAY(400, "E-RM013", "생일 이후로는 메시지를 생성할 수 없습니다."),
 
 	// File
 	FILE_UNFOUNDED(400, "E-F001", "존재하지 않는 파일입니다."),

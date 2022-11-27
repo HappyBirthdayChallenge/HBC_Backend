@@ -45,4 +45,16 @@ public class MessageRepositoryQuerydslImpl implements MessageRepositoryQuerydsl 
 		);
 	}
 
+	@Override
+	public Optional<Message> findFetchRoomAndDecorationAndAnimationByIdAndMemberId(Long messageId, Long memberId) {
+		return Optional.ofNullable(queryFactory
+			.selectFrom(message)
+			.where(message.id.eq(messageId).and(message.member.id.eq(memberId)))
+			.innerJoin(message.room, room).fetchJoin()
+			.innerJoin(message.decoration, decoration).fetchJoin()
+			.innerJoin(message.animation, animation).fetchJoin()
+			.fetchFirst()
+		);
+	}
+
 }

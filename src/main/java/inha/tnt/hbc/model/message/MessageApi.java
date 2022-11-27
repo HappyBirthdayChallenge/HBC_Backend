@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -47,7 +48,8 @@ public interface MessageApi {
 
 	@ApiOperation(value = "메시지 생성", notes = ""
 		+ "1. 본인 파티룸에는 축하 메시지를 생성할 수 없습니다.\n"
-		+ "2. 한 파티룸에 두 번 이상 축하 메시지를 작성할 수 없습니다.")
+		+ "2. 한 파티룸에 두 번 이상 축하 메시지를 작성할 수 없습니다.\n"
+		+ "3. 생일 이후로는 메시지를 생성할 수 없습니다.")
 	@ApiResponses({
 		@ApiResponse(code = 1, response = CreateMessageResponse.class, message = ""
 			+ "status: 200 | code: R-RM002 | message: 메시지 생성에 성공하였습니다."),
@@ -56,6 +58,7 @@ public interface MessageApi {
 			+ "status: 400 | code: E-R001 | message: 존재하지 않는 파티룸입니다.\n"
 			+ "status: 400 | code: E-RM001 | message: 본인 파티룸에는 축하 메시지를 생성할 수 없습니다.\n"
 			+ "status: 400 | code: E-RM002 | message: 한 파티룸에 두 번 이상 축하 메시지를 작성할 수 없습니다.\n"
+			+ "status: 400 | code: E-RM013 | message: 생일 이후로는 메시지를 생성할 수 없습니다.\n"
 			+ "status: 401 | code: E-A003 | message: 인증에 실패하였습니다.\n"
 			+ "status: 500 | code: E-G001 | message: 내부 서버 오류입니다.")
 	})
@@ -107,7 +110,8 @@ public interface MessageApi {
 			+ "status: 200 | code: R-RM005 | message: 메시지 삭제에 성공하였습니다."),
 		@ApiResponse(code = 500, response = ErrorResponse.class, message = ""
 			+ "status: 400 | code: E-G002 | message: 입력 값이 유효하지 않습니다.\n"
-			+ "status: 400 | code: E-RM009 | message: 작성된 메시지만 삭제가 가능합니다.\n"
+			+ "status: 400 | code: E-RM009 | message: 작성된 메시지만 삭제 가능합니다.\n"
+			+ "status: 400 | code: E-RM010 | message: 생일 이후로는 메시지를 삭제할 수 없습니다.\n"
 			+ "status: 400 | code: E-RM003 | message: 존재하지 않는 메시지입니다.\n"
 			+ "status: 401 | code: E-A003 | message: 인증에 실패하였습니다.\n"
 			+ "status: 500 | code: E-G001 | message: 내부 서버 오류입니다.")
@@ -115,5 +119,24 @@ public interface MessageApi {
 	@DeleteMapping("/delete/{message_id}")
 	@ApiImplicitParam(name = "message_id", value = "메시지 PK", required = true, example = "1")
 	ResponseEntity<ResultResponse> delete(@PathVariable(name = "message_id") Long messageId);
+
+	@ApiOperation(value = "메시지 수정", notes = ""
+		+ "1. 생일 이전에만 수정할 수 있습니다.\n"
+		+ "2. 작성된 메시지만 수정할 수 있습니다.")
+	@ApiResponses({
+		@ApiResponse(code = 1, response = Void.class, message = ""
+			+ "status: 200 | code: R-RM006 | message: 메시지 수정에 성공하였습니다."),
+		@ApiResponse(code = 500, response = ErrorResponse.class, message = ""
+			+ "status: 400 | code: E-G002 | message: 입력 값이 유효하지 않습니다.\n"
+			+ "status: 400 | code: E-RM009 | message: 작성된 메시지만 수정 가능합니다.\n"
+			+ "status: 400 | code: E-RM011 | message: 생일 이후로는 메시지를 수정할 수 없습니다.\n"
+			+ "status: 400 | code: E-RM003 | message: 존재하지 않는 메시지입니다.\n"
+			+ "status: 401 | code: E-A003 | message: 인증에 실패하였습니다.\n"
+			+ "status: 500 | code: E-G001 | message: 내부 서버 오류입니다.")
+	})
+	@PutMapping("/edit/{message_id}")
+	@ApiImplicitParam(name = "message_id", value = "메시지 PK", required = true, example = "1")
+	ResponseEntity<ResultResponse> edit(@PathVariable(name = "message_id") Long messageId,
+		@Valid @RequestBody MessageRequest request);
 
 }

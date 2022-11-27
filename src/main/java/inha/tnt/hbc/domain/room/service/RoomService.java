@@ -52,4 +52,9 @@ public class RoomService {
 			.orElseThrow(() -> new EntityNotFoundException(ROOM_UNFOUNDED));
 	}
 
+	public Room findByMemberMostRecent(Member member) {
+		return roomRepository.findTop1ByMemberOrderByIdDesc(member)
+			.orElseThrow(RuntimeException::new);
+	}
+
 }

@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 
+import inha.tnt.hbc.domain.alarm.service.AlarmService;
 import inha.tnt.hbc.domain.member.entity.Member;
 import inha.tnt.hbc.domain.message.entity.Message;
 import inha.tnt.hbc.domain.message.service.AnimationService;
@@ -19,7 +20,6 @@ import inha.tnt.hbc.domain.room.entity.Room;
 import inha.tnt.hbc.domain.room.service.RoomService;
 import inha.tnt.hbc.exception.InvalidArgumentException;
 import inha.tnt.hbc.infra.aws.S3Uploader;
-import inha.tnt.hbc.infra.push.firebase.NotificationService;
 import inha.tnt.hbc.model.message.dto.CreateMessageResponse;
 import inha.tnt.hbc.model.message.dto.InquiryMessageResponse;
 import inha.tnt.hbc.model.message.dto.MessageRequest;
@@ -36,7 +36,7 @@ public class MessageFacadeService {
 	private final MessageFileService messageFileService;
 	private final DecorationService decorationService;
 	private final AnimationService animationService;
-	private final NotificationService notificationService;
+	private final AlarmService alarmService;
 	private final S3Uploader s3Uploader;
 
 	@Transactional
@@ -49,7 +49,7 @@ public class MessageFacadeService {
 	@Transactional
 	public void uploadMessage(MessageRequest request) {
 		final Long memberId = securityContextUtils.takeoutMemberId();
-		final Message message = messageService.findFetchRoomByIdAndMemberId(request.getMessageId(), memberId);
+		final Message message = messageService.findFetchRoomMemberByIdAndMemberId(request.getMessageId(), memberId);
 		if (!message.getRoom().isAfterBirthDay()) {
 			throw new InvalidArgumentException(CANNOT_UPLOAD_AFTER_BIRTHDAY);
 		}
@@ -57,7 +57,7 @@ public class MessageFacadeService {
 		animationService.save(message, request.getAnimationType());
 		message.uploadMessage(request.getContent());
 		messageFileRedisService.delete(message.getId());
-		notificationService.sendMessageAlarm(message.getRoom().getMember().getId());
+		alarmService.alarmMessage(message);
 	}
 
 	public InquiryMessageResponse inquiryMessage(Long messageId) {
@@ -89,7 +89,7 @@ public class MessageFacadeService {
 	@Transactional
 	public void deleteMessage(Long messageId) {
 		final Long memberId = securityContextUtils.takeoutMemberId();
-		final Message message = messageService.findFetchRoomByIdAndMemberId(messageId, memberId);
+		final Message message = messageService.findFetchRoomMemberByIdAndMemberId(messageId, memberId);
 		if (!message.getStatus().equals(WRITTEN)) {
 			throw new InvalidArgumentException(CANNOT_DELETE_MESSAGE);
 		}

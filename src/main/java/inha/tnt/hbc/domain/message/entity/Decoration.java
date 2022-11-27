@@ -44,4 +44,9 @@ public class Decoration {
 		this.category = type.getCategory();
 	}
 
+	public void change(MessageDecorationTypes type) {
+		this.type = type;
+		this.category = type.getCategory();
+	}
+
 }

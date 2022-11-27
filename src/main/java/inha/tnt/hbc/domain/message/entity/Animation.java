@@ -37,4 +37,8 @@ public class Animation {
 	@Column(nullable = false)
 	private AnimationTypes type;
 
+	public void change(AnimationTypes type) {
+		this.type = type;
+	}
+
 }

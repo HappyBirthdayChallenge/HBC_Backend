@@ -7,12 +7,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import inha.tnt.hbc.domain.member.entity.Member;
-import inha.tnt.hbc.domain.message.entity.Message;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import inha.tnt.hbc.domain.message.entity.Message;
 
 @Entity
 @Table(name = "message_alarms")
@@ -21,19 +21,21 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class MessageAlarm extends Alarm {
 
+	private final static String ALARM_MESSAGE = "누군가 내 파티룸에 축하 메시지를 작성했어요!";
+
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "message_id")
 	private Message message;
-	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "alarm_id")
-	private Alarm alarm;
 
 	@Builder
-	public MessageAlarm(Member sender, Member receiver,
-		AlarmStatus status, String content, Message message, Alarm alarm) {
-		super(sender, receiver, status, content);
+	public MessageAlarm(Message message) {
+		super(message.getMember(), message.getRoom().getMember(), ALARM_MESSAGE);
 		this.message = message;
-		this.alarm = alarm;
+	}
+
+	@Override
+	public String getMessage() {
+		return ALARM_MESSAGE;
 	}
 
 }

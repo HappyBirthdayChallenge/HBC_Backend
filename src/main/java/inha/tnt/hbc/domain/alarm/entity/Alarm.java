@@ -1,5 +1,7 @@
 package inha.tnt.hbc.domain.alarm.entity;
 
+import static inha.tnt.hbc.domain.alarm.entity.AlarmStatus.*;
+
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorValue;
@@ -41,17 +43,18 @@ public abstract class Alarm extends BaseEntity {
 	@JoinColumn(name = "receiver_id")
 	private Member receiver;
 	@Enumerated(EnumType.STRING)
-	private AlarmStatus status;
+	private AlarmStatus status = CREATED;
 	private String content;
 	@Column(insertable = false, updatable = false)
 	private String dtype;
 
-	public Alarm(Member sender, Member receiver, AlarmStatus status, String content) {
+	public Alarm(Member sender, Member receiver, String content) {
 		this.sender = sender;
 		this.receiver = receiver;
-		this.status = status;
 		this.content = content;
 		this.dtype = getClass().getAnnotation(DiscriminatorValue.class).value();
 	}
+
+	public abstract String getMessage();
 
 }

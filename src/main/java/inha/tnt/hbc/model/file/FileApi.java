@@ -63,7 +63,7 @@ public interface FileApi {
 	})
 	@ApiResponses({
 		@ApiResponse(code = 1, response = FileUploadResponse.class, message = ""
-			+ "status: 200 | code: R-FI003 | message: 동영상 파일 업로드에 성공하였습니다."),
+			+ "status: 200 | code: R-FI002 | message: 동영상 파일 업로드에 성공하였습니다."),
 		@ApiResponse(code = 500, response = ErrorResponse.class, message = ""
 			+ "status: 400 | code: E-RM003 | message: 존재하지 않는 메시지입니다.\n"
 			+ "status: 400 | code: E-F002 | message: 삭제된 메시지에 파일을 첨부할 수 없습니다.\n"
@@ -86,7 +86,7 @@ public interface FileApi {
 	})
 	@ApiResponses({
 		@ApiResponse(code = 1, response = FileUploadResponse.class, message = ""
-			+ "status: 200 | code: R-FI002 | message: 오디오 파일 업로드에 성공하였습니다."),
+			+ "status: 200 | code: R-FI003 | message: 오디오 파일 업로드에 성공하였습니다."),
 		@ApiResponse(code = 500, response = ErrorResponse.class, message = ""
 			+ "status: 400 | code: E-RM003 | message: 존재하지 않는 메시지입니다.\n"
 			+ "status: 400 | code: E-F002 | message: 삭제된 메시지에 파일을 첨부할 수 없습니다.\n"

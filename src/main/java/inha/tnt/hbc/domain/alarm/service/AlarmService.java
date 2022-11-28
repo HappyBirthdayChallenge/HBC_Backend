@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import inha.tnt.hbc.domain.alarm.entity.Alarm;
 import inha.tnt.hbc.domain.alarm.entity.FriendAlarm;
 import inha.tnt.hbc.domain.alarm.entity.MessageAlarm;
+import inha.tnt.hbc.domain.alarm.entity.MessageLikeAlarm;
 import inha.tnt.hbc.domain.alarm.entity.RoomAlarm;
 import inha.tnt.hbc.domain.alarm.repository.AlarmRepository;
 import inha.tnt.hbc.domain.member.entity.Friend;
@@ -30,7 +31,7 @@ public class AlarmService {
 			.message(message)
 			.build();
 		alarmRepository.save(alarm);
-		notificationService.sendNotification(message.getRoom().getMember().getId(), alarm.getMessage());
+		notificationService.sendNotification(message.getRoom().getMember().getId(), alarm.getContent());
 	}
 
 	public void alarmRoom(Room room, List<Member> members) {
@@ -45,7 +46,7 @@ public class AlarmService {
 		final List<Long> memberIds = members.stream()
 			.map(Member::getId)
 			.collect(Collectors.toList());
-		notificationService.sendNotifications(memberIds, alarms.get(0).getMessage());
+		notificationService.sendNotifications(memberIds, alarms.get(0).getContent());
 	}
 
 	public void alarmFriend(Friend friend) {
@@ -53,7 +54,16 @@ public class AlarmService {
 			.friend(friend)
 			.build();
 		alarmRepository.save(alarm);
-		notificationService.sendNotification(friend.getFriendMember().getId(), alarm.getMessage());
+		notificationService.sendNotification(friend.getFriendMember().getId(), alarm.getContent());
+	}
+
+	public void alarmMessageLike(Message message, Member member) {
+		final Alarm alarm = MessageLikeAlarm.builder()
+			.message(message)
+			.member(member)
+			.build();
+		alarmRepository.save(alarm);
+		notificationService.sendNotification(member.getId(), alarm.getContent());
 	}
 
 }

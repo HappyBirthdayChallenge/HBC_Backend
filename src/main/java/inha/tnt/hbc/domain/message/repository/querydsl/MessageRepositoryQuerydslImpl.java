@@ -127,10 +127,11 @@ public class MessageRepositoryQuerydslImpl implements MessageRepositoryQuerydsl 
 	}
 
 	@Override
-	public Optional<Message> findFetchRoomMemberById(Long messageId) {
+	public Optional<Message> findFetchMemberAndRoomMemberById(Long messageId) {
 		return Optional.ofNullable(queryFactory
 			.selectFrom(message)
 			.where(message.id.eq(messageId))
+			.innerJoin(message.member, member).fetchJoin()
 			.innerJoin(message.room, room).fetchJoin()
 			.innerJoin(room.member, member).fetchJoin()
 			.fetchFirst()

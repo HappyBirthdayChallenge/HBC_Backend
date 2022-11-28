@@ -27,6 +27,6 @@ public interface MessageRepositoryQuerydsl {
 	int countByMemberIdAndRoomIdAndMessageIdAndDecorationCategory(Long memberId, Long roomId, Long messageId,
 		String decorationCategory);
 
-	Optional<Message> findFetchRoomMemberById(Long messageId);
+	Optional<Message> findFetchMemberAndRoomMemberById(Long messageId);
 
 }

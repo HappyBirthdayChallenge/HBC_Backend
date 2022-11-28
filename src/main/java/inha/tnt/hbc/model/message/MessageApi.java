@@ -174,7 +174,11 @@ public interface MessageApi {
 	@PatchMapping("/{message_id}/read")
 	ResponseEntity<ResultResponse> readMessage(@PathVariable(name = "message_id") Long messageId);
 
-	@ApiOperation(value = "메시지 좋아요")
+	@ApiOperation(value = "메시지 좋아요", notes = ""
+		+ "1. 좋아요하지 않은 메시지를 대상으로 사용해 주세요.\n"
+		+ "2. 본인의 파티룸에 작성된 메시지만 좋아요할 수 있습니다.\n"
+		+ "3. 작성되지 않은 메시지에는 좋아요할 수 없습니다.\n"
+		+ "4. 메시지 좋아요에 성공하면, 상대방에게 알림을 전송합니다.")
 	@ApiResponses({
 		@ApiResponse(code = 1, response = Void.class, message = ""
 			+ "status: 200 | code: R-RM009 | message: 메시지 좋아요에 성공하였습니다."),

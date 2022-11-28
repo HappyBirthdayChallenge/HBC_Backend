@@ -151,7 +151,7 @@ public class MessageFacadeService {
 	@Transactional
 	public void likeMessage(Long messageId) {
 		final Member member = securityContextUtils.takeoutMember();
-		final Message message = messageService.findFetchRoomMemberById(messageId);
+		final Message message = messageService.findFetchMemberAndRoomMemberById(messageId);
 		if (!message.getRoom().isOwner(member)) {
 			throw new InvalidArgumentException(CANNOT_LIKE_OTHER_ROOM_MESSAGE);
 		}
@@ -161,6 +161,7 @@ public class MessageFacadeService {
 		if (!message.like()) {
 			throw new InvalidArgumentException(ALREADY_LIKE_MESSAGE);
 		}
+		alarmService.alarmMessageLike(message, message.getMember());
 	}
 
 	private boolean isRoomOwnerAndBeforeBirthday(Member member, Room room) {

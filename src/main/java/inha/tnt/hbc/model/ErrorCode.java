@@ -61,6 +61,10 @@ public enum ErrorCode {
 	CANNOT_EDIT_NOT_WRITTEN_MESSAGE(400, "E-RM012", "작성된 메시지만 수정 가능합니다."),
 	CANNOT_CREATE_MESSAGE_AFTER_BIRTHDAY(400, "E-RM013", "생일 이후로는 메시지를 생성할 수 없습니다."),
 	ALREADY_READ_MESSAGE(400, "E-RM014", "이미 읽은 메시지입니다."),
+	ALREADY_LIKE_MESSAGE(400, "E-RM015", "이미 좋아요한 메시지입니다."),
+	CANNOT_LIKE_OTHER_ROOM_MESSAGE(400, "E-RM016", "본인의 파티룸에 작성된 메시지만 좋아요할 수 있습니다."),
+	CANNOT_LIKE_NOT_WRITTEN_MESSAGE(400, "E-RM017", "작성된 메시지만 좋아요 가능합니다."),
+	CANNOT_READ_NOT_WRITTEN_MESSAGE(400, "E-RM018", "작성된 메시지만 읽기 가능합니다."),
 
 	// File
 	FILE_UNFOUNDED(400, "E-F001", "존재하지 않는 파일입니다."),

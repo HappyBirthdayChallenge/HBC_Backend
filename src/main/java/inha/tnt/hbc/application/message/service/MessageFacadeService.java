@@ -140,8 +140,26 @@ public class MessageFacadeService {
 	@Transactional
 	public void readMessage(Long messageId) {
 		final Message message = messageService.findById(messageId);
+		if (!message.getStatus().equals(WRITTEN)) {
+			throw new InvalidArgumentException(CANNOT_READ_NOT_WRITTEN_MESSAGE);
+		}
 		if (!message.read()) {
 			throw new InvalidArgumentException(ALREADY_READ_MESSAGE);
+		}
+	}
+
+	@Transactional
+	public void likeMessage(Long messageId) {
+		final Member member = securityContextUtils.takeoutMember();
+		final Message message = messageService.findFetchRoomMemberById(messageId);
+		if (!message.getRoom().isOwner(member)) {
+			throw new InvalidArgumentException(CANNOT_LIKE_OTHER_ROOM_MESSAGE);
+		}
+		if (!message.getStatus().equals(WRITTEN)) {
+			throw new InvalidArgumentException(CANNOT_LIKE_NOT_WRITTEN_MESSAGE);
+		}
+		if (!message.like()) {
+			throw new InvalidArgumentException(ALREADY_LIKE_MESSAGE);
 		}
 	}
 

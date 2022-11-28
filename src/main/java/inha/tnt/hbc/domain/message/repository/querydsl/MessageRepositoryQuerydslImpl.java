@@ -126,4 +126,15 @@ public class MessageRepositoryQuerydslImpl implements MessageRepositoryQuerydsl 
 			.size();
 	}
 
+	@Override
+	public Optional<Message> findFetchRoomMemberById(Long messageId) {
+		return Optional.ofNullable(queryFactory
+			.selectFrom(message)
+			.where(message.id.eq(messageId))
+			.innerJoin(message.room, room).fetchJoin()
+			.innerJoin(room.member, member).fetchJoin()
+			.fetchFirst()
+		);
+	}
+
 }

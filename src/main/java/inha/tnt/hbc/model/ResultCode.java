@@ -62,6 +62,7 @@ public enum ResultCode {
 	EDIT_MESSAGE_SUCCESS(200, "R-RM006", "메시지 수정에 성공하였습니다."),
 	GET_MESSAGE_WRITTEN_BY_ME_SUCCESS(200, "R-RM007", "내가 작성한 메시지 목록 페이지 조회에 성공하였습니다."),
 	READ_MESSAGE_SUCCESS(200, "R-RM008", "메시지 읽음 상태로 변경에 성공하였습니다."),
+	LIKE_MESSAGE_SUCCESS(200, "R-RM009", "메시지 좋아요에 성공하였습니다."),
 
 	// File
 	UPLOAD_IMAGE_SUCCESS(200, "R-FI001", "이미지 파일 업로드에 성공하였습니다."),

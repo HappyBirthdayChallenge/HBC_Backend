@@ -55,6 +55,7 @@ public class Message extends BaseEntity {
 	private MessageStatus status;
 	private String content;
 	private boolean isRead = false;
+	private boolean isLike = false;
 	@OneToMany(mappedBy = "message")
 	private List<MessageFile> messageFiles = new ArrayList<>();
 	@OneToOne(mappedBy = "message")
@@ -91,6 +92,13 @@ public class Message extends BaseEntity {
 			return false;
 		}
 		return this.isRead = true;
+	}
+
+	public boolean like() {
+		if (this.isLike) {
+			return false;
+		}
+		return this.isLike = true;
 	}
 
 }

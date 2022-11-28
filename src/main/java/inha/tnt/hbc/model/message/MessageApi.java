@@ -174,4 +174,21 @@ public interface MessageApi {
 	@PatchMapping("/{message_id}/read")
 	ResponseEntity<ResultResponse> readMessage(@PathVariable(name = "message_id") Long messageId);
 
+	@ApiOperation(value = "메시지 좋아요")
+	@ApiResponses({
+		@ApiResponse(code = 1, response = Void.class, message = ""
+			+ "status: 200 | code: R-RM009 | message: 메시지 좋아요에 성공하였습니다."),
+		@ApiResponse(code = 500, response = ErrorResponse.class, message = ""
+			+ "status: 400 | code: E-G002 | message: 입력 값이 유효하지 않습니다.\n"
+			+ "status: 400 | code: E-RM003 | message: 존재하지 않는 메시지입니다.\n"
+			+ "status: 400 | code: E-RM015 | message: 이미 좋아요한 메시지입니다.\n"
+			+ "status: 400 | code: E-RM016 | message: 본인의 파티룸에 작성된 메시지만 좋아요할 수 있습니다.\n"
+			+ "status: 400 | code: E-RM009 | message: 작성된 메시지만 좋아요 가능합니다.\n"
+			+ "status: 401 | code: E-A003 | message: 인증에 실패하였습니다.\n"
+			+ "status: 500 | code: E-G001 | message: 내부 서버 오류입니다.")
+	})
+	@ApiImplicitParam(name = "message_id", value = "메시지 PK", required = true, example = "1")
+	@PatchMapping("/{message_id}/like")
+	ResponseEntity<ResultResponse> likeMessage(@PathVariable(name = "message_id") Long messageId);
+
 }

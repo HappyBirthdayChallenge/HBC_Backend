@@ -89,6 +89,11 @@ public class MessageService {
 		return messageRepository.countByRoomAndIsRead(room, false);
 	}
 
+	public Message findFetchRoomMemberById(Long messageId) {
+		return messageRepository.findFetchRoomMemberById(messageId)
+			.orElseThrow(() -> new EntityNotFoundException(MESSAGE_UNFOUNDED));
+	}
+
 	private boolean isMyRoom(Member member, Room room) {
 		return room.getMember().getId().equals(member.getId());
 	}

@@ -69,4 +69,10 @@ public class MessageController implements MessageApi {
 		return ResponseEntity.ok(ResultResponse.of(READ_MESSAGE_SUCCESS));
 	}
 
+	@Override
+	public ResponseEntity<ResultResponse> likeMessage(Long messageId) {
+		messageFacadeService.likeMessage(messageId);
+		return ResponseEntity.ok(ResultResponse.of(LIKE_MESSAGE_SUCCESS));
+	}
+
 }

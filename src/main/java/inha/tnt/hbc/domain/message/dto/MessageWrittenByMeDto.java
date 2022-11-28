@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.querydsl.core.annotations.QueryProjection;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,9 +22,13 @@ import inha.tnt.hbc.domain.message.entity.MessageDecorationTypes;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class MessageWrittenByMeDto {
 
+	@ApiModelProperty(value = "메시지 PK", example = "1")
 	private Long messageId;
+	@ApiModelProperty(value = "메시지 장식품 유형", example = "DOLL_TYPE1")
 	private MessageDecorationTypes decorationType;
+	@ApiModelProperty(value = "파티룸 PK", example = "1")
 	private Long roomId;
+	@ApiModelProperty(value = "파티룸 주인 정보")
 	private MemberDto roomOwner;
 
 	@QueryProjection

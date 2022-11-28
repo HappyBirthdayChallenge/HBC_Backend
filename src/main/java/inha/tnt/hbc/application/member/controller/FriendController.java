@@ -5,7 +5,7 @@ import static inha.tnt.hbc.model.ResultCode.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
-import inha.tnt.hbc.model.member.dto.FriendListResponse;
+import inha.tnt.hbc.model.member.dto.FollowingPageResponse;
 import inha.tnt.hbc.application.member.service.FriendFacadeService;
 import inha.tnt.hbc.model.ResultResponse;
 import inha.tnt.hbc.model.member.FriendApi;
@@ -18,9 +18,9 @@ public class FriendController implements FriendApi {
 	private final FriendFacadeService friendFacadeService;
 
 	@Override
-	public ResponseEntity<ResultResponse> getFriends(int page, int size) {
-		final FriendListResponse response = friendFacadeService.getFriends(page, size);
-		return ResponseEntity.ok(ResultResponse.of(GET_FRIENDS_SUCCESS, response));
+	public ResponseEntity<ResultResponse> getFollowings(int page, int size) {
+		final FollowingPageResponse response = friendFacadeService.getFriends(page, size);
+		return ResponseEntity.ok(ResultResponse.of(GET_FOLLOWINGS_SUCCESS, response));
 	}
 
 	@Override

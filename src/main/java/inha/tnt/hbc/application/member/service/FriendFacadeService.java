@@ -16,7 +16,7 @@ import inha.tnt.hbc.domain.member.entity.Friend;
 import inha.tnt.hbc.domain.member.entity.Member;
 import inha.tnt.hbc.domain.member.service.FriendService;
 import inha.tnt.hbc.domain.member.service.MemberService;
-import inha.tnt.hbc.model.member.dto.FriendListResponse;
+import inha.tnt.hbc.model.member.dto.FollowingPageResponse;
 import inha.tnt.hbc.util.SecurityContextUtils;
 
 @Service
@@ -41,11 +41,11 @@ public class FriendFacadeService {
 		alarmService.alarmFriend(friend);
 	}
 
-	public FriendListResponse getFriends(int page, int size) {
+	public FollowingPageResponse getFriends(int page, int size) {
 		final Long memberId = securityContextUtils.takeoutMemberId();
 		final PageRequest pageable = PageRequest.of(page - PAGE_CORRECTION_VALUE, size);
 		final Page<FriendDto> friendDtoPage = friendService.findFriendDtoPage(memberId, pageable);
-		return FriendListResponse.builder()
+		return FollowingPageResponse.builder()
 			.page(friendDtoPage)
 			.build();
 	}

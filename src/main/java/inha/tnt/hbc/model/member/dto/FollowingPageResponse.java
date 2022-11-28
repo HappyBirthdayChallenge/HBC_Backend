@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class FriendListResponse {
+public class FollowingPageResponse {
 
 	private Page<FriendDto> page;
 

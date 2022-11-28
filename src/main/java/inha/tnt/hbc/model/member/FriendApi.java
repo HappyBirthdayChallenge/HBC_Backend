@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import inha.tnt.hbc.model.member.dto.FriendListResponse;
+import inha.tnt.hbc.model.member.dto.FollowingPageResponse;
 import inha.tnt.hbc.model.ErrorResponse;
 import inha.tnt.hbc.model.ResultResponse;
 import inha.tnt.hbc.model.Void;
@@ -25,10 +25,10 @@ import io.swagger.annotations.ApiResponses;
 @RequestMapping("/members/friends")
 public interface FriendApi {
 
-	@ApiOperation(value = "친구 목록 조회")
+	@ApiOperation(value = "팔로잉 목록 조회")
 	@ApiResponses({
-		@ApiResponse(code = 1, response = FriendListResponse.class, message = ""
-			+ "status: 200 | code: R-M014 | message: 친구 목록 조회에 성공하였습니다."),
+		@ApiResponse(code = 1, response = FollowingPageResponse.class, message = ""
+			+ "status: 200 | code: R-M014 | message: 팔로잉 목록 조회에 성공하였습니다."),
 		@ApiResponse(code = 500, response = ErrorResponse.class, message = ""
 			+ "status: 400 | code: E-G002 | message: 입력 값이 유효하지 않습니다.\n"
 			+ "status: 401 | code: E-A003 | message: 인증에 실패하였습니다.\n"
@@ -39,7 +39,7 @@ public interface FriendApi {
 		@ApiImplicitParam(name = "size", value = "페이지당 개수(1 이상)", required = true, example = "10")
 	})
 	@GetMapping
-	ResponseEntity<ResultResponse> getFriends(@Min(1) @RequestParam int page, @Min(1) @RequestParam int size);
+	ResponseEntity<ResultResponse> getFollowings(@Min(1) @RequestParam int page, @Min(1) @RequestParam int size);
 
 	@ApiOperation(value = "친구 추가", notes = ""
 			+ "상대방을 친구 추가하면, 상대방에게 알림을 전송합니다.")

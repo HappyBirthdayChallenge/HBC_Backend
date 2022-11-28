@@ -25,7 +25,7 @@ public enum ResultCode {
 	SIGNIN_SUCCESS(200, "R-M011", "로그인에 성공하였습니다."),
 	BIRTHDAY_SETUP_SUCCESS(200, "R-M012", "생일 입력에 성공하였습니다."),
 	ADD_FRIEND_SUCCESS(200, "R-M013", "친구 추가에 성공하였습니다."),
-	GET_FRIENDS_SUCCESS(200, "R-M014", "친구 목록 조회에 성공하였습니다."),
+	GET_FOLLOWINGS_SUCCESS(200, "R-M014", "팔로잉 목록 조회에 성공하였습니다."),
 	PHONE_AVAILABLE(200, "R-M015", "사용 가능한 휴대폰 번호입니다."),
 	IDENTIFY_SUCCESS(200, "R-M016", "본인 여부 확인에 성공하였습니다."),
 	IDENTIFY_FAILURE(200, "R-M017", "본인 여부 확인에 실패하였습니다."),

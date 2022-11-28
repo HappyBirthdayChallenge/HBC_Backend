@@ -47,7 +47,7 @@ public class InquiryMessageResponse {
 			.decorationType(message.getDecoration().getType())
 			.animationType(message.getAnimation().getType())
 			.content(message.getContent())
-			.fileUris(message.getFileUris())
+			.fileUris(message.getFileUris() == null ? new ArrayList<>() : message.getFileUris())
 			.createAt(message.getCreateAt().toString())
 			.build();
 	}

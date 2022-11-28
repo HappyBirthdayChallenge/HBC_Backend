@@ -39,7 +39,7 @@ public class MessageRepositoryQuerydslImpl implements MessageRepositoryQuerydsl 
 			.innerJoin(message.room, room).fetchJoin()
 			.innerJoin(message.animation, animation).fetchJoin()
 			.innerJoin(message.decoration, decoration).fetchJoin()
-			.innerJoin(message.messageFiles, messageFile).fetchJoin()
+			.leftJoin(message.messageFiles, messageFile).fetchJoin()
 			.fetchFirst()
 		);
 	}

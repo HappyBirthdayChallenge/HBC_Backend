@@ -29,6 +29,7 @@ import inha.tnt.hbc.model.room.dto.RoomDecorationPageResponse;
 import inha.tnt.hbc.model.room.dto.RoomDto;
 import inha.tnt.hbc.model.room.dto.RoomMessagePageResponse;
 import inha.tnt.hbc.model.room.dto.SearchRoomMessageWrittenByMeResponse;
+import inha.tnt.hbc.model.room.dto.UnreadMessagesCountResponse;
 import inha.tnt.hbc.util.SecurityContextUtils;
 
 @Service
@@ -98,6 +99,16 @@ public class RoomFacadeService {
 		} catch (EntityNotFoundException e) {
 			throw new InvalidArgumentException(CANNOT_SEARCH_MESSAGE_WRITTEN_BY_ME);
 		}
+	}
+
+	public UnreadMessagesCountResponse getUnReadMessagesCount(Long roomId) {
+		final Member member = securityContextUtils.takeoutMember();
+		final Room room = roomService.findById(roomId);
+		if (!room.isOwner(member)) {
+			throw new InvalidArgumentException(CANNOT_GET_UNREAD_MESSAGES_COUNT_OTHER_ROOM);
+		}
+		final int count = messageService.countUnReadMessagesByRoom(room);
+		return UnreadMessagesCountResponse.of(count);
 	}
 
 	private long calculateTotalElements(Page<Decoration> foods, Page<Decoration> photos, Page<Decoration> dolls,

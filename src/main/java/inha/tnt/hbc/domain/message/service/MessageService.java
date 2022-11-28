@@ -85,6 +85,10 @@ public class MessageService {
 			.orElseThrow(() -> new EntityNotFoundException(MESSAGE_UNFOUNDED));
 	}
 
+	public int countUnReadMessagesByRoom(Room room) {
+		return messageRepository.countByRoomAndIsRead(room, false);
+	}
+
 	private boolean isMyRoom(Member member, Room room) {
 		return room.getMember().getId().equals(member.getId());
 	}

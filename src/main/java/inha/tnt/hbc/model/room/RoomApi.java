@@ -18,6 +18,7 @@ import io.swagger.annotations.ApiResponses;
 
 import inha.tnt.hbc.model.ErrorResponse;
 import inha.tnt.hbc.model.ResultResponse;
+import inha.tnt.hbc.model.room.dto.UnreadMessagesCountResponse;
 import inha.tnt.hbc.model.room.dto.RoomDecorationPageResponse;
 import inha.tnt.hbc.model.room.dto.RoomDto;
 import inha.tnt.hbc.model.room.dto.RoomMessagePageResponse;
@@ -97,5 +98,19 @@ public interface RoomApi {
 	@ApiImplicitParam(name = "room_id", value = "파티룸 PK", required = true, example = "1")
 	@GetMapping("/{room_id}/messages/mine")
 	ResponseEntity<ResultResponse> searchRoomMessageWrittenByMe(@PathVariable(name = "room_id") Long roomId);
+
+	@ApiOperation(value = "파티룸 읽지 않은 메시지 개수 조회")
+	@ApiResponses({
+		@ApiResponse(code = 1, response = UnreadMessagesCountResponse.class, message = ""
+			+ "status: 200 | code: R-R005 | message: 파티룸 읽지 않은 메시지 개수 조회에 성공하였습니다."),
+		@ApiResponse(code = 500, response = ErrorResponse.class, message = ""
+			+ "status: 400 | code: E-G002 | message: 입력 값이 유효하지 않습니다.\n"
+			+ "status: 400 | code: E-R001 | message: 존재하지 않는 파티룸입니다.\n"
+			+ "status: 400 | code: E-R005 | message: 본인 파티룸에서만 읽지 않은 메시지 개수를 조회할 수 있습니다.\n"
+			+ "status: 401 | code: E-A003 | message: 인증에 실패하였습니다.\n"
+			+ "status: 500 | code: E-G001 | message: 내부 서버 오류입니다.")
+	})
+	@GetMapping("/{room_id}/unread")
+	ResponseEntity<ResultResponse> getUnReadMessagesCount(@PathVariable(name = "room_id") Long roomId);
 
 }

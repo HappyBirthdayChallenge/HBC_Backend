@@ -16,15 +16,19 @@ import lombok.RequiredArgsConstructor;
 
 import inha.tnt.hbc.domain.message.dto.MessageDecorationDto;
 import inha.tnt.hbc.domain.message.entity.Decoration;
+import inha.tnt.hbc.domain.message.entity.Message;
 import inha.tnt.hbc.domain.message.service.DecorationService;
 import inha.tnt.hbc.domain.message.service.MessageService;
 import inha.tnt.hbc.domain.room.dto.RoomMessageDto;
 import inha.tnt.hbc.domain.room.entity.Room;
 import inha.tnt.hbc.domain.room.service.RoomService;
+import inha.tnt.hbc.exception.EntityNotFoundException;
 import inha.tnt.hbc.exception.InvalidArgumentException;
 import inha.tnt.hbc.model.room.dto.RoomDecorationPageResponse;
 import inha.tnt.hbc.model.room.dto.RoomDto;
 import inha.tnt.hbc.model.room.dto.RoomMessagePageResponse;
+import inha.tnt.hbc.model.room.dto.SearchRoomMessageWrittenByMeResponse;
+import inha.tnt.hbc.util.SecurityContextUtils;
 
 @Service
 @RequiredArgsConstructor
@@ -34,6 +38,7 @@ public class RoomFacadeService {
 	private final RoomService roomService;
 	private final DecorationService decorationService;
 	private final MessageService messageService;
+	private final SecurityContextUtils securityContextUtils;
 
 	public List<RoomDto> getRoomDtos(Long memberId) {
 		return roomService.getRooms(memberId)
@@ -72,6 +77,22 @@ public class RoomFacadeService {
 		}
 		final Page<RoomMessageDto> dto = messageService.findRoomMessageDtoByRoom(room, pageable);
 		return RoomMessagePageResponse.of(dto);
+	}
+
+	public SearchRoomMessageWrittenByMeResponse searchRoomMessageWrittenByMe(Long roomId) {
+		final Long memberId = securityContextUtils.takeoutMemberId();
+		try {
+			final Message message = messageService.findByMemberIdAndRoomId(memberId, roomId);
+			final Decoration decoration = decorationService.findByMessage(message);
+			final int sequenceNumber = messageService.findSequenceNumber(memberId, roomId, message.getId(),
+				decoration.getCategory());
+			final int size = SIZE_PER_PAGE + 1;
+			final int page = sequenceNumber / size + PAGE_CORRECTION_VALUE;
+			final int index = sequenceNumber % size;
+			return SearchRoomMessageWrittenByMeResponse.of(page, index);
+		} catch (EntityNotFoundException e) {
+			throw new InvalidArgumentException(CANNOT_SEARCH_MESSAGE_WRITTEN_BY_ME);
+		}
 	}
 
 	private long calculateTotalElements(Page<Decoration> foods, Page<Decoration> photos, Page<Decoration> dolls,

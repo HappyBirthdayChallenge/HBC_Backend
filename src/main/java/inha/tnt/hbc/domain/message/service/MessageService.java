@@ -70,6 +70,16 @@ public class MessageService {
 		return messageRepository.findMessageWrittenByMeDtoByMemberId(memberId, pageable);
 	}
 
+	public int findSequenceNumber(Long memberId, Long roomId, Long messageId, String decorationCategory) {
+		return messageRepository.countByMemberIdAndRoomIdAndMessageIdAndDecorationCategory(memberId, roomId, messageId,
+			decorationCategory);
+	}
+
+	public Message findByMemberIdAndRoomId(Long memberId, Long roomId) {
+		return messageRepository.findByMemberIdAndRoomId(memberId, roomId)
+			.orElseThrow(() -> new EntityNotFoundException(MESSAGE_UNFOUNDED));
+	}
+
 	private boolean isMyRoom(Member member, Room room) {
 		return room.getMember().getId().equals(member.getId());
 	}

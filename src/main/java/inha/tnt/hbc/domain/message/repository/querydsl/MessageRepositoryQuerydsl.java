@@ -24,4 +24,7 @@ public interface MessageRepositoryQuerydsl {
 
 	Page<MessageWrittenByMeDto> findMessageWrittenByMeDtoByMemberId(Long memberId, Pageable pageable);
 
+	int countByMemberIdAndRoomIdAndMessageIdAndDecorationCategory(Long memberId, Long roomId, Long messageId,
+		String decorationCategory);
+
 }

@@ -112,4 +112,18 @@ public class MessageRepositoryQuerydslImpl implements MessageRepositoryQuerydsl 
 		return new PageImpl<>(content, pageable, total);
 	}
 
+	@Override
+	public int countByMemberIdAndRoomIdAndMessageIdAndDecorationCategory(Long memberId, Long roomId, Long messageId,
+		String decorationCategory) {
+		return queryFactory
+			.selectFrom(message)
+			.where(message.room.id.eq(roomId)
+				.and(message.status.eq(WRITTEN))
+				.and(message.decoration.category.eq(decorationCategory))
+				.and(message.id.loe(messageId)))
+			.innerJoin(message.decoration, decoration)
+			.fetch()
+			.size();
+	}
+
 }

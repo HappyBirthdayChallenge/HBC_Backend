@@ -50,6 +50,7 @@ public enum ResultCode {
 	GET_ROOMS_SUCCESS(200, "R-R001", "파티룸 목록 조회에 성공하였습니다."),
 	GET_ROOM_DECORATION_PAGE_SUCCESS(200, "R-R002", "파티룸 장식품 페이지 조회에 성공하였습니다."),
 	GET_ROOM_MESSAGE_PAGE_SUCCESS(200, "R-R003", "파티룸 받은 메시지 목록 페이지 조회에 성공하였습니다."),
+	SEARCH_MESSAGE_WRITTEN_BY_ME_SUCCESS(200, "R-R004", "파티룸 내가 작성한 메시지 찾기에 성공하였습니다."),
 
 	// Message
 	UPLOAD_MESSAGE_SUCCESS(200, "R-RM001", "메시지 작성에 성공하였습니다."),

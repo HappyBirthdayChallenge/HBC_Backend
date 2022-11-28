@@ -35,4 +35,8 @@ public class DecorationService {
 		decorationRepository.deleteByMessage(message);
 	}
 
+	public Decoration findByMessage(Message message) {
+		return decorationRepository.findByMessage(message);
+	}
+
 }

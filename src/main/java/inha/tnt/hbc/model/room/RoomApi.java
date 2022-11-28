@@ -21,6 +21,7 @@ import inha.tnt.hbc.model.ResultResponse;
 import inha.tnt.hbc.model.room.dto.RoomDecorationPageResponse;
 import inha.tnt.hbc.model.room.dto.RoomDto;
 import inha.tnt.hbc.model.room.dto.RoomMessagePageResponse;
+import inha.tnt.hbc.model.room.dto.SearchRoomMessageWrittenByMeResponse;
 
 @Api(tags = "파티룸 API")
 @Validated
@@ -79,5 +80,20 @@ public interface RoomApi {
 	@GetMapping("/{room_id}/messages")
 	ResponseEntity<ResultResponse> getRoomMessages(@PathVariable(name = "room_id") Long roomId,
 		@RequestParam @Min(1) Integer page, @RequestParam @Min(1) Integer size);
+
+	@ApiOperation(value = "파티룸 내가 작성한 메시지 찾기")
+	@ApiResponses({
+		@ApiResponse(code = 1, response = SearchRoomMessageWrittenByMeResponse.class, message = ""
+			+ "status: 200 | code: R-R004 | message: 파티룸 내가 작성한 메시지 찾기에 성공하였습니다."),
+		@ApiResponse(code = 500, response = ErrorResponse.class, message = ""
+			+ "status: 400 | code: E-G002 | message: 입력 값이 유효하지 않습니다.\n"
+			+ "status: 400 | code: E-R001 | message: 존재하지 않는 파티룸입니다.\n"
+			+ "status: 400 | code: E-R003 | message: 해당 파티룸에 메시지를 작성하지 않았습니다.\n"
+			+ "status: 401 | code: E-A003 | message: 인증에 실패하였습니다.\n"
+			+ "status: 500 | code: E-G001 | message: 내부 서버 오류입니다.")
+	})
+	@ApiImplicitParam(name = "room_id", value = "파티룸 PK", required = true, example = "1")
+	@GetMapping("/{room_id}/messages/mine")
+	ResponseEntity<ResultResponse> searchRoomMessageWrittenByMe(@PathVariable(name = "room_id") Long roomId);
 
 }

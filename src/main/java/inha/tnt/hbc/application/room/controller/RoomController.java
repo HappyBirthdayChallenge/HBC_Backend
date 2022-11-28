@@ -15,6 +15,7 @@ import inha.tnt.hbc.model.room.RoomApi;
 import inha.tnt.hbc.model.room.dto.RoomDecorationPageResponse;
 import inha.tnt.hbc.model.room.dto.RoomDto;
 import inha.tnt.hbc.model.room.dto.RoomMessagePageResponse;
+import inha.tnt.hbc.model.room.dto.SearchRoomMessageWrittenByMeResponse;
 
 @RestController
 @RequiredArgsConstructor
@@ -38,6 +39,12 @@ public class RoomController implements RoomApi {
 	public ResponseEntity<ResultResponse> getRoomMessages(Long roomId, Integer page, Integer size) {
 		final RoomMessagePageResponse response = roomFacadeService.getRoomMessagePage(roomId, page, size);
 		return ResponseEntity.ok(ResultResponse.of(GET_ROOM_MESSAGE_PAGE_SUCCESS, response));
+	}
+
+	@Override
+	public ResponseEntity<ResultResponse> searchRoomMessageWrittenByMe(Long roomId) {
+		final SearchRoomMessageWrittenByMeResponse response = roomFacadeService.searchRoomMessageWrittenByMe(roomId);
+		return ResponseEntity.ok(ResultResponse.of(SEARCH_MESSAGE_WRITTEN_BY_ME_SUCCESS, response));
 	}
 
 }

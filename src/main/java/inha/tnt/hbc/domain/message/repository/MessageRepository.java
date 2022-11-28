@@ -11,12 +11,13 @@ import inha.tnt.hbc.domain.message.entity.MessageStatus;
 import inha.tnt.hbc.domain.message.repository.querydsl.MessageRepositoryQuerydsl;
 import inha.tnt.hbc.domain.room.entity.Room;
 
+@Transactional(readOnly = true)
 public interface MessageRepository extends JpaRepository<Message, Long>, MessageRepositoryQuerydsl {
 
-	@Transactional(readOnly = true)
 	Optional<Message> findByMemberAndRoomAndStatus(Member member, Room room, MessageStatus status);
 
-	@Transactional(readOnly = true)
 	Optional<Message> findByIdAndMember(Long messageId, Member member);
+
+	Optional<Message> findByMemberIdAndRoomId(Long memberId, Long roomId);
 
 }

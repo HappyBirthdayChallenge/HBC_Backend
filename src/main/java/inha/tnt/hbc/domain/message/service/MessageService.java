@@ -80,6 +80,11 @@ public class MessageService {
 			.orElseThrow(() -> new EntityNotFoundException(MESSAGE_UNFOUNDED));
 	}
 
+	public Message findById(Long messageId) {
+		return messageRepository.findById(messageId)
+			.orElseThrow(() -> new EntityNotFoundException(MESSAGE_UNFOUNDED));
+	}
+
 	private boolean isMyRoom(Member member, Room room) {
 		return room.getMember().getId().equals(member.getId());
 	}

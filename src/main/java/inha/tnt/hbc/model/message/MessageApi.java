@@ -6,6 +6,7 @@ import javax.validation.constraints.Min;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -102,7 +103,7 @@ public interface MessageApi {
 			+ "status: 500 | code: E-G001 | message: 내부 서버 오류입니다.")
 	})
 	@ApiImplicitParam(name = "message_id", value = "메시지 PK", required = true, example = "1")
-	@DeleteMapping("/cancel/{message_id}")
+	@DeleteMapping("/{message_id}/cancel")
 	ResponseEntity<ResultResponse> cancel(@PathVariable(name = "message_id") Long messageId);
 
 	@ApiOperation(value = "메시지 삭제", notes = ""
@@ -120,7 +121,7 @@ public interface MessageApi {
 			+ "status: 500 | code: E-G001 | message: 내부 서버 오류입니다.")
 	})
 	@ApiImplicitParam(name = "message_id", value = "메시지 PK", required = true, example = "1")
-	@DeleteMapping("/delete/{message_id}")
+	@DeleteMapping("/{message_id}/delete")
 	ResponseEntity<ResultResponse> delete(@PathVariable(name = "message_id") Long messageId);
 
 	@ApiOperation(value = "메시지 수정", notes = ""
@@ -157,4 +158,19 @@ public interface MessageApi {
 	ResponseEntity<ResultResponse> getMessagesWrittenByMe(@RequestParam @Min(1) Integer page,
 		@RequestParam @Min(1) Integer size);
 
+	@ApiOperation(value = "메시지 읽음 상태로 변경")
+	@ApiResponses({
+		@ApiResponse(code = 1, response = Void.class, message = ""
+			+ "status: 200 | code: R-RM008 | message: 메시지 읽음 상태로 변경에 성공하였습니다."),
+		@ApiResponse(code = 500, response = ErrorResponse.class, message = ""
+			+ "status: 400 | code: E-G002 | message: 입력 값이 유효하지 않습니다.\n"
+			+ "status: 400 | code: E-RM003 | message: 존재하지 않는 메시지입니다.\n"
+			+ "status: 400 | code: E-RM014 | message: 이미 읽은 메시지입니다.\n"
+			+ "status: 401 | code: E-A003 | message: 인증에 실패하였습니다.\n"
+			+ "status: 500 | code: E-G001 | message: 내부 서버 오류입니다.")
+	})
+	@ApiImplicitParam(name = "message_id", value = "메시지 PK", required = true, example = "1")
+	@PatchMapping("/{message_id}/read")
+	ResponseEntity<ResultResponse> readMessage(@PathVariable(name = "message_id") Long messageId);
+	
 }

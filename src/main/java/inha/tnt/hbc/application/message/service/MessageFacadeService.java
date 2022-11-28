@@ -137,6 +137,14 @@ public class MessageFacadeService {
 		return MessageWrittenByMePageResponse.of(dto);
 	}
 
+	@Transactional
+	public void readMessage(Long messageId) {
+		final Message message = messageService.findById(messageId);
+		if (!message.read()) {
+			throw new InvalidArgumentException(ALREADY_READ_MESSAGE);
+		}
+	}
+
 	private boolean isRoomOwnerAndBeforeBirthday(Member member, Room room) {
 		return room.isOwner(member) && room.isBeforeBirthDay();
 	}

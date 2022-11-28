@@ -63,4 +63,10 @@ public class MessageController implements MessageApi {
 		return ResponseEntity.ok(ResultResponse.of(GET_MESSAGE_WRITTEN_BY_ME_SUCCESS, response));
 	}
 
+	@Override
+	public ResponseEntity<ResultResponse> readMessage(Long messageId) {
+		messageFacadeService.readMessage(messageId);
+		return ResponseEntity.ok(ResultResponse.of(READ_MESSAGE_SUCCESS));
+	}
+
 }

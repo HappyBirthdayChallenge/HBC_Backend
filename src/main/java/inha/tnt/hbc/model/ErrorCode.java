@@ -59,6 +59,7 @@ public enum ErrorCode {
 	CANNOT_EDIT_AFTER_BIRTHDAY(400, "E-RM011", "생일 이후로는 메시지를 수정할 수 없습니다."),
 	CANNOT_EDIT_NOT_WRITTEN_MESSAGE(400, "E-RM012", "작성된 메시지만 수정 가능합니다."),
 	CANNOT_CREATE_MESSAGE_AFTER_BIRTHDAY(400, "E-RM013", "생일 이후로는 메시지를 생성할 수 없습니다."),
+	ALREADY_READ_MESSAGE(400, "E-RM014", "이미 읽은 메시지입니다."),
 
 	// File
 	FILE_UNFOUNDED(400, "E-F001", "존재하지 않는 파일입니다."),

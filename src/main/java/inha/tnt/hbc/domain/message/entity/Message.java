@@ -54,6 +54,7 @@ public class Message extends BaseEntity {
 	@Column(nullable = false)
 	private MessageStatus status;
 	private String content;
+	private boolean isRead = false;
 	@OneToMany(mappedBy = "message")
 	private List<MessageFile> messageFiles = new ArrayList<>();
 	@OneToOne(mappedBy = "message")
@@ -83,6 +84,13 @@ public class Message extends BaseEntity {
 	public void delete() {
 		this.content = null;
 		this.status = DELETED;
+	}
+
+	public boolean read() {
+		if (this.isRead) {
+			return false;
+		}
+		return this.isRead = true;
 	}
 
 }

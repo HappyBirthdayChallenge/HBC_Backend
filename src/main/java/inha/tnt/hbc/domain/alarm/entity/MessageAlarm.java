@@ -33,9 +33,4 @@ public class MessageAlarm extends Alarm {
 		this.message = message;
 	}
 
-	@Override
-	public String getMessage() {
-		return ALARM_MESSAGE;
-	}
-
 }

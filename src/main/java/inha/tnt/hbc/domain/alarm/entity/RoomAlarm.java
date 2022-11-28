@@ -43,10 +43,4 @@ public class RoomAlarm extends Alarm {
 		this.room = room;
 	}
 
-	@Override
-	public String getMessage() {
-		return String.format(ALARM_MESSAGE, room.getMember().getName(), DAYS_BEFORE_ROOM_CREATION,
-			room.getMember().getName());
-	}
-
 }

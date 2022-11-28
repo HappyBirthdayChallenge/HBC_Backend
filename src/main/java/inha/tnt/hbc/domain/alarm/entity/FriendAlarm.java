@@ -33,9 +33,4 @@ public class FriendAlarm extends Alarm {
 		this.friend = friend;
 	}
 
-	@Override
-	public String getMessage() {
-		return String.format(ALARM_MESSAGE, super.getSender().getName());
-	}
-
 }

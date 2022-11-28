@@ -55,6 +55,4 @@ public abstract class Alarm extends BaseEntity {
 		this.dtype = getClass().getAnnotation(DiscriminatorValue.class).value();
 	}
 
-	public abstract String getMessage();
-
 }

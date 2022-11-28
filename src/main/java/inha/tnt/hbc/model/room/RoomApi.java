@@ -59,7 +59,8 @@ public interface RoomApi {
 	ResponseEntity<ResultResponse> getRoomDecorationPage(@PathVariable(name = "room_id") Long roomId,
 		@RequestParam @Min(1) Integer page);
 
-	@ApiOperation(value = "파티룸 받은 메시지 목록 페이지 조회")
+	@ApiOperation(value = "파티룸 받은 메시지 목록 페이지 조회", notes = ""
+		+ "1. 생일 전에는 메시지 목록 조회가 불가능합니다.")
 	@ApiResponses({
 		@ApiResponse(code = 1, response = RoomMessagePageResponse.class, message = ""
 			+ "status: 200 | code: R-R003 | message: 파티룸 받은 메시지 목록 페이지 조회에 성공하였습니다."),

@@ -52,7 +52,7 @@ public class MessageController implements MessageApi {
 	}
 
 	@Override
-	public ResponseEntity<ResultResponse> edit(Long messageId, MessageRequest request) {
+	public ResponseEntity<ResultResponse> edit(MessageRequest request) {
 		messageFacadeService.editMessage(request);
 		return ResponseEntity.ok(ResultResponse.of(EDIT_MESSAGE_SUCCESS));
 	}

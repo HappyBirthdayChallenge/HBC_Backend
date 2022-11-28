@@ -137,10 +137,8 @@ public interface MessageApi {
 			+ "status: 401 | code: E-A003 | message: 인증에 실패하였습니다.\n"
 			+ "status: 500 | code: E-G001 | message: 내부 서버 오류입니다.")
 	})
-	@ApiImplicitParam(name = "message_id", value = "메시지 PK", required = true, example = "1")
-	@PutMapping("/edit/{message_id}")
-	ResponseEntity<ResultResponse> edit(@PathVariable(name = "message_id") Long messageId,
-		@Valid @RequestBody MessageRequest request);
+	@PutMapping("/edit")
+	ResponseEntity<ResultResponse> edit(@Valid @RequestBody MessageRequest request);
 
 	@ApiOperation(value = "내가 작성한 메시지 목록 페이지 조회")
 	@ApiResponses({

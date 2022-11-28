@@ -1,6 +1,7 @@
 package inha.tnt.hbc.application.room.service;
 
 import static inha.tnt.hbc.domain.message.entity.MessageDecorationTypes.*;
+import static inha.tnt.hbc.model.ErrorCode.*;
 import static inha.tnt.hbc.util.Constants.*;
 
 import java.util.List;
@@ -16,9 +17,14 @@ import lombok.RequiredArgsConstructor;
 import inha.tnt.hbc.domain.message.dto.MessageDecorationDto;
 import inha.tnt.hbc.domain.message.entity.Decoration;
 import inha.tnt.hbc.domain.message.service.DecorationService;
+import inha.tnt.hbc.domain.message.service.MessageService;
+import inha.tnt.hbc.domain.room.dto.RoomMessageDto;
+import inha.tnt.hbc.domain.room.entity.Room;
 import inha.tnt.hbc.domain.room.service.RoomService;
+import inha.tnt.hbc.exception.InvalidArgumentException;
 import inha.tnt.hbc.model.room.dto.RoomDecorationPageResponse;
 import inha.tnt.hbc.model.room.dto.RoomDto;
+import inha.tnt.hbc.model.room.dto.RoomMessagePageResponse;
 
 @Service
 @RequiredArgsConstructor
@@ -27,6 +33,7 @@ public class RoomFacadeService {
 	private static final int SIZE_PER_PAGE = 4;
 	private final RoomService roomService;
 	private final DecorationService decorationService;
+	private final MessageService messageService;
 
 	public List<RoomDto> getRoomDtos(Long memberId) {
 		return roomService.getRooms(memberId)
@@ -55,6 +62,16 @@ public class RoomFacadeService {
 			.totalPages(totalPages)
 			.totalElements((int)calculateTotalElements(foods, photos, dolls, gifts))
 			.build();
+	}
+
+	public RoomMessagePageResponse getRoomMessagePage(Long roomId, Integer page, Integer size) {
+		final Pageable pageable = PageRequest.of(page - PAGE_CORRECTION_VALUE, size);
+		final Room room = roomService.findById(roomId);
+		if (room.isBeforeBirthDay()) {
+			throw new InvalidArgumentException(CANNOT_GET_MESSAGES_BEFORE_BIRTHDAY);
+		}
+		final Page<RoomMessageDto> dto = messageService.findRoomMessageDtoByRoom(room, pageable);
+		return RoomMessagePageResponse.of(dto);
 	}
 
 	private long calculateTotalElements(Page<Decoration> foods, Page<Decoration> photos, Page<Decoration> dolls,

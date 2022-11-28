@@ -3,6 +3,8 @@ package inha.tnt.hbc.domain.message.service;
 import static inha.tnt.hbc.domain.message.entity.MessageStatus.*;
 import static inha.tnt.hbc.model.ErrorCode.*;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,6 +15,7 @@ import inha.tnt.hbc.domain.message.entity.Message;
 import inha.tnt.hbc.domain.message.exception.CannotCreateMessageInMyRoomException;
 import inha.tnt.hbc.domain.message.exception.CannotCreateMessgaeMoreThanOnceException;
 import inha.tnt.hbc.domain.message.repository.MessageRepository;
+import inha.tnt.hbc.domain.room.dto.RoomMessageDto;
 import inha.tnt.hbc.domain.room.entity.Room;
 import inha.tnt.hbc.exception.EntityNotFoundException;
 
@@ -56,6 +59,10 @@ public class MessageService {
 	public Message findFetchRoomAndDecorationAndAnimationByIdAndMemberId(Long messageId, Long memberId) {
 		return messageRepository.findFetchRoomAndDecorationAndAnimationByIdAndMemberId(messageId, memberId)
 			.orElseThrow(() -> new EntityNotFoundException(MESSAGE_UNFOUNDED));
+	}
+
+	public Page<RoomMessageDto> findRoomMessageDtoByRoom(Room room, Pageable pageable) {
+		return messageRepository.findRoomMessageDtoByRoom(room, pageable);
 	}
 
 	private boolean isMyRoom(Member member, Room room) {

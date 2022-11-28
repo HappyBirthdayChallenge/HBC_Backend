@@ -8,13 +8,22 @@ import static inha.tnt.hbc.domain.message.entity.QMessage.*;
 import static inha.tnt.hbc.domain.message.entity.QMessageFile.*;
 import static inha.tnt.hbc.domain.room.entity.QRoom.*;
 
+import java.util.List;
 import java.util.Optional;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.RequiredArgsConstructor;
 
 import inha.tnt.hbc.domain.message.entity.Message;
+import inha.tnt.hbc.domain.message.entity.MessageStatus;
+import inha.tnt.hbc.domain.room.dto.QRoomMessageDto;
+import inha.tnt.hbc.domain.room.dto.RoomMessageDto;
+import inha.tnt.hbc.domain.room.entity.Room;
 
 @RequiredArgsConstructor
 public class MessageRepositoryQuerydslImpl implements MessageRepositoryQuerydsl {
@@ -55,6 +64,28 @@ public class MessageRepositoryQuerydslImpl implements MessageRepositoryQuerydsl 
 			.innerJoin(message.animation, animation).fetchJoin()
 			.fetchFirst()
 		);
+	}
+
+	@Override
+	public Page<RoomMessageDto> findRoomMessageDtoByRoom(Room room, Pageable pageable) {
+		final List<RoomMessageDto> content = queryFactory
+			.select(new QRoomMessageDto(message))
+			.from(message)
+			.where(message.room.id.eq(room.getId()).and(message.status.eq(WRITTEN)))
+			.innerJoin(message.decoration, decoration)
+			.innerJoin(message.member, member)
+			.offset(pageable.getOffset())
+			.limit(pageable.getPageSize())
+			.orderBy(message.id.desc())
+			.fetch();
+
+		final int total = queryFactory
+			.selectFrom(message)
+			.where(message.room.id.eq(room.getId()).and(message.status.eq(WRITTEN)))
+			.fetch()
+			.size();
+
+		return new PageImpl<>(content, pageable, total);
 	}
 
 }

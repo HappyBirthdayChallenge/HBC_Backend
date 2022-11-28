@@ -69,6 +69,7 @@ public interface RoomApi {
 			+ "status: 400 | code: E-G002 | message: 입력 값이 유효하지 않습니다.\n"
 			+ "status: 400 | code: E-R001 | message: 존재하지 않는 파티룸입니다.\n"
 			+ "status: 400 | code: E-R002 | message: 생일 전에는 메시지 목록을 조회할 수 없습니다.\n"
+			+ "status: 400 | code: E-R004 | message: 다른 사람의 메시지 목록은 조회할 수 없습니다.\n"
 			+ "status: 401 | code: E-A003 | message: 인증에 실패하였습니다.\n"
 			+ "status: 500 | code: E-G001 | message: 내부 서버 오류입니다.")
 	})

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 
+import inha.tnt.hbc.domain.member.entity.Member;
 import inha.tnt.hbc.domain.message.dto.MessageDecorationDto;
 import inha.tnt.hbc.domain.message.entity.Decoration;
 import inha.tnt.hbc.domain.message.entity.Message;
@@ -70,8 +71,12 @@ public class RoomFacadeService {
 	}
 
 	public RoomMessagePageResponse getRoomMessagePage(Long roomId, Integer page, Integer size) {
+		final Member member = securityContextUtils.takeoutMember();
 		final Pageable pageable = PageRequest.of(page - PAGE_CORRECTION_VALUE, size);
 		final Room room = roomService.findById(roomId);
+		if (room.isOwner(member)) {
+			throw new InvalidArgumentException(CANNOT_GET_MESSAGES_OTHER_ROOM);
+		}
 		if (room.isBeforeBirthDay()) {
 			throw new InvalidArgumentException(CANNOT_GET_MESSAGES_BEFORE_BIRTHDAY);
 		}

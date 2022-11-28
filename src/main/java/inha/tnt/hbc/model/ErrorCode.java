@@ -43,6 +43,7 @@ public enum ErrorCode {
 	ROOM_UNFOUNDED(400, "E-R001", "존재하지 않는 파티룸입니다."),
 	CANNOT_GET_MESSAGES_BEFORE_BIRTHDAY(400, "E-R002", "생일 전에는 메시지 목록을 조회할 수 없습니다."),
 	CANNOT_SEARCH_MESSAGE_WRITTEN_BY_ME(400, "E-R003", "해당 파티룸에 메시지를 작성하지 않았습니다."),
+	CANNOT_GET_MESSAGES_OTHER_ROOM(400, "E-R004", "다른 사람의 메시지 목록은 조회할 수 없습니다."),
 
 	// Message
 	CANNOT_CREATE_MESSAGE_MY_ROOM(400, "E-RM001", "본인 파티룸에는 축하 메시지를 생성할 수 없습니다."),

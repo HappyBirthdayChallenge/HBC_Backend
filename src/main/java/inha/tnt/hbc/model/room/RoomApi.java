@@ -61,7 +61,8 @@ public interface RoomApi {
 		@RequestParam @Min(1) Integer page);
 
 	@ApiOperation(value = "파티룸 받은 메시지 목록 페이지 조회", notes = ""
-		+ "1. 생일 전에는 메시지 목록 조회가 불가능합니다.")
+		+ "1. 생일 전에는 메시지 목록 조회가 불가능합니다.\n"
+		+ "2. 다른 사람이 받은 메시지 목록은 조회할 수 없습니다.")
 	@ApiResponses({
 		@ApiResponse(code = 1, response = RoomMessagePageResponse.class, message = ""
 			+ "status: 200 | code: R-R003 | message: 파티룸 받은 메시지 목록 페이지 조회에 성공하였습니다."),

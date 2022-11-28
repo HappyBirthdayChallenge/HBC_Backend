@@ -84,7 +84,8 @@ public interface RoomApi {
 	ResponseEntity<ResultResponse> getRoomMessages(@PathVariable(name = "room_id") Long roomId,
 		@RequestParam @Min(1) Integer page, @RequestParam @Min(1) Integer size);
 
-	@ApiOperation(value = "파티룸 내가 작성한 메시지 찾기")
+	@ApiOperation(value = "파티룸 내가 작성한 메시지 찾기", notes = ""
+		+ "1. 해당 파티룸에 메시지를 작성한 경우에만 API를 호출해야 합니다.")
 	@ApiResponses({
 		@ApiResponse(code = 1, response = SearchRoomMessageWrittenByMeResponse.class, message = ""
 			+ "status: 200 | code: R-R004 | message: 파티룸 내가 작성한 메시지 찾기에 성공하였습니다."),
@@ -99,7 +100,8 @@ public interface RoomApi {
 	@GetMapping("/{room_id}/messages/mine")
 	ResponseEntity<ResultResponse> searchRoomMessageWrittenByMe(@PathVariable(name = "room_id") Long roomId);
 
-	@ApiOperation(value = "파티룸 읽지 않은 메시지 개수 조회")
+	@ApiOperation(value = "파티룸 읽지 않은 메시지 개수 조회", notes = ""
+		+ "1. 본인 파티룸 대상으로만 API를 호출해야 합니다.")
 	@ApiResponses({
 		@ApiResponse(code = 1, response = UnreadMessagesCountResponse.class, message = ""
 			+ "status: 200 | code: R-R005 | message: 파티룸 읽지 않은 메시지 개수 조회에 성공하였습니다."),

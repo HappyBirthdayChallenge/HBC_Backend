@@ -158,7 +158,8 @@ public interface MessageApi {
 	ResponseEntity<ResultResponse> getMessagesWrittenByMe(@RequestParam @Min(1) Integer page,
 		@RequestParam @Min(1) Integer size);
 
-	@ApiOperation(value = "메시지 읽음 상태로 변경")
+	@ApiOperation(value = "메시지 읽음 상태로 변경", notes = ""
+		+ "1. 읽지 않은 메시지를 대상으로 사용해 주세요.")
 	@ApiResponses({
 		@ApiResponse(code = 1, response = Void.class, message = ""
 			+ "status: 200 | code: R-RM008 | message: 메시지 읽음 상태로 변경에 성공하였습니다."),
@@ -172,5 +173,5 @@ public interface MessageApi {
 	@ApiImplicitParam(name = "message_id", value = "메시지 PK", required = true, example = "1")
 	@PatchMapping("/{message_id}/read")
 	ResponseEntity<ResultResponse> readMessage(@PathVariable(name = "message_id") Long messageId);
-	
+
 }

@@ -19,8 +19,9 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.RequiredArgsConstructor;
 
+import inha.tnt.hbc.domain.message.dto.MessageWrittenByMeDto;
+import inha.tnt.hbc.domain.message.dto.QMessageWrittenByMeDto;
 import inha.tnt.hbc.domain.message.entity.Message;
-import inha.tnt.hbc.domain.message.entity.MessageStatus;
 import inha.tnt.hbc.domain.room.dto.QRoomMessageDto;
 import inha.tnt.hbc.domain.room.dto.RoomMessageDto;
 import inha.tnt.hbc.domain.room.entity.Room;
@@ -72,8 +73,8 @@ public class MessageRepositoryQuerydslImpl implements MessageRepositoryQuerydsl 
 			.select(new QRoomMessageDto(message))
 			.from(message)
 			.where(message.room.id.eq(room.getId()).and(message.status.eq(WRITTEN)))
-			.innerJoin(message.decoration, decoration)
-			.innerJoin(message.member, member)
+			.innerJoin(message.decoration, decoration).fetchJoin()
+			.innerJoin(message.member, member).fetchJoin()
 			.offset(pageable.getOffset())
 			.limit(pageable.getPageSize())
 			.orderBy(message.id.desc())
@@ -82,6 +83,29 @@ public class MessageRepositoryQuerydslImpl implements MessageRepositoryQuerydsl 
 		final int total = queryFactory
 			.selectFrom(message)
 			.where(message.room.id.eq(room.getId()).and(message.status.eq(WRITTEN)))
+			.fetch()
+			.size();
+
+		return new PageImpl<>(content, pageable, total);
+	}
+
+	@Override
+	public Page<MessageWrittenByMeDto> findMessageWrittenByMeDtoByMemberId(Long memberId, Pageable pageable) {
+		final List<MessageWrittenByMeDto> content = queryFactory
+			.select(new QMessageWrittenByMeDto(message))
+			.from(message)
+			.where(message.member.id.eq(memberId).and(message.status.eq(WRITTEN)))
+			.innerJoin(message.decoration, decoration).fetchJoin()
+			.innerJoin(message.room, room).fetchJoin()
+			.innerJoin(room.member, member).fetchJoin()
+			.offset(pageable.getOffset())
+			.limit(pageable.getPageSize())
+			.orderBy(message.id.desc())
+			.fetch();
+
+		final int total = queryFactory
+			.selectFrom(message)
+			.where(message.member.id.eq(memberId).and(message.status.eq(WRITTEN)))
 			.fetch()
 			.size();
 

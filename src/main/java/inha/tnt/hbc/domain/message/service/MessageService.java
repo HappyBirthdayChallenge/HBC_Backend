@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 
 import inha.tnt.hbc.domain.member.entity.Member;
+import inha.tnt.hbc.domain.message.dto.MessageWrittenByMeDto;
 import inha.tnt.hbc.domain.message.entity.Message;
 import inha.tnt.hbc.domain.message.exception.CannotCreateMessageInMyRoomException;
 import inha.tnt.hbc.domain.message.exception.CannotCreateMessgaeMoreThanOnceException;
@@ -63,6 +64,10 @@ public class MessageService {
 
 	public Page<RoomMessageDto> findRoomMessageDtoByRoom(Room room, Pageable pageable) {
 		return messageRepository.findRoomMessageDtoByRoom(room, pageable);
+	}
+
+	public Page<MessageWrittenByMeDto> findMessageWrittenByMeDtoByMemberId(Long memberId, Pageable pageable) {
+		return messageRepository.findMessageWrittenByMeDtoByMemberId(memberId, pageable);
 	}
 
 	private boolean isMyRoom(Member member, Room room) {

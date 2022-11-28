@@ -1,6 +1,7 @@
 package inha.tnt.hbc.model.message;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -24,6 +26,7 @@ import inha.tnt.hbc.model.Void;
 import inha.tnt.hbc.model.message.dto.CreateMessageResponse;
 import inha.tnt.hbc.model.message.dto.InquiryMessageResponse;
 import inha.tnt.hbc.model.message.dto.MessageRequest;
+import inha.tnt.hbc.model.message.dto.MessageWrittenByMePageResponse;
 
 @Api(tags = "메시지 API")
 @RequestMapping("/messages")
@@ -116,8 +119,8 @@ public interface MessageApi {
 			+ "status: 401 | code: E-A003 | message: 인증에 실패하였습니다.\n"
 			+ "status: 500 | code: E-G001 | message: 내부 서버 오류입니다.")
 	})
-	@DeleteMapping("/delete/{message_id}")
 	@ApiImplicitParam(name = "message_id", value = "메시지 PK", required = true, example = "1")
+	@DeleteMapping("/delete/{message_id}")
 	ResponseEntity<ResultResponse> delete(@PathVariable(name = "message_id") Long messageId);
 
 	@ApiOperation(value = "메시지 수정", notes = ""
@@ -134,9 +137,26 @@ public interface MessageApi {
 			+ "status: 401 | code: E-A003 | message: 인증에 실패하였습니다.\n"
 			+ "status: 500 | code: E-G001 | message: 내부 서버 오류입니다.")
 	})
-	@PutMapping("/edit/{message_id}")
 	@ApiImplicitParam(name = "message_id", value = "메시지 PK", required = true, example = "1")
+	@PutMapping("/edit/{message_id}")
 	ResponseEntity<ResultResponse> edit(@PathVariable(name = "message_id") Long messageId,
 		@Valid @RequestBody MessageRequest request);
+
+	@ApiOperation(value = "내가 작성한 메시지 목록 페이지 조회")
+	@ApiResponses({
+		@ApiResponse(code = 1, response = MessageWrittenByMePageResponse.class, message = ""
+			+ "status: 200 | code: R-RM007 | message: 내가 작성한 메시지 목록 페이지 조회에 성공하였습니다."),
+		@ApiResponse(code = 500, response = ErrorResponse.class, message = ""
+			+ "status: 400 | code: E-G002 | message: 입력 값이 유효하지 않습니다.\n"
+			+ "status: 401 | code: E-A003 | message: 인증에 실패하였습니다.\n"
+			+ "status: 500 | code: E-G001 | message: 내부 서버 오류입니다.")
+	})
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = "page", value = "메시지 페이지(1 이상)", required = true, example = "1"),
+		@ApiImplicitParam(name = "size", value = "페이지당 개수(1 이상)", required = true, example = "10")
+	})
+	@GetMapping
+	ResponseEntity<ResultResponse> getMessagesWrittenByMe(@RequestParam @Min(1) Integer page,
+		@RequestParam @Min(1) Integer size);
 
 }

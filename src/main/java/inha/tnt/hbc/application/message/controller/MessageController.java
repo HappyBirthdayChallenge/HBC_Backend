@@ -13,6 +13,7 @@ import inha.tnt.hbc.model.message.MessageApi;
 import inha.tnt.hbc.model.message.dto.CreateMessageResponse;
 import inha.tnt.hbc.model.message.dto.InquiryMessageResponse;
 import inha.tnt.hbc.model.message.dto.MessageRequest;
+import inha.tnt.hbc.model.message.dto.MessageWrittenByMePageResponse;
 
 @RestController
 @RequiredArgsConstructor
@@ -54,6 +55,12 @@ public class MessageController implements MessageApi {
 	public ResponseEntity<ResultResponse> edit(Long messageId, MessageRequest request) {
 		messageFacadeService.editMessage(request);
 		return ResponseEntity.ok(ResultResponse.of(EDIT_MESSAGE_SUCCESS));
+	}
+
+	@Override
+	public ResponseEntity<ResultResponse> getMessagesWrittenByMe(Integer page, Integer size) {
+		final MessageWrittenByMePageResponse response = messageFacadeService.getMessagesWrittenByMe(page, size);
+		return ResponseEntity.ok(ResultResponse.of(GET_MESSAGE_WRITTEN_BY_ME_SUCCESS, response));
 	}
 
 }

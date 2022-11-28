@@ -2,7 +2,11 @@ package inha.tnt.hbc.application.message.service;
 
 import static inha.tnt.hbc.domain.message.entity.MessageStatus.*;
 import static inha.tnt.hbc.model.ErrorCode.*;
+import static inha.tnt.hbc.util.Constants.*;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -10,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 
 import inha.tnt.hbc.domain.alarm.service.AlarmService;
 import inha.tnt.hbc.domain.member.entity.Member;
+import inha.tnt.hbc.domain.message.dto.MessageWrittenByMeDto;
 import inha.tnt.hbc.domain.message.entity.Message;
 import inha.tnt.hbc.domain.message.service.AnimationService;
 import inha.tnt.hbc.domain.message.service.DecorationService;
@@ -23,6 +28,7 @@ import inha.tnt.hbc.infra.aws.S3Uploader;
 import inha.tnt.hbc.model.message.dto.CreateMessageResponse;
 import inha.tnt.hbc.model.message.dto.InquiryMessageResponse;
 import inha.tnt.hbc.model.message.dto.MessageRequest;
+import inha.tnt.hbc.model.message.dto.MessageWrittenByMePageResponse;
 import inha.tnt.hbc.util.SecurityContextUtils;
 
 @Service
@@ -122,6 +128,13 @@ public class MessageFacadeService {
 		message.getAnimation().change(request.getAnimationType());
 		message.uploadMessage(request.getContent());
 		messageFileRedisService.delete(message.getId());
+	}
+
+	public MessageWrittenByMePageResponse getMessagesWrittenByMe(Integer page, Integer size) {
+		final Long memberId = securityContextUtils.takeoutMemberId();
+		final Pageable pageable = PageRequest.of(page - PAGE_CORRECTION_VALUE, size);
+		final Page<MessageWrittenByMeDto> dto = messageService.findMessageWrittenByMeDtoByMemberId(memberId, pageable);
+		return MessageWrittenByMePageResponse.of(dto);
 	}
 
 	private boolean isRoomOwnerAndBeforeBirthday(Member member, Room room) {

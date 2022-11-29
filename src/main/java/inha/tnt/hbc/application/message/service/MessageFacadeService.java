@@ -49,7 +49,7 @@ public class MessageFacadeService {
 	public CreateMessageResponse createMessage(Long roomId) {
 		final Member member = securityContextUtils.takeoutMember();
 		final Room room = roomService.findById(roomId);
-		if (!room.isBeforeBirthDay()) {
+		if (room.isAfterBirthDay()) {
 			throw new InvalidArgumentException(CANNOT_CREATE_MESSAGE_AFTER_BIRTHDAY);
 		}
 		return CreateMessageResponse.of(messageService.create(member, room));
@@ -59,7 +59,7 @@ public class MessageFacadeService {
 	public void uploadMessage(MessageRequest request) {
 		final Long memberId = securityContextUtils.takeoutMemberId();
 		final Message message = messageService.findFetchRoomMemberByIdAndMemberId(request.getMessageId(), memberId);
-		if (!message.getRoom().isAfterBirthDay()) {
+		if (message.getRoom().isAfterBirthDay()) {
 			throw new InvalidArgumentException(CANNOT_UPLOAD_AFTER_BIRTHDAY);
 		}
 		decorationService.save(message, request.getDecorationType());
@@ -121,7 +121,7 @@ public class MessageFacadeService {
 		if (!message.getStatus().equals(WRITTEN)) {
 			throw new InvalidArgumentException(CANNOT_EDIT_NOT_WRITTEN_MESSAGE);
 		}
-		if (!message.getRoom().isAfterBirthDay()) {
+		if (message.getRoom().isAfterBirthDay()) {
 			throw new InvalidArgumentException(CANNOT_EDIT_AFTER_BIRTHDAY);
 		}
 		message.getDecoration().change(request.getDecorationType());

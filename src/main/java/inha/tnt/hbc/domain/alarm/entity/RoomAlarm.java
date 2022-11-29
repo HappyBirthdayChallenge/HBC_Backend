@@ -24,8 +24,7 @@ import inha.tnt.hbc.domain.room.entity.Room;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class RoomAlarm extends Alarm {
 
-	private final static String ALARM_MESSAGE = "%s님의 생일이 %d일 전이에요, 미리 생일 축하 메시지를 남겨보면 어떨까요?\n"
-		+ "작성한 메시지는 생일 당일에 %s님에게 공개될 거에요!";
+	private final static String ALARM_MESSAGE = "%s님의 생일이 %d일 전이에요, 미리 생일 축하 메시지를 남겨보면 어떨까요?";
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "room_id")

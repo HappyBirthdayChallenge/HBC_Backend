@@ -39,6 +39,10 @@ public class InquiryMessageResponse {
 	private List<String> fileUris = new ArrayList<>();
 	@ApiModelProperty(value = "메시지 작성일시", example = "2022-11-22T13:00:21.6645316")
 	private String createAt;
+	@ApiModelProperty(value = "메시지 읽음 여부", example = "true")
+	private boolean read;
+	@ApiModelProperty(value = "메시지 좋아요 여부", example = "false")
+	private boolean like;
 
 	public static InquiryMessageResponse of(Member member, Message message) {
 		return InquiryMessageResponse.builder()
@@ -47,6 +51,8 @@ public class InquiryMessageResponse {
 			.decorationType(message.getDecoration().getType())
 			.animationType(message.getAnimation().getType())
 			.content(message.getContent())
+			.read(message.isRead())
+			.like(message.isLike())
 			.fileUris(message.getFileUris() == null ? new ArrayList<>() : message.getFileUris())
 			.createAt(message.getCreateAt().toString())
 			.build();

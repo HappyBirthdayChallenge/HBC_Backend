@@ -30,6 +30,10 @@ public class MessageWrittenByMeDto {
 	private Long roomId;
 	@ApiModelProperty(value = "파티룸 주인 정보")
 	private MemberDto roomOwner;
+	@ApiModelProperty(value = "메시지 읽음 여부", example = "true")
+	private boolean read;
+	@ApiModelProperty(value = "메시지 좋아요 여부", example = "false")
+	private boolean like;
 
 	@QueryProjection
 	public MessageWrittenByMeDto(Message message) {
@@ -37,6 +41,8 @@ public class MessageWrittenByMeDto {
 		this.decorationType = message.getDecoration().getType();
 		this.roomId = message.getRoom().getId();
 		this.roomOwner = MemberDto.of(message.getRoom().getMember());
+		this.read = message.isRead();
+		this.like = message.isLike();
 	}
 
 }

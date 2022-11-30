@@ -27,6 +27,10 @@ public class RoomMessageDto {
 	private MemberDto writer;
 	@ApiModelProperty(value = "메시지 작성일시", example = "2022-11-22T13:00:21.6645316")
 	private String createAt;
+	@ApiModelProperty(value = "메시지 읽음 여부", example = "true")
+	private boolean read;
+	@ApiModelProperty(value = "메시지 좋아요 여부", example = "false")
+	private boolean like;
 
 	@Builder
 	@QueryProjection
@@ -35,6 +39,8 @@ public class RoomMessageDto {
 		this.decorationType = message.getDecoration().getType();
 		this.writer = MemberDto.of(message.getMember());
 		this.createAt = message.getCreateAt().toString();
+		this.read = message.isRead();
+		this.like = message.isLike();
 	}
 
 }

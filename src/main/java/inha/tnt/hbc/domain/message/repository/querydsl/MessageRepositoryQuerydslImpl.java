@@ -32,11 +32,12 @@ public class MessageRepositoryQuerydslImpl implements MessageRepositoryQuerydsl 
 	private final JPAQueryFactory queryFactory;
 
 	@Override
-	public Optional<Message> findFetchRoomAndDecorationAndAnimationAndMessageFilesById(Long messageId) {
+	public Optional<Message> findFetchRoomAndMemberAndDecorationAndAnimationAndMessageFilesById(Long messageId) {
 		return Optional.ofNullable(queryFactory
 			.selectFrom(message)
 			.where(message.id.eq(messageId).and(message.status.eq(WRITTEN)))
 			.innerJoin(message.room, room).fetchJoin()
+			.innerJoin(message.member, member).fetchJoin()
 			.innerJoin(message.animation, animation).fetchJoin()
 			.innerJoin(message.decoration, decoration).fetchJoin()
 			.leftJoin(message.messageFiles, messageFile).fetchJoin()

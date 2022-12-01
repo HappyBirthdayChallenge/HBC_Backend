@@ -14,7 +14,7 @@ import inha.tnt.hbc.domain.room.entity.Room;
 @Transactional(readOnly = true)
 public interface MessageRepositoryQuerydsl {
 
-	Optional<Message> findFetchRoomAndDecorationAndAnimationAndMessageFilesById(Long messageId);
+	Optional<Message> findFetchRoomAndMemberAndDecorationAndAnimationAndMessageFilesById(Long messageId);
 
 	Optional<Message> findFetchRoomMemberByIdAndMemberId(Long messageId, Long memberId);
 

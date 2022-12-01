@@ -71,13 +71,13 @@ public class MessageFacadeService {
 
 	public InquiryMessageResponse inquiryMessage(Long messageId) {
 		final Member member = securityContextUtils.takeoutMember();
-		final Message message = messageService.findFetchRoomAndDecorationAndAnimationAndMessageFilesById(messageId);
+		final Message message = messageService.findFetchRoomAndMemberAndDecorationAndAnimationAndMessageFilesById(messageId);
 		if (isThirdParty(member, message)) {
 			throw new InvalidArgumentException(THIRD_PARTY_CANNOT_INQUIRY_MESSAGE);
 		} else if (isRoomOwnerAndBeforeBirthday(member, message.getRoom())) {
 			throw new InvalidArgumentException(ROOM_OWNER_CANNOT_INQUIRY_MESSAGE_BEFORE_BIRTHDAY);
 		}
-		return InquiryMessageResponse.of(member, message);
+		return InquiryMessageResponse.of(message);
 	}
 
 	@Transactional

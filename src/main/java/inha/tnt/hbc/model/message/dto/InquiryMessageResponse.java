@@ -28,7 +28,8 @@ public class InquiryMessageResponse {
 
 	@ApiModelProperty(value = "메시지 PK", example = "1")
 	private Long messageId;
-	private MemberDto member;
+	@ApiModelProperty(value = "메시지 작성자 정보")
+	private MemberDto writer;
 	@ApiModelProperty(value = "장식품 유형", example = "DOLL_TYPE1")
 	private MessageDecorationTypes decorationType;
 	@ApiModelProperty(value = "애니메이션 유형", example = "PARTY_POPPER_TYPE1")
@@ -44,10 +45,10 @@ public class InquiryMessageResponse {
 	@ApiModelProperty(value = "메시지 좋아요 여부", example = "false")
 	private boolean like;
 
-	public static InquiryMessageResponse of(Member member, Message message) {
+	public static InquiryMessageResponse of(Message message) {
 		return InquiryMessageResponse.builder()
 			.messageId(message.getId())
-			.member(MemberDto.of(member))
+			.writer(MemberDto.of(message.getMember()))
 			.decorationType(message.getDecoration().getType())
 			.animationType(message.getAnimation().getType())
 			.content(message.getContent())

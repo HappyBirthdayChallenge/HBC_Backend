@@ -47,8 +47,8 @@ public class MessageService {
 			.orElseThrow(() -> new EntityNotFoundException(MESSAGE_UNFOUNDED));
 	}
 
-	public Message findFetchRoomAndDecorationAndAnimationAndMessageFilesById(Long messageId) {
-		return messageRepository.findFetchRoomAndDecorationAndAnimationAndMessageFilesById(messageId)
+	public Message findFetchRoomAndMemberAndDecorationAndAnimationAndMessageFilesById(Long messageId) {
+		return messageRepository.findFetchRoomAndMemberAndDecorationAndAnimationAndMessageFilesById(messageId)
 			.orElseThrow(() -> new EntityNotFoundException(MESSAGE_UNFOUNDED));
 	}
 

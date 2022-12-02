@@ -32,6 +32,7 @@ public enum ResultCode {
 	SIGNOUT_SUCCESS(200, "R-M018", "로그아웃에 성공하였습니다."),
 	GET_MY_INFO_SUCCESS(200, "R-M019", "본인 정보 조회에 성공하였습니다."),
 	GET_FOLLOWERS_SUCCESS(200, "R-M020", "팔로워 목록 조회에 성공하였습니다."),
+	DELETE_FRIEND_SUCCESS(200, "R-M021", "친구 삭제에 성공하였습니다."),
 
 	// Jwt
 	JWT_REISSUE_SUCCESS(200, "R-J001", "토큰 재발급에 성공하였습니다."),

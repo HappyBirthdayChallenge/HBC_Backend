@@ -1,5 +1,6 @@
 package inha.tnt.hbc.domain.member.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -8,9 +9,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import inha.tnt.hbc.domain.BaseEntity;
+import inha.tnt.hbc.domain.alarm.entity.FriendAlarm;
+
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -35,5 +39,8 @@ public class Friend extends BaseEntity {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "friend_member_id")
 	private Member friendMember;
+
+	@OneToOne(mappedBy = "friend", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+	private FriendAlarm alarm;
 
 }

@@ -38,6 +38,7 @@ public enum ErrorCode {
 	ALREADY_SETUP_BIRTHDAY(400, "E-M005", "이미 생일을 입력한 회원입니다."),
 	ALREADY_FRIEND(400, "E-M006", "이미 친구관계입니다."),
 	FRIEND_MYSELF_IMPOSSIBLE(400, "E-M007", "자기 자신은 친구로 추가할 수 없습니다."),
+	NOT_FRIENDSHIP(400, "E-M008", "친구 관계가 아닙니다."),
 
 	// Room
 	ROOM_UNFOUNDED(400, "E-R001", "존재하지 않는 파티룸입니다."),

@@ -36,4 +36,10 @@ public class FriendController implements FriendApi {
 		return ResponseEntity.ok(ResultResponse.of(GET_FOLLOWERS_SUCCESS, response));
 	}
 
+	@Override
+	public ResponseEntity<ResultResponse> deleteFriend(Long memberId) {
+		friendFacadeService.deleteFriend(memberId);
+		return ResponseEntity.ok(ResultResponse.of(DELETE_FRIEND_SUCCESS));
+	}
+
 }

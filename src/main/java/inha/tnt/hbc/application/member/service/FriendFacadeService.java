@@ -63,6 +63,12 @@ public class FriendFacadeService {
 		return FollowerPageResponse.of(followerDtoPage);
 	}
 
+	public void deleteFriend(Long friendMemberId) {
+		final Long memberId = securityContextUtils.takeoutMemberId();
+		final Friend friend = friendService.findByMemberIdAndFriendMemberId(memberId, friendMemberId);
+		friendService.delete(friend);
+	}
+
 	private void setUpFollowFlag(Long memberId, List<FollowerDto> followerDtos) {
 		final List<Long> followerMemberIds = convertFollowerMemberIds(followerDtos);
 		final List<Friend> friends = friendService.findAllByMemberIdAndFriendMemberIdIn(memberId, followerMemberIds);

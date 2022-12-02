@@ -1,5 +1,7 @@
 package inha.tnt.hbc.domain.member.service;
 
+import static inha.tnt.hbc.model.ErrorCode.*;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,6 +18,7 @@ import inha.tnt.hbc.domain.member.dto.FollowingDto;
 import inha.tnt.hbc.domain.member.entity.Friend;
 import inha.tnt.hbc.domain.member.entity.Member;
 import inha.tnt.hbc.domain.member.repository.FriendRepository;
+import inha.tnt.hbc.exception.EntityNotFoundException;
 
 @Service
 @RequiredArgsConstructor
@@ -52,6 +55,15 @@ public class FriendService {
 
 	public List<Friend> findAllByMemberIdAndFriendMemberIdIn(Long memberId, List<Long> followerMemberIds) {
 		return friendRepository.findAllByMemberIdAndFriendMemberIdIn(memberId, followerMemberIds);
+	}
+
+	public Friend findByMemberIdAndFriendMemberId(Long memberId, Long friendMemberId) {
+		return friendRepository.findByMemberIdAndFriendMemberId(memberId, friendMemberId)
+			.orElseThrow(() -> new EntityNotFoundException(NOT_FRIENDSHIP));
+	}
+
+	public void delete(Friend friend) {
+		friendRepository.delete(friend);
 	}
 
 }

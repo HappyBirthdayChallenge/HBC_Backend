@@ -14,10 +14,10 @@ import lombok.NoArgsConstructor;
 
 import inha.tnt.hbc.domain.member.entity.Friend;
 
+@Getter
 @Entity
 @Table(name = "friend_alarms")
 @DiscriminatorValue("FRIEND")
-@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class FriendAlarm extends Alarm {
 

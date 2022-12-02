@@ -17,10 +17,10 @@ import lombok.NoArgsConstructor;
 import inha.tnt.hbc.domain.member.entity.Member;
 import inha.tnt.hbc.domain.room.entity.Room;
 
+@Getter
 @Entity
 @Table(name = "room_alarms")
 @DiscriminatorValue("ROOM")
-@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class RoomAlarm extends Alarm {
 
@@ -30,15 +30,10 @@ public class RoomAlarm extends Alarm {
 	@JoinColumn(name = "room_id")
 	private Room room;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "member_id")
-	private Member member;
-
 	@Builder
 	public RoomAlarm(Member member, Room room) {
 		super(room.getMember(), member,
-			String.format(ALARM_MESSAGE, room.getMember().getName(), DAYS_BEFORE_ROOM_CREATION,
-				room.getMember().getName()));
+			String.format(ALARM_MESSAGE, room.getMember().getName(), DAYS_BEFORE_ROOM_CREATION));
 		this.room = room;
 	}
 

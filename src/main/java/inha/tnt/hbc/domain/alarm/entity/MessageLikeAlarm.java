@@ -4,7 +4,6 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -16,10 +15,10 @@ import lombok.NoArgsConstructor;
 import inha.tnt.hbc.domain.member.entity.Member;
 import inha.tnt.hbc.domain.message.entity.Message;
 
+@Getter
 @Entity
 @Table(name = "message_like_alarms")
 @DiscriminatorValue("MESSAGE_LIKE")
-@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class MessageLikeAlarm extends Alarm {
 
@@ -28,15 +27,11 @@ public class MessageLikeAlarm extends Alarm {
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "message_id")
 	private Message message;
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "member_id")
-	private Member member;
 
 	@Builder
 	public MessageLikeAlarm(Message message, Member member) {
 		super(message.getMember(), message.getRoom().getMember(), String.format(ALARM_MESSAGE, member.getName()));
 		this.message = message;
-		this.member = member;
 	}
 
 }

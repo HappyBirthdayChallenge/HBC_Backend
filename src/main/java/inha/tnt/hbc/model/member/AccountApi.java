@@ -52,6 +52,7 @@ public interface AccountApi {
 		@ApiResponse(code = 1, response = Void.class, message = ""
 			+ "status: 200 | code: R-M018 | message: 로그아웃에 성공하였습니다."),
 		@ApiResponse(code = 500, response = ErrorResponse.class, message = ""
+			+ "status: 400 | code: E-G002 | message: 입력 값이 유효하지 않습니다.\n"
 			+ "status: 401 | code: E-A003 | message: 인증에 실패하였습니다.\n"
 			+ "status: 500 | code: E-G001 | message: 내부 서버 오류입니다.")
 	})
@@ -74,6 +75,7 @@ public interface AccountApi {
 		@ApiResponse(code = 1, response = MemberProfileDto.class, message = ""
 			+ "status: 200 | code: R-M022 | message: 회원 프로필 조회에 성공하였습니다."),
 		@ApiResponse(code = 500, response = ErrorResponse.class, message = ""
+			+ "status: 400 | code: E-G002 | message: 입력 값이 유효하지 않습니다.\n"
 			+ "status: 400 | code: E-M001 | message: 존재하지 않는 회원입니다.\n"
 			+ "status: 401 | code: E-A003 | message: 인증에 실패하였습니다.\n"
 			+ "status: 500 | code: E-G001 | message: 내부 서버 오류입니다.")

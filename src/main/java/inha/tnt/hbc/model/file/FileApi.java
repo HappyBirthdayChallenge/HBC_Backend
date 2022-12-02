@@ -43,6 +43,7 @@ public interface FileApi {
 		@ApiResponse(code = 1, response = FileUploadResponse.class, message = ""
 			+ "status: 200 | code: R-FI001 | message: 이미지 파일 업로드에 성공하였습니다."),
 		@ApiResponse(code = 500, response = ErrorResponse.class, message = ""
+			+ "status: 400 | code: E-G002 | message: 입력 값이 유효하지 않습니다.\n"
 			+ "status: 400 | code: E-RM003 | message: 존재하지 않는 메시지입니다.\n"
 			+ "status: 400 | code: E-F002 | message: 삭제된 메시지에 파일을 첨부할 수 없습니다.\n"
 			+ "status: 400 | code: E-F003 | message: 업로드된 메시지에 파일을 첨부할 수 없습니다.\n"
@@ -65,6 +66,7 @@ public interface FileApi {
 		@ApiResponse(code = 1, response = FileUploadResponse.class, message = ""
 			+ "status: 200 | code: R-FI002 | message: 동영상 파일 업로드에 성공하였습니다."),
 		@ApiResponse(code = 500, response = ErrorResponse.class, message = ""
+			+ "status: 400 | code: E-G002 | message: 입력 값이 유효하지 않습니다.\n"
 			+ "status: 400 | code: E-RM003 | message: 존재하지 않는 메시지입니다.\n"
 			+ "status: 400 | code: E-F002 | message: 삭제된 메시지에 파일을 첨부할 수 없습니다.\n"
 			+ "status: 400 | code: E-F003 | message: 업로드된 메시지에 파일을 첨부할 수 없습니다.\n"
@@ -88,6 +90,7 @@ public interface FileApi {
 		@ApiResponse(code = 1, response = FileUploadResponse.class, message = ""
 			+ "status: 200 | code: R-FI003 | message: 오디오 파일 업로드에 성공하였습니다."),
 		@ApiResponse(code = 500, response = ErrorResponse.class, message = ""
+			+ "status: 400 | code: E-G002 | message: 입력 값이 유효하지 않습니다.\n"
 			+ "status: 400 | code: E-RM003 | message: 존재하지 않는 메시지입니다.\n"
 			+ "status: 400 | code: E-F002 | message: 삭제된 메시지에 파일을 첨부할 수 없습니다.\n"
 			+ "status: 400 | code: E-F003 | message: 업로드된 메시지에 파일을 첨부할 수 없습니다.\n"
@@ -104,6 +107,7 @@ public interface FileApi {
 		@ApiResponse(code = 1, response = Void.class, message = ""
 			+ "status: 200 | code: R-FI004 | message: 메시지 파일 삭제에 성공하였습니다."),
 		@ApiResponse(code = 500, response = ErrorResponse.class, message = ""
+			+ "status: 400 | code: E-G002 | message: 입력 값이 유효하지 않습니다.\n"
 			+ "status: 400 | code: E-F001 | message: 존재하지 않는 파일입니다.\n"
 			+ "status: 401 | code: E-A003 | message: 인증에 실패하였습니다.\n"
 			+ "status: 500 | code: E-G001 | message: 내부 서버 오류입니다.")

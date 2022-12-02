@@ -55,6 +55,7 @@ public interface TokenApi {
 		@ApiResponse(code = 1, response = Void.class, message = ""
 			+ "status: 200 | code: R-J003 | message: FCM 토큰 갱신 요청에 성공하였습니다."),
 		@ApiResponse(code = 500, response = ErrorResponse.class, message = ""
+			+ "status: 400 | code: E-G002 | message: 입력 값이 유효하지 않습니다.\n"
 			+ "status: 401 | code: E-A003 | message: 인증에 실패하였습니다.\n"
 			+ "status: 500 | code: E-G001 | message: 내부 서버 오류입니다.")
 	})

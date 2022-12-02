@@ -57,4 +57,8 @@ public class RoomService {
 			.orElseThrow(RuntimeException::new);
 	}
 
+	public List<Room> findAllByMemberIdOrderByIdDesc(Long memberId) {
+		return roomRepository.findAllByMemberIdOrderByIdDesc(memberId);
+	}
+
 }

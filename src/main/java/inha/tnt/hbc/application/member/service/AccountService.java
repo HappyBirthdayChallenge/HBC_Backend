@@ -61,7 +61,7 @@ public class AccountService {
 	public MemberProfileDto getMemberProfile(Long targetMemberId) {
 		final Long memberId = securityContextUtils.takeoutMemberId();
 		final MemberProfileDto memberProfileDto = memberService.findMemberProfileDto(memberId, targetMemberId);
-		final List<Room> rooms = roomService.findAllByMemberId(targetMemberId);
+		final List<Room> rooms = roomService.findAllByMemberIdOrderByIdDesc(targetMemberId);
 		memberProfileDto.setRooms(rooms);
 		return memberProfileDto;
 	}

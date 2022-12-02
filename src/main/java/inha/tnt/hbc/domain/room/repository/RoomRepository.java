@@ -17,4 +17,6 @@ public interface RoomRepository extends JpaRepository<Room, Long>, RoomRepositor
 
 	Optional<Room> findTop1ByMemberOrderByIdDesc(Member member);
 
+	List<Room> findAllByMemberIdOrderByIdDesc(Long memberId);
+
 }

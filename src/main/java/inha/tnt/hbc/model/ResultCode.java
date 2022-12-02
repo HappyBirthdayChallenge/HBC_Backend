@@ -11,6 +11,9 @@ public enum ResultCode {
 	GET_MEMBERS_SUCCESS(200, "R-A001", "회원 목록 조회에 성공하였습니다."),
 	DELETE_MEMBER_SUCCESS(200, "R-A002", "회원 탈퇴에 성공하였습니다."),
 
+	// Alarm
+	GET_ALARMS_SUCCESS(200, "R-AL001", "알람 목록 조회에 성공하였습니다."),
+
 	// Member
 	USERNAME_AVAILABLE(200, "R-M001", "사용 가능한 아이디입니다."),
 	EMAIL_AVAILABLE(200, "R-M002", "사용 가능한 이메일입니다."),

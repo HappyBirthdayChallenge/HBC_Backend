@@ -122,7 +122,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.authorizeRequests()
 			.requestMatchers(CorsUtils::isPreFlightRequest)
 			.permitAll()
-			.antMatchers("/members/**", "/token/check", "/rooms/**", "/messages/**", "/files/**")
+			.antMatchers("/members/**", "/token/check", "/rooms/**", "/messages/**", "/files/**", "/alarms/**")
 			.hasAuthority(ROLE_USER.name())
 			.antMatchers(AUTH_WHITELIST_GUEST)
 			.permitAll()

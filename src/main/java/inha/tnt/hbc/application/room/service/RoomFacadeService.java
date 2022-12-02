@@ -43,7 +43,7 @@ public class RoomFacadeService {
 	private final SecurityContextUtils securityContextUtils;
 
 	public List<RoomDto> getRoomDtos(Long memberId) {
-		return roomService.getRooms(memberId)
+		return roomService.findAllByMemberId(memberId)
 			.stream()
 			.map(RoomDto::of)
 			.collect(Collectors.toList());

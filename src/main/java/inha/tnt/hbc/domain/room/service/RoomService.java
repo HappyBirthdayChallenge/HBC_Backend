@@ -43,7 +43,7 @@ public class RoomService {
 		roomRepository.saveAllInBatch(rooms);
 	}
 
-	public List<Room> getRooms(Long memberId) {
+	public List<Room> findAllByMemberId(Long memberId) {
 		return roomRepository.findAllByMemberId(memberId);
 	}
 

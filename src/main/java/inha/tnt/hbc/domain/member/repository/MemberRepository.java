@@ -5,10 +5,12 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.transaction.annotation.Transactional;
 
 import inha.tnt.hbc.domain.member.entity.Member;
 import inha.tnt.hbc.domain.member.repository.querydsl.MemberRepositoryQuerydsl;
 
+@Transactional(readOnly = true)
 public interface MemberRepository extends JpaRepository<Member, Long>, MemberRepositoryQuerydsl {
 
 	Optional<Member> findByUsername(String username);

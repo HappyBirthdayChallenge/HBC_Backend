@@ -10,12 +10,14 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import lombok.RequiredArgsConstructor;
+
+import inha.tnt.hbc.domain.member.dto.MemberProfileDto;
 import inha.tnt.hbc.domain.member.entity.Member;
 import inha.tnt.hbc.domain.member.repository.MemberRepository;
 import inha.tnt.hbc.domain.member.vo.BirthDate;
 import inha.tnt.hbc.domain.member.vo.ProfileImage;
 import inha.tnt.hbc.exception.EntityNotFoundException;
-import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
@@ -38,13 +40,11 @@ public class MemberService {
 		return memberRepository.save(member);
 	}
 
-	@Transactional(readOnly = true)
 	public Member findByUsername(String username) {
 		return memberRepository.findByUsername(username)
 			.orElseThrow(() -> new EntityNotFoundException(MEMBER_UNFOUNDED));
 	}
 
-	@Transactional(readOnly = true)
 	public boolean isExistingUsername(String username) {
 		return memberRepository.findByUsername(username).isPresent();
 	}
@@ -54,26 +54,27 @@ public class MemberService {
 			.orElseThrow(() -> new EntityNotFoundException(MEMBER_UNFOUNDED));
 	}
 
-	@Transactional(readOnly = true)
 	public boolean isExistingPhone(String phone) {
 		return memberRepository.findByPhone(phone).isPresent();
 	}
 
-	@Transactional(readOnly = true)
 	public Member findByNameAndPhone(String name, String phone) {
 		return memberRepository.findByNameAndPhone(name, phone)
 			.orElseThrow(() -> new EntityNotFoundException(MEMBER_UNFOUNDED));
 	}
 
-	@Transactional(readOnly = true)
 	public Member findByNameAndPhoneAndUsername(String name, String phone, String username) {
 		return memberRepository.findByNameAndPhoneAndUsername(name, phone, username)
 			.orElseThrow(() -> new EntityNotFoundException(MEMBER_UNFOUNDED));
 	}
 
-	@Transactional(readOnly = true)
 	public List<Member> findAllWhoCanCreateRoom() {
 		return memberRepository.findAllByRoomCreateDate(LocalDate.now().plusDays(DAYS_BEFORE_ROOM_CREATION));
+	}
+
+	public MemberProfileDto findMemberProfileDto(Long memberId, Long targetMemberId) {
+		return memberRepository.findMemberProfileDto(memberId, targetMemberId)
+			.orElseThrow(() -> new EntityNotFoundException(MEMBER_UNFOUNDED));
 	}
 
 }

@@ -5,6 +5,7 @@ import static inha.tnt.hbc.model.ResultCode.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import inha.tnt.hbc.model.member.dto.FollowerPageResponse;
 import inha.tnt.hbc.model.member.dto.FollowingPageResponse;
 import inha.tnt.hbc.application.member.service.FriendFacadeService;
 import inha.tnt.hbc.model.ResultResponse;
@@ -19,7 +20,7 @@ public class FriendController implements FriendApi {
 
 	@Override
 	public ResponseEntity<ResultResponse> getFollowings(int page, int size) {
-		final FollowingPageResponse response = friendFacadeService.getFriends(page, size);
+		final FollowingPageResponse response = friendFacadeService.getFollowings(page, size);
 		return ResponseEntity.ok(ResultResponse.of(GET_FOLLOWINGS_SUCCESS, response));
 	}
 
@@ -27,6 +28,12 @@ public class FriendController implements FriendApi {
 	public ResponseEntity<ResultResponse> addFriend(Long memberId) {
 		friendFacadeService.addFriend(memberId);
 		return ResponseEntity.ok(ResultResponse.of(ADD_FRIEND_SUCCESS));
+	}
+
+	@Override
+	public ResponseEntity<ResultResponse> getFollowers(int page, int size) {
+		final FollowerPageResponse response = friendFacadeService.getFollowers(page, size);
+		return ResponseEntity.ok(ResultResponse.of(GET_FOLLOWERS_SUCCESS, response));
 	}
 
 }

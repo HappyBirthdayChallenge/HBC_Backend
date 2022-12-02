@@ -10,20 +10,14 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class FriendDto {
+public class FollowingDto {
 
-	@ApiModelProperty(value = "회원 정보")
-	private MemberDto member;
+	@ApiModelProperty(value = "팔로잉 회원 정보")
+	private MemberDto following;
 
 	@QueryProjection
-	public FriendDto(Member member) {
-		this.member = MemberDto.builder()
-			.id(member.getId())
-			.name(member.getName())
-			.username(member.getUsername())
-			.imageUrl(member.getImageUri())
-			.birthDate(member.getBirthDate())
-			.build();
+	public FollowingDto(Member member) {
+		this.following = MemberDto.of(member);
 	}
 
 }

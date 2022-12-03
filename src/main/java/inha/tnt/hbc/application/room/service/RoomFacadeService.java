@@ -75,7 +75,7 @@ public class RoomFacadeService {
 		final Member member = securityContextUtils.takeoutMember();
 		final Pageable pageable = PageRequest.of(page - PAGE_CORRECTION_VALUE, size);
 		final Room room = roomService.findById(roomId);
-		if (room.isOwner(member)) {
+		if (!room.isOwner(member)) {
 			throw new InvalidArgumentException(CANNOT_GET_MESSAGES_OTHER_ROOM);
 		}
 		if (room.isBeforeBirthDay()) {

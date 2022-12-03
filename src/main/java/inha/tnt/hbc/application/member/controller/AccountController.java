@@ -51,4 +51,10 @@ public class AccountController implements AccountApi {
 		return ResponseEntity.ok(ResultResponse.of(SEARCH_MEMBER_SUCCESS, response));
 	}
 
+	@Override
+	public ResponseEntity<ResultResponse> changeName(String name) {
+		accountService.changeName(name);
+		return ResponseEntity.ok(ResultResponse.of(CHANGE_NAME_SUCCESS));
+	}
+
 }

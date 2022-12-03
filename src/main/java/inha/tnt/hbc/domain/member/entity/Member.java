@@ -90,4 +90,8 @@ public class Member extends BaseEntity {
 			this.id + SLASH + this.image.getFullName();
 	}
 
+	public void changeName(String name) {
+		this.name = name;
+	}
+
 }

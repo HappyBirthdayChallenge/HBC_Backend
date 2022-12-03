@@ -90,4 +90,10 @@ public class AccountService {
 		return MemberSearchResponse.of(result);
 	}
 
+	@Transactional
+	public void changeName(String name) {
+		final Member member = securityContextUtils.takeoutMember();
+		member.changeName(name);
+	}
+
 }

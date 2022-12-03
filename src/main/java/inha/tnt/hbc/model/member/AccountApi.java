@@ -7,6 +7,7 @@ import javax.validation.constraints.Size;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -102,5 +103,18 @@ public interface AccountApi {
 	@ApiImplicitParam(name = "keyword", value = "검색 키워드(^[가-힣A-Za-z\\d]{1,20}$)", example = "dkdlel", required = true)
 	@GetMapping("/search")
 	ResponseEntity<ResultResponse> search(@Pattern(regexp = "^[가-힣A-Za-z\\d]{1,20}$") @RequestParam String keyword);
+
+	@ApiOperation(value = "회원 이름 변경")
+	@ApiResponses({
+		@ApiResponse(code = 1, response = Void.class, message = ""
+			+ "status: 200 | code: R-M024 | message: 회원 이름 변경에 성공하였습니다."),
+		@ApiResponse(code = 500, response = ErrorResponse.class, message = ""
+			+ "status: 400 | code: E-G002 | message: 입력 값이 유효하지 않습니다.\n"
+			+ "status: 401 | code: E-A003 | message: 인증에 실패하였습니다.\n"
+			+ "status: 500 | code: E-G001 | message: 내부 서버 오류입니다.")
+	})
+	@ApiImplicitParam(name = "name", value = "회원 이름(^[가-힣A-Za-z\\d]{2,10}$)", example = "손흥민1", required = true)
+	@PatchMapping("/name")
+	ResponseEntity<ResultResponse> changeName(@Pattern(regexp = "^[가-힣A-Za-z\\d]{2,10}$") @RequestParam String name);
 
 }

@@ -1,5 +1,7 @@
 package inha.tnt.hbc.application.member.controller;
 
+import static inha.tnt.hbc.domain.member.service.IdentityVerificationService.IdentityVerificationTypes.*;
+import static inha.tnt.hbc.model.ErrorCode.*;
 import static inha.tnt.hbc.model.ResultCode.*;
 
 import org.springframework.http.ResponseEntity;
@@ -10,8 +12,11 @@ import lombok.RequiredArgsConstructor;
 import inha.tnt.hbc.application.member.service.AccountService;
 import inha.tnt.hbc.domain.member.dto.MemberProfileDto;
 import inha.tnt.hbc.domain.member.vo.BirthDate;
+import inha.tnt.hbc.exception.InvalidArgumentException;
+import inha.tnt.hbc.model.ErrorResponse;
 import inha.tnt.hbc.model.ResultResponse;
 import inha.tnt.hbc.model.member.AccountApi;
+import inha.tnt.hbc.model.member.dto.ChangePasswordRequest;
 import inha.tnt.hbc.model.member.dto.MemberSearchResponse;
 import inha.tnt.hbc.model.member.dto.MyInfoResponse;
 import inha.tnt.hbc.security.jwt.dto.JwtDto;
@@ -55,6 +60,14 @@ public class AccountController implements AccountApi {
 	public ResponseEntity<ResultResponse> changeName(String name) {
 		accountService.changeName(name);
 		return ResponseEntity.ok(ResultResponse.of(CHANGE_NAME_SUCCESS));
+	}
+
+	@Override
+	public ResponseEntity<ResultResponse> changePassword(ChangePasswordRequest request) {
+		if (!accountService.changePassword(request)) {
+			return ResponseEntity.ok(ResultResponse.of(KEY_INVALID));
+		}
+		return ResponseEntity.ok(ResultResponse.of(CHANGE_PASSWORD_SUCCESS));
 	}
 
 }

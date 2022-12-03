@@ -26,6 +26,7 @@ import inha.tnt.hbc.domain.member.vo.BirthDate;
 import inha.tnt.hbc.model.ErrorResponse;
 import inha.tnt.hbc.model.ResultResponse;
 import inha.tnt.hbc.model.Void;
+import inha.tnt.hbc.model.member.dto.ChangePasswordRequest;
 import inha.tnt.hbc.model.member.dto.MemberSearchResponse;
 import inha.tnt.hbc.model.member.dto.MyInfoResponse;
 import inha.tnt.hbc.security.jwt.dto.JwtDto;
@@ -100,7 +101,7 @@ public interface AccountApi {
 			+ "status: 401 | code: E-A003 | message: 인증에 실패하였습니다.\n"
 			+ "status: 500 | code: E-G001 | message: 내부 서버 오류입니다.")
 	})
-	@ApiImplicitParam(name = "keyword", value = "검색 키워드(^[가-힣A-Za-z\\d]{1,20}$)", example = "dkdlel", required = true)
+	@ApiImplicitParam(name = "keyword", value = "검색 키워드(한글 || 영문자 || 숫자)[1, 20])", example = "dkdlel", required = true)
 	@GetMapping("/search")
 	ResponseEntity<ResultResponse> search(@Pattern(regexp = "^[가-힣A-Za-z\\d]{1,20}$") @RequestParam String keyword);
 
@@ -113,8 +114,20 @@ public interface AccountApi {
 			+ "status: 401 | code: E-A003 | message: 인증에 실패하였습니다.\n"
 			+ "status: 500 | code: E-G001 | message: 내부 서버 오류입니다.")
 	})
-	@ApiImplicitParam(name = "name", value = "회원 이름(^[가-힣A-Za-z\\d]{2,10}$)", example = "손흥민1", required = true)
+	@ApiImplicitParam(name = "name", value = "회원 이름(한글 || 영문자 || 숫자)[2, 10]", example = "손흥민1", required = true)
 	@PatchMapping("/name")
 	ResponseEntity<ResultResponse> changeName(@Pattern(regexp = "^[가-힣A-Za-z\\d]{2,10}$") @RequestParam String name);
+
+	@ApiOperation(value = "회원 비밀번호 변경")
+	@ApiResponses({
+		@ApiResponse(code = 1, response = Void.class, message = ""
+			+ "status: 200 | code: R-M025 | message: 회원 비밀번호 변경에 성공하였습니다."),
+		@ApiResponse(code = 500, response = ErrorResponse.class, message = ""
+			+ "status: 400 | code: E-G002 | message: 입력 값이 유효하지 않습니다.\n"
+			+ "status: 401 | code: E-A003 | message: 인증에 실패하였습니다.\n"
+			+ "status: 500 | code: E-G001 | message: 내부 서버 오류입니다.")
+	})
+	@PatchMapping("/password")
+	ResponseEntity<ResultResponse> changePassword(@Valid @RequestBody ChangePasswordRequest request);
 
 }

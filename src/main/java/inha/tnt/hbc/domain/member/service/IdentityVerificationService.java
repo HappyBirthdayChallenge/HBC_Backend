@@ -65,7 +65,7 @@ public class IdentityVerificationService {
 	@Getter
 	@AllArgsConstructor
 	public enum IdentityVerificationTypes {
-		SIGNUP("su"), FIND_ID("fi"), FIND_PW("fp");
+		SIGNUP("su"), FIND_ID("fi"), FIND_PW("fp"), CHANGE_PW("cp");
 
 		private final String infix;
 	}

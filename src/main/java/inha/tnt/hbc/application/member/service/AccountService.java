@@ -1,11 +1,14 @@
 package inha.tnt.hbc.application.member.service;
 
+import static inha.tnt.hbc.domain.member.service.IdentityVerificationService.IdentityVerificationTypes.*;
+import static inha.tnt.hbc.model.ErrorCode.*;
 import static inha.tnt.hbc.model.ResultCode.*;
 
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,16 +16,19 @@ import lombok.RequiredArgsConstructor;
 
 import inha.tnt.hbc.domain.member.dto.MemberProfileDto;
 import inha.tnt.hbc.domain.member.dto.MemberSearchDto;
-import inha.tnt.hbc.domain.member.entity.Friend;
 import inha.tnt.hbc.domain.member.entity.Member;
 import inha.tnt.hbc.domain.member.service.FCMTokenService;
 import inha.tnt.hbc.domain.member.service.FriendService;
+import inha.tnt.hbc.domain.member.service.IdentityVerificationService;
 import inha.tnt.hbc.domain.member.service.MemberService;
 import inha.tnt.hbc.domain.member.service.RefreshTokenService;
 import inha.tnt.hbc.domain.member.vo.BirthDate;
 import inha.tnt.hbc.domain.room.entity.Room;
 import inha.tnt.hbc.domain.room.service.RoomService;
+import inha.tnt.hbc.exception.InvalidArgumentException;
+import inha.tnt.hbc.model.ErrorResponse.FieldError;
 import inha.tnt.hbc.model.ResultResponse;
+import inha.tnt.hbc.model.member.dto.ChangePasswordRequest;
 import inha.tnt.hbc.model.member.dto.MemberSearchResponse;
 import inha.tnt.hbc.model.member.dto.MyInfoResponse;
 import inha.tnt.hbc.security.jwt.dto.JwtDto;
@@ -40,6 +46,8 @@ public class AccountService {
 	private final RoomService roomService;
 	private final MemberService memberService;
 	private final FriendService friendService;
+	private final IdentityVerificationService identityVerificationService;
+	private final PasswordEncoder passwordEncoder;
 
 	@Transactional
 	public JwtDto setupMyBirthdayAndGenerateJwt(BirthDate birthDate) {
@@ -80,7 +88,8 @@ public class AccountService {
 			.stream()
 			.map(Member::getId)
 			.collect(Collectors.toList());
-		final Set<Long> followingMemberBucket = friendService.findAllByMemberIdAndFriendMemberIdIn(memberId, searchedMemberIds)
+		final Set<Long> followingMemberBucket = friendService.findAllByMemberIdAndFriendMemberIdIn(memberId,
+				searchedMemberIds)
 			.stream()
 			.map(friend -> friend.getFriendMember().getId())
 			.collect(Collectors.toSet());
@@ -94,6 +103,21 @@ public class AccountService {
 	public void changeName(String name) {
 		final Member member = securityContextUtils.takeoutMember();
 		member.changeName(name);
+	}
+
+	@Transactional
+	public boolean changePassword(ChangePasswordRequest request) {
+		final Member member = securityContextUtils.takeoutMember();
+		if (!request.getPassword().equals(request.getPasswordCheck())) {
+			throw new InvalidArgumentException(FieldError.of("password_check", request.getPasswordCheck(),
+				PASSWORD_MISMATCHED));
+		}
+		if (!identityVerificationService.isValidKey(member.getPhone(), request.getKey(), CHANGE_PW)) {
+			return false;
+		}
+		member.changePassword(passwordEncoder.encode(request.getPassword()));
+		identityVerificationService.deleteKey(member.getPhone(), CHANGE_PW);
+		return true;
 	}
 
 }

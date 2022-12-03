@@ -137,4 +137,12 @@ public class AccountService {
 		localFile.deleteFile();
 	}
 
+	@Transactional
+	public void changeDefaultImage() {
+		final Member member = securityContextUtils.takeoutMember();
+		s3Uploader.deleteProfileImage(member.getId(), member.getImage());
+		s3Uploader.uploadInitialProfileImage(member.getId());
+		member.changeImage(ProfileImage.initial());
+	}
+
 }

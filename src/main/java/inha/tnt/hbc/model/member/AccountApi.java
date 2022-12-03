@@ -146,4 +146,15 @@ public interface AccountApi {
 	@PatchMapping(value = "/image", consumes = MULTIPART_FORM_DATA_VALUE)
 	ResponseEntity<ResultResponse> changeImage(@Image @RequestParam(name = "image") MultipartFile image);
 
+	@ApiOperation(value = "회원 기본 프로필 이미지로 변경")
+	@ApiResponses({
+		@ApiResponse(code = 1, response = Void.class, message = ""
+			+ "status: 200 | code: R-M026 | message: 회원 프로필 이미지 변경에 성공하였습니다."),
+		@ApiResponse(code = 500, response = ErrorResponse.class, message = ""
+			+ "status: 401 | code: E-A003 | message: 인증에 실패하였습니다.\n"
+			+ "status: 500 | code: E-G001 | message: 내부 서버 오류입니다.")
+	})
+	@PostMapping("/image")
+	ResponseEntity<ResultResponse> changeDefaultImage();
+
 }

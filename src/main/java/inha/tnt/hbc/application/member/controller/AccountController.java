@@ -73,4 +73,10 @@ public class AccountController implements AccountApi {
 		return ResponseEntity.ok(ResultResponse.of(CHANGE_IMAGE_SUCCESS));
 	}
 
+	@Override
+	public ResponseEntity<ResultResponse> changeDefaultImage() {
+		accountService.changeDefaultImage();
+		return ResponseEntity.ok(ResultResponse.of(CHANGE_IMAGE_SUCCESS));
+	}
+
 }

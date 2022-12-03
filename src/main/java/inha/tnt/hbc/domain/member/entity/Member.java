@@ -34,7 +34,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "members", indexes = @Index(name = "idx_members_month_date", columnList = "birthday_month, birthday_date"))
+@Table(name = "members", indexes = {
+	@Index(name = "idx_members_month_date", columnList = "birthday_month, birthday_date"),
+	@Index(name = "idx_members_name", columnList = "name")
+})
 @Getter
 @Builder
 @AllArgsConstructor

@@ -12,7 +12,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import inha.tnt.hbc.domain.member.entity.Member;
 import inha.tnt.hbc.domain.message.entity.Message;
 
 @Getter
@@ -22,6 +21,7 @@ import inha.tnt.hbc.domain.message.entity.Message;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class MessageLikeAlarm extends Alarm {
 
+	public final static String DTYPE = "MESSAGE_LIKE";
 	private final static String ALARM_MESSAGE = "%s님이 회원님이 작성한 축하 메시지를 좋아합니다.";
 
 	@OneToOne(fetch = FetchType.LAZY)
@@ -29,8 +29,9 @@ public class MessageLikeAlarm extends Alarm {
 	private Message message;
 
 	@Builder
-	public MessageLikeAlarm(Message message, Member member) {
-		super(message.getMember(), message.getRoom().getMember(), String.format(ALARM_MESSAGE, member.getName()));
+	public MessageLikeAlarm(Message message) {
+		super(message.getRoom().getMember(), message.getMember(),
+			String.format(ALARM_MESSAGE, message.getMember().getName()));
 		this.message = message;
 	}
 

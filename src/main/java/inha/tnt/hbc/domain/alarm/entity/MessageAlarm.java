@@ -21,6 +21,7 @@ import inha.tnt.hbc.domain.message.entity.Message;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class MessageAlarm extends Alarm {
 
+	public final static String DTYPE = "MESSAGE";
 	private final static String ALARM_MESSAGE = "누군가 내 파티룸에 축하 메시지를 작성했어요!";
 
 	@OneToOne(fetch = FetchType.LAZY)

@@ -21,8 +21,8 @@ import inha.tnt.hbc.domain.member.entity.Friend;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class FriendAlarm extends Alarm {
 
+	public final static String DTYPE = "FRIEND";
 	private final static String ALARM_MESSAGE = "%s님이 회원님을 친구로 추가했어요!";
-
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "friend_id")
 	private Friend friend;

@@ -1,5 +1,7 @@
 package inha.tnt.hbc.model.member;
 
+import static org.springframework.http.MediaType.*;
+
 import javax.validation.Valid;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -21,6 +24,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 import inha.tnt.hbc.annotation.BirthDay;
+import inha.tnt.hbc.annotation.Image;
 import inha.tnt.hbc.domain.member.dto.MemberProfileDto;
 import inha.tnt.hbc.domain.member.vo.BirthDate;
 import inha.tnt.hbc.model.ErrorResponse;
@@ -129,5 +133,17 @@ public interface AccountApi {
 	})
 	@PatchMapping("/password")
 	ResponseEntity<ResultResponse> changePassword(@Valid @RequestBody ChangePasswordRequest request);
+
+	@ApiOperation(value = "회원 프로필 이미지 변경")
+	@ApiResponses({
+		@ApiResponse(code = 1, response = Void.class, message = ""
+			+ "status: 200 | code: R-M026 | message: 회원 프로필 이미지 변경에 성공하였습니다."),
+		@ApiResponse(code = 500, response = ErrorResponse.class, message = ""
+			+ "status: 400 | code: E-G002 | message: 입력 값이 유효하지 않습니다.\n"
+			+ "status: 401 | code: E-A003 | message: 인증에 실패하였습니다.\n"
+			+ "status: 500 | code: E-G001 | message: 내부 서버 오류입니다.")
+	})
+	@PatchMapping(value = "/image", consumes = MULTIPART_FORM_DATA_VALUE)
+	ResponseEntity<ResultResponse> changeImage(@Image @RequestParam(name = "image") MultipartFile image);
 
 }

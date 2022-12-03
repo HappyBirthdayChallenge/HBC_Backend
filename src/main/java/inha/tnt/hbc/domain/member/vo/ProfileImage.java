@@ -16,6 +16,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import inha.tnt.hbc.application.file.dto.LocalFile;
+
 @Getter
 @Builder
 @Embeddable
@@ -38,6 +40,14 @@ public class ProfileImage {
 			.name(DEFAULT_NAME)
 			.type(ProfileImageType.PNG)
 			.uuid(DEFAULT_UUID)
+			.build();
+	}
+
+	public static ProfileImage of(LocalFile localFile) {
+		return ProfileImage.builder()
+			.name(localFile.getName())
+			.uuid(localFile.getUuid())
+			.type(ProfileImageType.valueOf(localFile.getType().toUpperCase()))
 			.build();
 	}
 

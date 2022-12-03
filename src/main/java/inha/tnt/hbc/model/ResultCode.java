@@ -40,6 +40,7 @@ public enum ResultCode {
 	SEARCH_MEMBER_SUCCESS(200, "R-M023", "회원 검색에 성공하였습니다."),
 	CHANGE_NAME_SUCCESS(200, "R-M024", "회원 이름 변경에 성공하였습니다."),
 	CHANGE_PASSWORD_SUCCESS(200, "R-M025", "회원 비밀번호 변경에 성공하였습니다."),
+	CHANGE_IMAGE_SUCCESS(200, "R-M026", "회원 프로필 이미지 변경에 성공하였습니다."),
 
 	// Jwt
 	JWT_REISSUE_SUCCESS(200, "R-J001", "토큰 재발급에 성공하였습니다."),

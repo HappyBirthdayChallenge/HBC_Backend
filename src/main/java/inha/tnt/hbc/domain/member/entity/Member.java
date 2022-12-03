@@ -21,17 +21,18 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 import inha.tnt.hbc.domain.BaseEntity;
 import inha.tnt.hbc.domain.member.entity.oauth2.OAuth2Account;
 import inha.tnt.hbc.domain.member.exception.AlreadySetupBirthDateException;
 import inha.tnt.hbc.domain.member.vo.BirthDate;
 import inha.tnt.hbc.domain.member.vo.ProfileImage;
 import inha.tnt.hbc.domain.room.entity.Room;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "members", indexes = {
@@ -86,12 +87,16 @@ public class Member extends BaseEntity {
 
 	public String getImageUri() {
 		return S3_BASE_URL + SLASH +
-			PROFILE_IMAGE_DIR + SLASH +
+			PROFILE_IMAGE_S3_DIRECTORY + SLASH +
 			this.id + SLASH + this.image.getFullName();
 	}
 
 	public void changeName(String name) {
 		this.name = name;
+	}
+
+	public void changeImage(ProfileImage image) {
+		this.image = image;
 	}
 
 }

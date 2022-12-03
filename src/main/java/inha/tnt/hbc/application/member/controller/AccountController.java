@@ -1,19 +1,16 @@
 package inha.tnt.hbc.application.member.controller;
 
-import static inha.tnt.hbc.domain.member.service.IdentityVerificationService.IdentityVerificationTypes.*;
-import static inha.tnt.hbc.model.ErrorCode.*;
 import static inha.tnt.hbc.model.ResultCode.*;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.RequiredArgsConstructor;
 
 import inha.tnt.hbc.application.member.service.AccountService;
 import inha.tnt.hbc.domain.member.dto.MemberProfileDto;
 import inha.tnt.hbc.domain.member.vo.BirthDate;
-import inha.tnt.hbc.exception.InvalidArgumentException;
-import inha.tnt.hbc.model.ErrorResponse;
 import inha.tnt.hbc.model.ResultResponse;
 import inha.tnt.hbc.model.member.AccountApi;
 import inha.tnt.hbc.model.member.dto.ChangePasswordRequest;
@@ -68,6 +65,12 @@ public class AccountController implements AccountApi {
 			return ResponseEntity.ok(ResultResponse.of(KEY_INVALID));
 		}
 		return ResponseEntity.ok(ResultResponse.of(CHANGE_PASSWORD_SUCCESS));
+	}
+
+	@Override
+	public ResponseEntity<ResultResponse> changeImage(MultipartFile image) {
+		accountService.changeImage(image);
+		return ResponseEntity.ok(ResultResponse.of(CHANGE_IMAGE_SUCCESS));
 	}
 
 }

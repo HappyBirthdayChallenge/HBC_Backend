@@ -27,7 +27,7 @@ public class S3Uploader {
 	@Value("${cloud.aws.s3.bucket}")
 	private String bucket;
 
-	public void uploadOAuth2ProfileImage(ProfileImage image, File file, Long memberId) {
+	public void uploadProfileImage(ProfileImage image, File file, Long memberId) {
 		putS3(file, generateProfileImageFilename(memberId, image));
 	}
 
@@ -60,8 +60,12 @@ public class S3Uploader {
 		deleteS3(directory + SLASH + filename);
 	}
 
+	public void deleteProfileImage(Long memberId, ProfileImage image) {
+		delete(PROFILE_IMAGE_S3_DIRECTORY + SLASH + memberId, image.getFullName());
+	}
+
 	private String generateProfileImageFilename(Long memberId, ProfileImage image) {
-		return PROFILE_IMAGE_DIR + SLASH + memberId + SLASH + image.getFullName();
+		return PROFILE_IMAGE_S3_DIRECTORY + SLASH + memberId + SLASH + image.getFullName();
 	}
 
 	private void putS3(File uploadFile, String fileName) {

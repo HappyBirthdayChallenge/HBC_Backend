@@ -12,6 +12,7 @@ import inha.tnt.hbc.domain.member.dto.MemberProfileDto;
 import inha.tnt.hbc.domain.member.vo.BirthDate;
 import inha.tnt.hbc.model.ResultResponse;
 import inha.tnt.hbc.model.member.AccountApi;
+import inha.tnt.hbc.model.member.dto.MemberSearchResponse;
 import inha.tnt.hbc.model.member.dto.MyInfoResponse;
 import inha.tnt.hbc.security.jwt.dto.JwtDto;
 
@@ -42,6 +43,12 @@ public class AccountController implements AccountApi {
 	public ResponseEntity<ResultResponse> getProfile(Long memberId) {
 		final MemberProfileDto response = accountService.getMemberProfile(memberId);
 		return ResponseEntity.ok(ResultResponse.of(GET_PROFILE_SUCCESS, response));
+	}
+
+	@Override
+	public ResponseEntity<ResultResponse> search(String keyword) {
+		final MemberSearchResponse response = accountService.search(keyword);
+		return ResponseEntity.ok(ResultResponse.of(SEARCH_MEMBER_SUCCESS, response));
 	}
 
 }

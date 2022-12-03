@@ -77,4 +77,8 @@ public class MemberService {
 			.orElseThrow(() -> new EntityNotFoundException(MEMBER_UNFOUNDED));
 	}
 
+	public List<Member> findTop20ByUsernameStartsWithOrNameStartsWith(String keyword) {
+		return memberRepository.findTop20ByUsernameStartsWithOrNameStartsWith(keyword, keyword);
+	}
+
 }

@@ -24,4 +24,6 @@ public interface MemberRepository extends JpaRepository<Member, Long>, MemberRep
 	@Query("select distinct m from Member m left join fetch m.oAuth2Accounts")
 	List<Member> findAllFetchOAuth2Accounts();
 
+	List<Member> findTop20ByUsernameStartsWithOrNameStartsWith(String username, String name);
+
 }

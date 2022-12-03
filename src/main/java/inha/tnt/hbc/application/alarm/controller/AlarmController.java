@@ -19,8 +19,8 @@ public class AlarmController implements AlarmApi {
 	private final AlarmFacadeService alarmFacadeService;
 
 	@Override
-	public ResponseEntity<ResultResponse> getAlarms() {
-		final AlarmPageResponse response = alarmFacadeService.getAlarms();
+	public ResponseEntity<ResultResponse> getAlarms(Integer page, Integer size) {
+		final AlarmPageResponse response = alarmFacadeService.getAlarms(page, size);
 		return ResponseEntity.ok(ResultResponse.of(GET_ALARMS_SUCCESS, response));
 	}
 

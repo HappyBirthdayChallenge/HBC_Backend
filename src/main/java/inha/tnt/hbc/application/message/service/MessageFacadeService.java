@@ -161,7 +161,7 @@ public class MessageFacadeService {
 		if (!message.like()) {
 			throw new InvalidArgumentException(ALREADY_LIKE_MESSAGE);
 		}
-		alarmService.alarmMessageLike(message, message.getMember());
+		alarmService.alarmMessageLike(message);
 	}
 
 	private boolean isRoomOwnerAndBeforeBirthday(Member member, Room room) {

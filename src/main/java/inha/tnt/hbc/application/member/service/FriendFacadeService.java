@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 
@@ -63,9 +64,11 @@ public class FriendFacadeService {
 		return FollowerPageResponse.of(followerDtoPage);
 	}
 
+	@Transactional
 	public void deleteFriend(Long friendMemberId) {
 		final Long memberId = securityContextUtils.takeoutMemberId();
 		final Friend friend = friendService.findByMemberIdAndFriendMemberId(memberId, friendMemberId);
+		alarmService.deleteFriendAlarm(friend);
 		friendService.delete(friend);
 	}
 

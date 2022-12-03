@@ -53,8 +53,8 @@ public class FriendService {
 		return friendRepository.findFollowerDtoPage(memberId, pageable);
 	}
 
-	public List<Friend> findAllByMemberIdAndFriendMemberIdIn(Long memberId, List<Long> followerMemberIds) {
-		return friendRepository.findAllByMemberIdAndFriendMemberIdIn(memberId, followerMemberIds);
+	public List<Friend> findAllByMemberIdAndFriendMemberIdIn(Long memberId, List<Long> friendMemberIds) {
+		return friendRepository.findAllByMemberIdAndFriendMemberIdIn(memberId, friendMemberIds);
 	}
 
 	public Friend findByMemberIdAndFriendMemberId(Long memberId, Long friendMemberId) {

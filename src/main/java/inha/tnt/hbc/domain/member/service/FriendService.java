@@ -66,4 +66,12 @@ public class FriendService {
 		friendRepository.delete(friend);
 	}
 
+	public List<Member> findTop20FollowersByUsernameStartsWithOrNameStartsWith(Long memberId, String keyword) {
+		return friendRepository.findTop20FollowersByUsernameStartsWithOrNameStartsWith(memberId, keyword);
+	}
+
+	public List<Member> findTop20FollowingsByUsernameStartsWithOrNameStartsWith(Long memberId, String keyword) {
+		return friendRepository.findTop20FollowingsByUsernameStartsWithOrNameStartsWith(memberId, keyword);
+	}
+
 }

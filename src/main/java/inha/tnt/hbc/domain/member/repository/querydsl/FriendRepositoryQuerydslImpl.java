@@ -18,6 +18,7 @@ import inha.tnt.hbc.domain.member.dto.FollowerDto;
 import inha.tnt.hbc.domain.member.dto.FollowingDto;
 import inha.tnt.hbc.domain.member.dto.QFollowerDto;
 import inha.tnt.hbc.domain.member.dto.QFollowingDto;
+import inha.tnt.hbc.domain.member.entity.Member;
 
 @RequiredArgsConstructor
 public class FriendRepositoryQuerydslImpl implements FriendRepositoryQuerydsl {
@@ -64,6 +65,40 @@ public class FriendRepositoryQuerydslImpl implements FriendRepositoryQuerydsl {
 			.size();
 
 		return new PageImpl<>(content, pageable, total);
+	}
+
+	@Override
+	public List<Member> findTop20FollowersByUsernameStartsWithOrNameStartsWith(Long memberId, String keyword) {
+		return queryFactory
+			.select(friend.member)
+			.from(friend)
+			.innerJoin(friend.member, member)
+			.where(
+				friend.friendMember.id.eq(memberId).and(
+					friend.member.username.startsWith(keyword).or(
+						friend.member.name.startsWith(keyword)
+					)
+				)
+			)
+			.limit(20)
+			.fetch();
+	}
+
+	@Override
+	public List<Member> findTop20FollowingsByUsernameStartsWithOrNameStartsWith(Long memberId, String keyword) {
+		return queryFactory
+			.select(friend.friendMember)
+			.from(friend)
+			.innerJoin(friend.friendMember, member)
+			.where(
+				friend.member.id.eq(memberId).and(
+					friend.friendMember.username.startsWith(keyword).or(
+						friend.friendMember.name.startsWith(keyword)
+					)
+				)
+			)
+			.limit(20)
+			.fetch();
 	}
 
 }

@@ -19,12 +19,14 @@ import inha.tnt.hbc.domain.alarm.service.AlarmService;
 import inha.tnt.hbc.domain.member.dto.FollowerDto;
 import inha.tnt.hbc.domain.member.dto.FollowingDto;
 import inha.tnt.hbc.domain.member.dto.MemberDto;
+import inha.tnt.hbc.domain.member.dto.MemberSearchDto;
 import inha.tnt.hbc.domain.member.entity.Friend;
 import inha.tnt.hbc.domain.member.entity.Member;
 import inha.tnt.hbc.domain.member.service.FriendService;
 import inha.tnt.hbc.domain.member.service.MemberService;
 import inha.tnt.hbc.model.member.dto.FollowerPageResponse;
 import inha.tnt.hbc.model.member.dto.FollowingPageResponse;
+import inha.tnt.hbc.model.member.dto.MemberSearchResponse;
 import inha.tnt.hbc.util.SecurityContextUtils;
 
 @Service
@@ -70,6 +72,40 @@ public class FriendFacadeService {
 		final Friend friend = friendService.findByMemberIdAndFriendMemberId(memberId, friendMemberId);
 		alarmService.deleteFriendAlarm(friend);
 		friendService.delete(friend);
+	}
+
+	public MemberSearchResponse searchFollower(String keyword) {
+		final Long memberId = securityContextUtils.takeoutMemberId();
+		final List<Member> searchedMembers = friendService.findTop20FollowersByUsernameStartsWithOrNameStartsWith(memberId, keyword);
+		final List<Long> searchedMemberIds = searchedMembers
+			.stream()
+			.map(Member::getId)
+			.collect(Collectors.toList());
+		final Set<Long> followingMemberBucket = friendService.findAllByMemberIdAndFriendMemberIdIn(memberId, searchedMemberIds)
+			.stream()
+			.map(friend -> friend.getFriendMember().getId())
+			.collect(Collectors.toSet());
+		final List<MemberSearchDto> result = searchedMembers.stream()
+			.map(member -> MemberSearchDto.of(member, followingMemberBucket.contains(member.getId())))
+			.collect(Collectors.toList());
+		return MemberSearchResponse.of(result);
+	}
+
+	public MemberSearchResponse searchFollowing(String keyword) {
+		final Long memberId = securityContextUtils.takeoutMemberId();
+		final List<Member> searchedMembers = friendService.findTop20FollowingsByUsernameStartsWithOrNameStartsWith(memberId, keyword);
+		final List<Long> searchedMemberIds = searchedMembers
+			.stream()
+			.map(Member::getId)
+			.collect(Collectors.toList());
+		final Set<Long> followingMemberBucket = friendService.findAllByMemberIdAndFriendMemberIdIn(memberId, searchedMemberIds)
+			.stream()
+			.map(friend -> friend.getFriendMember().getId())
+			.collect(Collectors.toSet());
+		final List<MemberSearchDto> result = searchedMembers.stream()
+			.map(member -> MemberSearchDto.of(member, followingMemberBucket.contains(member.getId())))
+			.collect(Collectors.toList());
+		return MemberSearchResponse.of(result);
 	}
 
 	private void setUpFollowFlag(Long memberId, List<FollowerDto> followerDtos) {

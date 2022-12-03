@@ -10,6 +10,8 @@ import inha.tnt.hbc.model.member.dto.FollowingPageResponse;
 import inha.tnt.hbc.application.member.service.FriendFacadeService;
 import inha.tnt.hbc.model.ResultResponse;
 import inha.tnt.hbc.model.member.FriendApi;
+import inha.tnt.hbc.model.member.dto.MemberSearchResponse;
+
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -40,6 +42,18 @@ public class FriendController implements FriendApi {
 	public ResponseEntity<ResultResponse> deleteFriend(Long memberId) {
 		friendFacadeService.deleteFriend(memberId);
 		return ResponseEntity.ok(ResultResponse.of(DELETE_FRIEND_SUCCESS));
+	}
+
+	@Override
+	public ResponseEntity<ResultResponse> searchFollower(String keyword) {
+		final MemberSearchResponse response = friendFacadeService.searchFollower(keyword);
+		return ResponseEntity.ok(ResultResponse.of(SEARCH_MEMBER_SUCCESS, response));
+	}
+
+	@Override
+	public ResponseEntity<ResultResponse> searchFollowing(String keyword) {
+		final MemberSearchResponse response = friendFacadeService.searchFollowing(keyword);
+		return ResponseEntity.ok(ResultResponse.of(SEARCH_MEMBER_SUCCESS, response));
 	}
 
 }

@@ -95,9 +95,9 @@ public class RoomFacadeService {
 			final int size = SIZE_PER_PAGE + 1;
 			final int page = sequenceNumber / size + PAGE_CORRECTION_VALUE;
 			final int index = sequenceNumber % size;
-			return SearchRoomMessageWrittenByMeResponse.of(page, index);
+			return SearchRoomMessageWrittenByMeResponse.of(page, index, true);
 		} catch (EntityNotFoundException e) {
-			throw new InvalidArgumentException(CANNOT_SEARCH_MESSAGE_WRITTEN_BY_ME);
+			return SearchRoomMessageWrittenByMeResponse.of(null, null, false);
 		}
 	}
 

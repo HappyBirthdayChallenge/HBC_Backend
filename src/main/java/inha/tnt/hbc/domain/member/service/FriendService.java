@@ -13,8 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 
-import inha.tnt.hbc.domain.member.dto.FollowerDto;
-import inha.tnt.hbc.domain.member.dto.FollowingDto;
+import inha.tnt.hbc.domain.member.dto.FriendDto;
 import inha.tnt.hbc.domain.member.entity.Friend;
 import inha.tnt.hbc.domain.member.entity.Member;
 import inha.tnt.hbc.domain.member.repository.FriendRepository;
@@ -39,7 +38,7 @@ public class FriendService {
 		return friendRepository.save(friend);
 	}
 
-	public Page<FollowingDto> findFollowingDtoPage(Long memberId, Pageable pageable) {
+	public Page<FriendDto> findFollowingDtoPage(Long memberId, Pageable pageable) {
 		return friendRepository.findFollowingDtoPage(memberId, pageable);
 	}
 
@@ -49,7 +48,7 @@ public class FriendService {
 			.collect(Collectors.toList());
 	}
 
-	public Page<FollowerDto> findFollowerDtoPage(Long memberId, PageRequest pageable) {
+	public Page<FriendDto> findFollowerDtoPage(Long memberId, PageRequest pageable) {
 		return friendRepository.findFollowerDtoPage(memberId, pageable);
 	}
 

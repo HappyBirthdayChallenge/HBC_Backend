@@ -21,8 +21,8 @@ public class FriendController implements FriendApi {
 	private final FriendFacadeService friendFacadeService;
 
 	@Override
-	public ResponseEntity<ResultResponse> getFollowings(int page, int size) {
-		final FollowingPageResponse response = friendFacadeService.getFollowings(page, size);
+	public ResponseEntity<ResultResponse> getFollowings(int page, int size, Long memberId) {
+		final FollowingPageResponse response = friendFacadeService.getFollowings(page, size, memberId);
 		return ResponseEntity.ok(ResultResponse.of(GET_FOLLOWINGS_SUCCESS, response));
 	}
 
@@ -33,8 +33,8 @@ public class FriendController implements FriendApi {
 	}
 
 	@Override
-	public ResponseEntity<ResultResponse> getFollowers(int page, int size) {
-		final FollowerPageResponse response = friendFacadeService.getFollowers(page, size);
+	public ResponseEntity<ResultResponse> getFollowers(int page, int size, Long memberId) {
+		final FollowerPageResponse response = friendFacadeService.getFollowers(page, size, memberId);
 		return ResponseEntity.ok(ResultResponse.of(GET_FOLLOWERS_SUCCESS, response));
 	}
 

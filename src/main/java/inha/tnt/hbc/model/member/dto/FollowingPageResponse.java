@@ -2,13 +2,13 @@ package inha.tnt.hbc.model.member.dto;
 
 import org.springframework.data.domain.Page;
 
-import inha.tnt.hbc.domain.member.dto.FollowingDto;
-
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import inha.tnt.hbc.domain.member.dto.FriendDto;
 
 @Getter
 @Builder
@@ -16,9 +16,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class FollowingPageResponse {
 
-	private Page<FollowingDto> page;
+	private Page<FriendDto> page;
 
-	public static FollowingPageResponse of(Page<FollowingDto> page) {
+	public static FollowingPageResponse of(Page<FriendDto> page) {
 		return FollowingPageResponse.builder()
 			.page(page)
 			.build();

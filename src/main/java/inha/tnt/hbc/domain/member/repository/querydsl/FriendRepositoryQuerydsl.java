@@ -7,16 +7,15 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
-import inha.tnt.hbc.domain.member.dto.FollowerDto;
-import inha.tnt.hbc.domain.member.dto.FollowingDto;
+import inha.tnt.hbc.domain.member.dto.FriendDto;
 import inha.tnt.hbc.domain.member.entity.Member;
 
 @Transactional(readOnly = true)
 public interface FriendRepositoryQuerydsl {
 
-	Page<FollowingDto> findFollowingDtoPage(Long memberId, Pageable pageable);
+	Page<FriendDto> findFollowingDtoPage(Long memberId, Pageable pageable);
 
-	Page<FollowerDto> findFollowerDtoPage(Long memberId, PageRequest pageable);
+	Page<FriendDto> findFollowerDtoPage(Long memberId, PageRequest pageable);
 
 	List<Member> findTop20FollowersByUsernameStartsWithOrNameStartsWith(Long memberId, String keyword);
 

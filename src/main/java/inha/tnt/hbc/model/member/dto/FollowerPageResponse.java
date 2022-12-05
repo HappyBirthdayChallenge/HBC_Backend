@@ -8,7 +8,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import inha.tnt.hbc.domain.member.dto.FollowerDto;
+import inha.tnt.hbc.domain.member.dto.FriendDto;
 
 @Getter
 @Builder
@@ -16,9 +16,9 @@ import inha.tnt.hbc.domain.member.dto.FollowerDto;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class FollowerPageResponse {
 
-	private Page<FollowerDto> page;
+	private Page<FriendDto> page;
 
-	public static FollowerPageResponse of(Page<FollowerDto> page) {
+	public static FollowerPageResponse of(Page<FriendDto> page) {
 		return FollowerPageResponse.builder()
 			.page(page)
 			.build();

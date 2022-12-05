@@ -14,10 +14,8 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.RequiredArgsConstructor;
 
-import inha.tnt.hbc.domain.member.dto.FollowerDto;
-import inha.tnt.hbc.domain.member.dto.FollowingDto;
-import inha.tnt.hbc.domain.member.dto.QFollowerDto;
-import inha.tnt.hbc.domain.member.dto.QFollowingDto;
+import inha.tnt.hbc.domain.member.dto.FriendDto;
+import inha.tnt.hbc.domain.member.dto.QFriendDto;
 import inha.tnt.hbc.domain.member.entity.Member;
 
 @RequiredArgsConstructor
@@ -26,9 +24,9 @@ public class FriendRepositoryQuerydslImpl implements FriendRepositoryQuerydsl {
 	private final JPAQueryFactory queryFactory;
 
 	@Override
-	public Page<FollowingDto> findFollowingDtoPage(Long memberId, Pageable pageable) {
-		final List<FollowingDto> content = queryFactory
-			.select(new QFollowingDto(friend.friendMember))
+	public Page<FriendDto> findFollowingDtoPage(Long memberId, Pageable pageable) {
+		final List<FriendDto> content = queryFactory
+			.select(new QFriendDto(friend.friendMember))
 			.from(friend)
 			.innerJoin(friend.friendMember, member)
 			.where(friend.member.id.eq(memberId))
@@ -47,9 +45,9 @@ public class FriendRepositoryQuerydslImpl implements FriendRepositoryQuerydsl {
 	}
 
 	@Override
-	public Page<FollowerDto> findFollowerDtoPage(Long memberId, PageRequest pageable) {
-		final List<FollowerDto> content = queryFactory
-			.select(new QFollowerDto(friend.member))
+	public Page<FriendDto> findFollowerDtoPage(Long memberId, PageRequest pageable) {
+		final List<FriendDto> content = queryFactory
+			.select(new QFriendDto(friend.member))
 			.from(friend)
 			.innerJoin(friend.member, member)
 			.where(friend.friendMember.id.eq(memberId))

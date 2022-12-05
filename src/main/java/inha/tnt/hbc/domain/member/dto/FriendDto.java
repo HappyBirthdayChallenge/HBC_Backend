@@ -15,16 +15,15 @@ import inha.tnt.hbc.domain.member.entity.Member;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class FollowerDto {
+public class FriendDto {
 
-	@ApiModelProperty(value = "팔로워 회원 정보")
-	private MemberDto follower;
+	private MemberDto member;
 	@ApiModelProperty(value = "팔로우 여부", example = "true")
 	private boolean follow = false;
 
 	@QueryProjection
-	public FollowerDto(Member member) {
-		this.follower = MemberDto.of(member);
+	public FriendDto(Member member) {
+		this.member = MemberDto.of(member);
 	}
 
 	public void raiseFollowFlag() {

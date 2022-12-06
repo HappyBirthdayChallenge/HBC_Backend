@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import inha.tnt.hbc.domain.member.entity.Member;
 import inha.tnt.hbc.domain.message.dto.MessageWrittenByMeDto;
 import inha.tnt.hbc.domain.message.entity.Message;
+import inha.tnt.hbc.domain.message.entity.MessageStatus;
 import inha.tnt.hbc.domain.message.exception.CannotCreateMessageInMyRoomException;
 import inha.tnt.hbc.domain.message.exception.CannotCreateMessgaeMoreThanOnceException;
 import inha.tnt.hbc.domain.message.repository.MessageRepository;
@@ -76,7 +77,7 @@ public class MessageService {
 	}
 
 	public Message findByMemberIdAndRoomId(Long memberId, Long roomId) {
-		return messageRepository.findByMemberIdAndRoomId(memberId, roomId)
+		return messageRepository.findByMemberIdAndRoomIdAndStatus(memberId, roomId, WRITTEN)
 			.orElseThrow(() -> new EntityNotFoundException(MESSAGE_UNFOUNDED));
 	}
 
@@ -86,7 +87,7 @@ public class MessageService {
 	}
 
 	public int countUnReadMessagesByRoom(Room room) {
-		return messageRepository.countByRoomAndIsRead(room, false);
+		return messageRepository.countByRoomAndIsReadAndStatus(room, false, WRITTEN);
 	}
 
 	public Message findFetchMemberAndRoomMemberById(Long messageId) {

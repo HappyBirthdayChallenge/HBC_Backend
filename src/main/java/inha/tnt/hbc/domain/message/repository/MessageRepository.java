@@ -18,8 +18,8 @@ public interface MessageRepository extends JpaRepository<Message, Long>, Message
 
 	Optional<Message> findByIdAndMember(Long messageId, Member member);
 
-	Optional<Message> findByMemberIdAndRoomId(Long memberId, Long roomId);
+	Optional<Message> findByMemberIdAndRoomIdAndStatus(Long memberId, Long roomId, MessageStatus status);
 
-	int countByRoomAndIsRead(Room room, boolean isRead);
+	int countByRoomAndIsReadAndStatus(Room room, boolean isRead, MessageStatus status);
 
 }
